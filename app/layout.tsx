@@ -1,6 +1,6 @@
+import './globals.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
-import './globals.css';
 import TanStackProvider from '../components/TanStackProvider';
 
 const lato = Lato({
