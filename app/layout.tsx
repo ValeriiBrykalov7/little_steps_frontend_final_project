@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import './globals.css';
+import TanStackProvider from '../components/TanStackProvider';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -20,12 +21,14 @@ export const metadata: Metadata = {
   title: 'Leleka',
   description:
     'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
-
+  icons: {
+    icon: '/stork.png',
+  },
   openGraph: {
     title: 'Leleka',
     description:
       'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
-    // url: ,
+    url: 'https://little-steps-kappa.vercel.app/',
     siteName: 'Leleka',
     images: [
       {
@@ -45,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' className={`${lato.variable} ${comfortaa.variable}`}>
-      <body>{children}</body>
+      <body>{<TanStackProvider>{children}</TanStackProvider>}</body>
     </html>
   );
 }
