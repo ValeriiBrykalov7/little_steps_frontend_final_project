@@ -48,7 +48,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='uk' className={`${lato.variable} ${comfortaa.variable}`}>
+    <html
+      lang='uk'
+      suppressHydrationWarning
+      className={`${lato.variable} ${comfortaa.variable}`}
+    >
       <body>
         {
           <TanStackProvider>
