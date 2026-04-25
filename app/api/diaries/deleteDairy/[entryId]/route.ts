@@ -5,12 +5,12 @@ import { logErrorResponse } from '../../../_utils/utils';
 import { api } from '../../../api';
 
 type Props = {
-  params: { entryId: string };
+  params: Promise<{ entryId: string }>;
 };
 
 export async function DELETE(request: Request, { params }: Props) {
   const cookieStore = cookies();
-  const { entryId } = params;
+  const { entryId } = await params;
 
   try {
     await api.delete(`/diaries/deleteDiary/${entryId}`, {
