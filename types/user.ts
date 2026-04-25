@@ -6,7 +6,7 @@ export interface User {
   email: string;
   gender?: Gender;
   dueDate?: string | null;
-  photo?: string | null;
+  avatar?: string | null;
   createdAt: string;
   updatedAt: string;
 }

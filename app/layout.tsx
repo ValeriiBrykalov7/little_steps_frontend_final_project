@@ -1,7 +1,8 @@
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
-import TanStackProvider from '../components/TanStackProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -47,8 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={`${lato.variable} ${comfortaa.variable}`}>
-      <body>{<TanStackProvider>{children}</TanStackProvider>}</body>
+    <html lang='uk' className={`${lato.variable} ${comfortaa.variable}`}>
+      <body>
+        {
+          <TanStackProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </TanStackProvider>
+        }
+      </body>
     </html>
   );
 }
