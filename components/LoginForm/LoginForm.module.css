@@ -33,18 +33,9 @@
   margin-bottom: 139px;
 }
 
-.logoWrapper {
-  width: 100%;
-  max-width: 335px;
-  display: flex;
-  justify-content: flex-start;
-}
+ 
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 
 .title {
   font-family: var(--second-family);
@@ -146,33 +137,8 @@
   background: var(--color-scheme-foreground);
 }
 
-.loginPrompt {
-  font-family: var(--font-family);
-  font-weight: 400;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  gap: 5px;
-  font-size: 14px;
-  line-height: 21px;
-  color: var(--color-scheme-text);
-}
 
-.loginLink {
-  font-family: var(--font-family);
-  line-height: 22px;
-  font-weight: 400;
-  color: var(--color-scheme-text);
-  text-decoration: underline;
-  white-space: nowrap;
-  cursor: pointer;
-}
 
-.loginLink:hover {
-  opacity: 0.7;
-}
 
 .background {
   display: none;
@@ -207,7 +173,7 @@
   .wrapper {
     max-width: 768px;
   }
-  .logoContainer {
+  .containerTwo {
     margin-bottom: 197.5px;
   }
   .formCont {
@@ -260,6 +226,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+      margin-bottom: 177px;
   }
   .formCont {
     max-width: 720px;
@@ -273,7 +240,5 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
-  .logoContainer {
-    margin-bottom: 177px;
-  }
+
 }

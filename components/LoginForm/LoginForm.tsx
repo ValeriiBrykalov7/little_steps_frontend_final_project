@@ -48,18 +48,6 @@ export default function LoginForm() {
       <div className={styles.containerRegister}>
         <div className={styles.containerTwo}>
           <div className={styles.logoContainer}>
-            <div className={styles.logoWrapper}>
-              <div className={styles.logo}>
-                {/* <Link href="/" className={styles.logo}>
-                  <svg width="31" height="30">
-                    <use href="/sprite.svg#icon-Google" />
-                  </svg>
-                  <svg width="61" height="13">
-                    <use href="/sprite.svg#icon-menu" />
-                  </svg>
-                </Link> */}
-              </div>
-            </div>
           </div>
 
           <div className={styles.formCont}>
@@ -73,12 +61,13 @@ export default function LoginForm() {
               {({ isSubmitting, errors, touched }) => (
                 <Form className={styles.form}>
                   <label className={styles.label}>
+                    Пошта*
                     <Field
                       name="email"
                       type="email"
                       autoComplete="email"
                       disabled={isSubmitting}
-                      placeholder="Пошта"
+                      placeholder="hello@leleka.com"
                       className={`${styles.input} ${
                         errors.email && touched.email ? styles.inputError : ''
                       }`}
@@ -91,12 +80,13 @@ export default function LoginForm() {
                   </label>
 
                   <label className={styles.label}>
+                    Пароль*
                     <Field
                       name="password"
                       type="password"
                       autoComplete="current-password"
                       disabled={isSubmitting}
-                      placeholder="Пароль"
+                      placeholder="********"
                       className={`${styles.input} ${
                         errors.password && touched.password
                           ? styles.inputError
