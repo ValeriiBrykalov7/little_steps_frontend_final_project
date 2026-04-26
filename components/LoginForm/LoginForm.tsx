@@ -27,7 +27,7 @@ export default function LoginForm() {
   const router = useRouter();
   const handleSubmit = async(  values: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>)=>{try {
-    const { data } = await api.post<User>('/auth/login', values);
+    const { data } = await api.post<User>('auth/login', values);
 
       setUser(data);
 
