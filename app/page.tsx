@@ -1,24 +1,35 @@
-'use client'
-import { useWeekStore } from "@/lib/store/weekStore";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useEffect } from "react";
-import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
-import StatusBlock from "@/components/StatusBlock/StatusBlock";
+'use client';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useQuery } from '@tanstack/react-query';
+import { getDashboardInfo } from '@/lib/api/clientApi';
+import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
+import StatusBlock from '@/components/StatusBlock/StatusBlock';
+import { Loader } from '@/components/Loader/Loader';
 
-export default function DashboardPage(){
-    const {dashboardData, isLoading, fetchDashboard}=useWeekStore();
-    const {isAuthenticated}=useAuthStore();
+export default function DashboardPage() {
+  const { isAuthenticated } = useAuthStore();
 
-    useEffect(()=>{
-        fetchDashboard(isAuthenticated)
-    },[isAuthenticated, fetchDashboard])
-    
-    if (isLoading) return <div>Loading...</div>;
-    if (!dashboardData) return <div>No data found.</div>;
+  // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
+  const { data, isLoading } = useQuery({
+    queryKey: ['dashboard', isAuthenticated],
+    queryFn: () => getDashboardInfo(isAuthenticated),
+    staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
+  });
+
+  if (isLoading)
     return (
-      <>
-        <GreetingBlock/>
-        <StatusBlock/>
-      </>
-    )
-  }
+      <div>
+        <Loader />
+      </div>
+    );
+  if (!data) return <div>No data found.</div>;
+  return (
+    <>
+      <GreetingBlock />
+      <StatusBlock
+        daysToMeeting={data.daysToMeeting}
+        currentWeek={data.currentWeek}
+      />
+    </>
+  );
+}

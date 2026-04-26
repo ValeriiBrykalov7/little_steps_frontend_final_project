@@ -1,16 +1,15 @@
+type StatusBlockProps = {
+  daysToMeeting: number;
+  currentWeek: number;
+};
 
-import { useWeekStore } from "@/lib/store/weekStore";
+const StatusBlock = ({ daysToMeeting, currentWeek }: StatusBlockProps) => {
+  return (
+    <div>
+      <div>{daysToMeeting}</div>
+      <div>{currentWeek}</div>
+    </div>
+  );
+};
 
-const StatusBlock=()=>{
-    const data = useWeekStore((state) => state.dashboardData);
-  if (!data) return null;
-    return (
-        <div>
-            <div>{data.daysToMeeting}</div>
-            <div>{data.currentWeek}</div>
-        </div>
-    
-    )
-}
-export default StatusBlock
-
+export default StatusBlock;

@@ -1,7 +1,6 @@
 import { User } from '@/types/user';
 import { nextServer } from './api';
 
-
 type CheckSessionRequest = {
   success: boolean;
 };
@@ -26,8 +25,10 @@ export const login = async (data: loginRequest) => {
   return res.data;
 };
 
-export const getDashboardInfo = async (isAuthenticated:boolean)=>{
-  const endpoint = isAuthenticated ? '/weeks/status/private' : '/weeks/status/public'
-  const response = await nextServer.get(endpoint)
+export const getDashboardInfo = async (isAuthenticated: boolean) => {
+  const endpoint = isAuthenticated
+    ? '/weeks/status/private'
+    : '/weeks/status/public';
+  const response = await nextServer.get(endpoint);
   return response.data;
-}
+};

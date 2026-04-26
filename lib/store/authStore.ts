@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
         ? { ...state.user, ...user }
         : (user as User);
       return {
-        user,
+        user: updatedUser,
         isAuthenticated: Boolean(updatedUser?._id),
       };
     }),
