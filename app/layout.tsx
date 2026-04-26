@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import { Toaster } from 'react-hot-toast';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -56,7 +57,9 @@ export default function RootLayout({
       <body>
         {
           <TanStackProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              {children} <Toaster />
+            </AuthProvider>
           </TanStackProvider>
         }
       </body>
