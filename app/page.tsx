@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import GreetingBlock from "@/components/GreetingBlock/GreetingBlock";
 import StatusBlock from "@/components/StatusBlock/StatusBlock";
 
-const DashboardPage = ()=>{
+export default function DashboardPage()=>{
     const {dashboardData, isLoading, fetchDashboard}=useWeekStore();
     const {isAuthenticated}=useAuthStore();
 
@@ -22,4 +22,3 @@ const DashboardPage = ()=>{
       </>
     )
   }
-  export default DashboardPage;
