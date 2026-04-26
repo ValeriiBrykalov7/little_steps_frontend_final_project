@@ -1,4 +1,4 @@
-import { TaskReminderCard } from '../components/TaskReminderCard/TaskReminderCard';
+import  TaskReminderCard  from '../components/TaskReminderCard/TaskReminderCard';
 
 // export default function Home() {
 //   return (

@@ -1,6 +1,8 @@
 import { User } from '@/types/user';
 import { nextServer } from './api';
 
+export { nextServer };
+  
 type CheckSessionRequest = {
   success: boolean;
 };
