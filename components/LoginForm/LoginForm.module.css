@@ -10,6 +10,10 @@
   flex-direction: column;
 }
 
+.fieldWrapper {
+  position: relative;
+}
+
 .wrapper {
   width: 100%;
   min-height: 100vh;
@@ -68,8 +72,12 @@
 }
 
 .error {
-  color: var(--color-red);
+  position: absolute;
+  bottom: -20px;
+  font-weight: 400;
   font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-red);
 }
 
 .button {
@@ -82,12 +90,12 @@
 }
 
 p:last-child {
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 5px;
-    font-size: 14px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
+  font-size: 14px;
 }
 
 @keyframes shake {
@@ -175,7 +183,7 @@ p:last-child {
     gap: 5px;
     font-weight: 400;
     font-size: 16px;
-}
+  }
 
   .background {
     display: block;

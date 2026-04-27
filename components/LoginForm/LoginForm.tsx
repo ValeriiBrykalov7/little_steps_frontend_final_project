@@ -65,44 +65,47 @@ export default function LoginForm() {
             >
               {({ isSubmitting, errors, touched }) => (
                 <Form className={styles.form}>
-                  <label className={styles.label}>
-                    <Field
-                      name='email'
-                      type='email'
-                      autoComplete='email'
-                      disabled={isSubmitting}
-                      placeholder='Пошта'
-                      className={`${styles.input} ${
-                        errors.email && touched.email ? styles.inputError : ''
-                      }`}
-                    />
-                    <ErrorMessage
-                      name='email'
-                      component='span'
-                      className={styles.error}
-                    />
-                  </label>
+                  <div className={styles.fieldWrapper}>
+                    <label className={styles.label}>
+                      <Field
+                        name='email'
+                        type='email'
+                        autoComplete='email'
+                        disabled={isSubmitting}
+                        placeholder='Пошта'
+                        className={`${styles.input} ${
+                          errors.email && touched.email ? styles.inputError : ''
+                        }`}
+                      />
+                      <ErrorMessage
+                        name='email'
+                        component='span'
+                        className={styles.error}
+                      />
+                    </label>
+                  </div>
 
-                  <label className={styles.label}>
-                    <Field
-                      name='password'
-                      type='password'
-                      autoComplete='current-password'
-                      disabled={isSubmitting}
-                      placeholder='Пароль'
-                      className={`${styles.input} ${
-                        errors.password && touched.password
-                          ? styles.inputError
-                          : ''
-                      }`}
-                    />
-                    <ErrorMessage
-                      name='password'
-                      component='span'
-                      className={styles.error}
-                    />
-                  </label>
-
+                  <div className={styles.fieldWrapper}>
+                    <label className={styles.label}>
+                      <Field
+                        name='password'
+                        type='password'
+                        autoComplete='current-password'
+                        disabled={isSubmitting}
+                        placeholder='Пароль'
+                        className={`${styles.input} ${
+                          errors.password && touched.password
+                            ? styles.inputError
+                            : ''
+                        }`}
+                      />
+                      <ErrorMessage
+                        name='password'
+                        component='span'
+                        className={styles.error}
+                      />
+                    </label>
+                  </div>
                   <button
                     type='submit'
                     className={`${styles.button} pink`}

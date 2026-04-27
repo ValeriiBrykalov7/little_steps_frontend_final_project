@@ -39,20 +39,6 @@
   color: #000;
 }
 
-.input {
-  width: 100%;
-  height: 37px;
-  padding: 8px 12px;
-  border: 1px solid transparent;
-  border-radius: 30px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(0, 0, 0, 0.6);
-  outline: none;
-  transition: all 250ms ease;
-}
-
 .input::placeholder {
   font-weight: 400;
   font-size: 14px;
@@ -63,6 +49,7 @@
 .inputError {
   border: 1px solid #c60000;
   color: #c60000;
+  animation: shake 0.3s ease-in-out;
 }
 
 .inputError::placeholder {
@@ -78,37 +65,6 @@
   color: #c60000;
 }
 
-.button {
-  border-bottom: 4px solid #ffcbd3;
-  border-radius: 100px;
-  padding: 10px 24px;
-  width: 100%;
-  height: 42px;
-  background-color: #ffdae0;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #000;
-  transition: all 250ms ease;
-}
-
-.button:hover,
-.button:focus-visible {
-  border-bottom: 4px solid rgba(0, 0, 0, 0.15);
-  background-color: #fff;
-}
-
-.button:active {
-  border-bottom: none;
-  background-color: #b2b2b2;
-}
-
-.button:disabled {
-  background-color: #ffdae0;
-  opacity: 0.3;
-  border-bottom: 4px solid #ffcbd3;
-}
-
 .text {
   display: flex;
   justify-content: center;
@@ -119,17 +75,34 @@
   color: #000;
 }
 
-.link {
-  line-height: 1.6;
-  text-decoration: underline;
-}
-
-.link:active {
-  color: #ffcbd3;
-}
-
 .image {
   display: none;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-4px);
+  }
+
+  40% {
+    transform: translateX(4px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @media screen and (min-width: 768px) {

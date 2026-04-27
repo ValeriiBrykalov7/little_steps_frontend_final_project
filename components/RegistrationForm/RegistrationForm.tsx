@@ -59,7 +59,7 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className={styles.pageWrapper}>
+    <div className={`${styles.pageWrapper} container`}>
       <div className={styles.formWrapper}>
         <h1 className={styles.title}>Реєстрація</h1>
 
@@ -138,7 +138,7 @@ export default function RegistrationForm() {
 
               <button
                 type='submit'
-                className={styles.button}
+                className={`${styles.button} pink`}
                 disabled={isPending}
               >
                 Зареєструватись
