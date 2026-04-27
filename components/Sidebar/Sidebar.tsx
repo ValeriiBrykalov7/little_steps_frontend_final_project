@@ -7,10 +7,10 @@ import { useAuthStore } from '@/lib/store/authStore';
 import css from './Sidebar.module.css';
 
 const navItems = [
-  { name: 'Мій день', path: '/' },
-  { name: 'Подорож', path: '/journey' },
-  { name: 'Щоденник', path: '/diary' },
-  { name: 'Профіль', path: '/profile' },
+  { icon: 'icon-today', name: 'Мій день', path: '/' },
+  { icon: 'icon-conversion_path', name: 'Подорож', path: '/journey' },
+  { icon: 'icon-book', name: 'Щоденник', path: '/diary' },
+  { icon: 'icon-account_circle', name: 'Профіль', path: '/profile' },
 ];
 
 export default function Sidebar() {
@@ -25,12 +25,15 @@ export default function Sidebar() {
           const isActive = pathname === item.path;
 
           return (
-            <li key={item.name}>
+            <li className={css.item} key={item.name}>
               <Link
                 href={href}
                 className={`${css.link} ${isActive ? css.active : ''}`}
               >
-                <span className={css.icon}></span>
+                <svg className={css.icon}>
+                  <use href={`/sprite.svg#${item.icon}`} />
+                </svg>
+
                 <span>{item.name}</span>
               </Link>
             </li>
@@ -40,3 +43,5 @@ export default function Sidebar() {
     </nav>
   );
 }
+// /public/images/sprite.svg
+// /css/base.css
