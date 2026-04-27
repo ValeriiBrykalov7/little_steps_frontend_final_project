@@ -4,25 +4,17 @@
 }
 
 .containerRegister {
-  padding: 0 20px;
   min-height: 100vh;
   background: var(--color-scheme-background);
-  box-sizing: border-box;
-
-  width: 100%;
-  max-width: 415px;
-  margin: 0 auto;
-
   display: flex;
   flex-direction: column;
 }
 
 .wrapper {
-  justify-content: center;
-  max-width: 415px;
   width: 100%;
+  min-height: 100vh;
   display: flex;
-  margin: 0 auto;
+  justify-content: center;
 }
 
 .logoContainer {
@@ -34,47 +26,40 @@
 }
 
 .title {
-  font-family: var(--second-family);
   font-weight: 700;
   font-size: 36px;
-  margin: 0;
   margin-bottom: 32px;
   text-align: center;
-  color: var(--color-scheme-text);
 }
 
 .formCont {
-  max-width: 415px;
   width: 100%;
+  max-width: 415px;
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   max-width: 480px;
-  gap: 24px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .label {
   display: flex;
-  font-family: var(--font-family);
   flex-direction: column;
   gap: 8px;
   font-size: 14px;
-  font-weight: 400;
   line-height: 21px;
-  color: var(--color-scheme-text);
+}
+
+.input {
+  width: 100%;
 }
 
 .inputInvalid {
   border: 1px solid var(--color-red);
-}
-
-.error {
-  color: var(--color-red);
-  font-size: 12px;
 }
 
 .inputError {
@@ -82,103 +67,124 @@
   animation: shake 0.3s ease-in-out;
 }
 
+.error {
+  color: var(--color-red);
+  font-size: 12px;
+}
+
+.button {
+  width: 100%;
+  height: 42px;
+}
+
 .background {
   display: none;
+}
+
+p:last-child {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 14px;
 }
 
 @keyframes shake {
   0% {
     transform: translateX(0);
   }
+
   20% {
     transform: translateX(-4px);
   }
+
   40% {
     transform: translateX(4px);
   }
+
   60% {
     transform: translateX(-4px);
   }
+
   80% {
     transform: translateX(4px);
   }
+
   100% {
     transform: translateX(0);
   }
 }
 
 @media screen and (min-width: 768px) {
-  .containerRegister {
-    padding: 0 32px;
-    max-width: 768px;
-  }
-  .wrapper {
-    max-width: 768px;
-  }
   .containerTwo {
     margin-bottom: 197.5px;
   }
+
   .formCont {
-    max-width: 768px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    max-width: 450px;
+    margin: 0 auto;
   }
-  .input {
-    width: 100%;
-  }
-  .button {
+
+  .form {
     max-width: 450px;
   }
+
   .label {
+    width: 100%;
+  }
+
+  .button {
     max-width: 450px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .wrapper {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    max-width: 100%;
-    margin: 0;
   }
+
   .containerRegister {
-    display: flex;
+    min-height: auto;
     flex-direction: row;
     align-items: flex-start;
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0;
-    min-height: auto;
   }
-  .logoWrapper {
-    width: 100%;
-    padding-left: 64px;
-    max-width: 335px;
-    display: flex;
-    justify-content: flex-start;
-  }
+
   .containerTwo {
-    flex: 1;
+    width: 720px;
+    flex: 0 0 720px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin-bottom: 177px;
+    margin-bottom: 0;
   }
+
+  .logoContainer {
+    padding-left: 64px;
+  }
+
   .formCont {
-    max-width: 720px;
+    max-width: 450px;
+    margin: 0 auto;
   }
+  p:last-child {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 5px;
+    font-weight: 400;
+    font-size: 16px;
+}
+
   .background {
     display: block;
-    max-width: 720px;
+    width: 720px;
+    flex: 0 0 720px;
     height: 900px;
-    flex: 1;
     background-image: url('/images/nest.jpg');
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
   }
 }
