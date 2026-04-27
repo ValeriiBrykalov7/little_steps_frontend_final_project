@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import { Loader } from '@/components/Loader/Loader';
+import {Loader} from '@/components/Loader/Loader';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuthStore();
@@ -18,9 +18,8 @@ export default function DashboardPage() {
 
   if (isLoading)
     return (
-      <div>
         <Loader />
-      </div>
+      
     );
   if (!data) return <div>No data found.</div>;
   return (
