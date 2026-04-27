@@ -14,15 +14,10 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   setUser: (user: User) =>
     set((state) => {
-      if (user === null) {
-        return { user: null, isAuthenticated: false };
-      }
+      const updatedUser = state.user ? { ...state.user, ...user } : user;
 
-      const updatedUser = state.user
-        ? { ...state.user, ...user }
-        : (user as User);
       return {
-        user,
+        user: updatedUser,
         isAuthenticated: Boolean(updatedUser?._id),
       };
     }),
