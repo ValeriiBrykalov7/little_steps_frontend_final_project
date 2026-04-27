@@ -32,7 +32,6 @@ const AuthProvider = ({ children }: Props) => {
         setAuthChecked(true);
       }
     };
-
     fetchUser();
   }, [setUser, clearIsAuthenticated, setAuthChecked]);
 
