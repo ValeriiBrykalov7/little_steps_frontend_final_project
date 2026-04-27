@@ -1,5 +1,6 @@
 import { User } from '@/types/user';
 import { nextServer } from './api';
+import { DiaryEntry } from '@/types/diary';
 
 type CheckSessionRequest = {
   success: boolean;
@@ -31,4 +32,9 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
     : '/weeks/status/public';
   const response = await nextServer.get(endpoint);
   return response.data;
+};
+
+export const getAllDiary = async (): Promise<DiaryEntry[]> => {
+  const { data } = await nextServer.get<DiaryEntry[]>('/allDiary');
+  return data;
 };
