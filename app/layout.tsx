@@ -5,6 +5,7 @@ import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import { Toaster } from 'react-hot-toast';
+import Logo from '@/components/Logo/Logo';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
