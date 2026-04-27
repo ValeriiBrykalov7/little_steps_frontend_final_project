@@ -13,6 +13,7 @@ const AuthProvider = ({ children }: Props) => {
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated,
   );
+  const setAuthChecked = useAuthStore((state) => state.setAuthChecked);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,13 +26,15 @@ const AuthProvider = ({ children }: Props) => {
         } else {
           clearIsAuthenticated();
         }
-      } catch (error) {
+      } catch {
         clearIsAuthenticated();
+      } finally {
+        setAuthChecked(true);
       }
     };
 
     fetchUser();
-  }, [setUser, clearIsAuthenticated]);
+  }, [setUser, clearIsAuthenticated, setAuthChecked]);
 
   return children;
 };

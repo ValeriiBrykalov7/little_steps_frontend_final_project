@@ -4,23 +4,21 @@ import { useQuery } from '@tanstack/react-query';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import {Loader} from '@/components/Loader/Loader';
+import { Loader } from '@/components/Loader/Loader';
 
 export default function DashboardPage() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, isAuthChecked } = useAuthStore();
 
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', isAuthenticated],
     queryFn: () => getDashboardInfo(isAuthenticated),
+    enabled: isAuthChecked, // це для того, щоб запит не відбувався, поки ми не перевірили автентифікацію
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
-  if (isLoading)
-    return (
-        <Loader />
-      
-    );
+  if (!isAuthChecked || isLoading) return <Loader />;
+
   if (!data) return <div>No data found.</div>;
   return (
     <>
