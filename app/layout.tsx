@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import Sidebar from '@/components/Sidebar/Sidebar';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -57,6 +58,7 @@ export default function RootLayout({
         {
           <TanStackProvider>
             <AuthProvider>{children}</AuthProvider>
+            <Sidebar />
           </TanStackProvider>
         }
       </body>

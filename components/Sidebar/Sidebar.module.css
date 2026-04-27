@@ -1,0 +1,35 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 14px;
+
+  transition: background 0.2s ease;
+}
+
+.link:hover {
+  background: #f3f3f3;
+}
+
+.active {
+  background: #fce7f3; /* ніжно-рожевий як у макеті */
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  background-color: #d1d5db;
+  border-radius: 4px;
+}
