@@ -5,6 +5,8 @@ import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import { Loader } from '@/components/Loader/Loader';
+import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
+import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -27,6 +29,8 @@ export default function DashboardPage() {
         daysToMeeting={data.daysToMeeting}
         currentWeek={data.currentWeek}
       />
+      <BabyTodayCard currentWeek={data.currentWeek} />
+      <MomTipCard currentWeek={data.currentWeek} />
     </>
   );
 }

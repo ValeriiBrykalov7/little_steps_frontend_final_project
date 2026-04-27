@@ -1,19 +1,18 @@
 'use client';
 
-import { useWeekStore } from '@/lib/store/weekStore';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { nextServer } from '@/lib/api/api';
+import type { StatusBlockProps } from '@/types/week';
 
-export const MomTipCard = () => {
-  const selectedWeek = useWeekStore((state) => state.selectedWeek);
+type CurrentWeekProps = Pick<StatusBlockProps, 'currentWeek'>;
 
+export const MomTipCard = ({ currentWeek }: CurrentWeekProps) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['momTips', selectedWeek],
+    queryKey: ['momTips', currentWeek],
     queryFn: async () => {
-      const res = await axios.get(`/api/weeks/mom/${selectedWeek}`);
+      const res = await nextServer.get(`/weeks/mom/${currentWeek}`);
       return res.data;
     },
-    enabled: typeof selectedWeek === 'number',
   });
 
   if (isLoading) return <div>Завантаження...</div>;
