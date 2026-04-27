@@ -26,7 +26,15 @@ export const getMe = async () => {
   return data;
 };
 
-export const login = async (data: loginRequest) => {
-  const res = await nextServer.post('/auth/login', data);
-  return res.data;
+export const login = async (payload: loginRequest) => {
+  const { data } = await nextServer.post<User>('/auth/login', payload);
+  return data;
+};
+
+export const getDashboardInfo = async (isAuthenticated: boolean) => {
+  const endpoint = isAuthenticated
+    ? '/weeks/status/private'
+    : '/weeks/status/public';
+  const response = await nextServer.get(endpoint);
+  return response.data;
 };
