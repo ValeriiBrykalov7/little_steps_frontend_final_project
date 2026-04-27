@@ -37,7 +37,7 @@ export default function LoginForm() {
       router.push('/');
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.error || 'Email або пароль невірні');
+        toast.error('Email або пароль неправильні. Спробуйте ще раз.');
       } else {
         toast.error('Помилка входу');
       }

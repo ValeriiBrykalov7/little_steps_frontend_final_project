@@ -46,7 +46,7 @@ export default function RegistrationForm() {
 
     onSuccess: () => {
       toast.success('Реєстрація успішна!');
-      router.push('/onboarding');
+      router.push('/profile/edit');
     },
 
     onError: () => {
