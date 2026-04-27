@@ -1,0 +1,81 @@
+.header {
+  display: block;
+  width: 100%;
+  height: 68px;
+  padding: 16px 20px;
+  background: var(--color-white);
+}
+
+.row {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logoImageClosed {
+  width: 84px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+}
+
+.menuButton,
+.closeButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  color: var(--color-neutral-darkest);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--opacity-neutral-darkest-50);
+  z-index: 1000;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.menuPanel {
+  width: min(300px, 100%);
+  height: 100%;
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+}
+
+.menuTop {
+  min-height: 77px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.closeButton {
+  color: var(--color-neutral-darkest);
+}
+
+.menuSlot {
+  flex: 1;
+}
+
+@media only screen and (min-width: 768px) {
+  .header {
+    padding: 16px 24px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .header {
+    display: none;
+  }
+}
