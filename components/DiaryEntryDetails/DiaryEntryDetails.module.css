@@ -1,0 +1,94 @@
+.details {
+    border-radius: 32px;
+    width: 335px;
+    background-color: #fff4f6;
+    padding: 24px 24px 55px 24px;
+}
+
+.detailsHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.detailsHeader h2 {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #1a1a1a;
+}
+
+.edit {
+    border-radius: 100px;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dateDiv {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.dateDiv span {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 160%;
+    color: #1a1a1a;
+}
+
+.delete {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.pDiv p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #1a1a1a;
+}
+
+.emotions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 160%;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 100px;
+    padding: 4px 10px;
+    display: inline-block;
+    background-color: #ffffff;
+}
