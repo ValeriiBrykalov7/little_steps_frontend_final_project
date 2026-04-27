@@ -33,6 +33,8 @@ export default function LoginForm() {
       const { data } = await api.post<User>('auth/login', values);
 
       setUser(data);
+      console.log('STORE AFTER LOGIN');
+      console.log(useAuthStore.getState());
 
       toast.success('Вхід успішний! Вітаємо 👋');
       router.push('/');
@@ -49,78 +51,80 @@ export default function LoginForm() {
 
   return (
     <section className={styles.wrapper}>
-  <div className={`container ${styles.containerRegister}`}>
-    <div className={styles.containerTwo}>
-      <div className={styles.logoContainer}></div>
+      <div className={`container ${styles.containerRegister}`}>
+        <div className={styles.containerTwo}>
+          <div className={styles.logoContainer}></div>
 
-      <div className={styles.formCont}>
-        <h1 className={styles.title}>Вхід</h1>
+          <div className={styles.formCont}>
+            <h1 className={styles.title}>Вхід</h1>
 
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, errors, touched }) => (
-            <Form className={styles.form}>
-              <label className={styles.label}>
-                <Field
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  disabled={isSubmitting}
-                  placeholder="Пошта"
-                  className={`${styles.input} ${
-                    errors.email && touched.email ? styles.inputError : ''
-                  }`}
-                />
-                <ErrorMessage
-                  name="email"
-                  component="span"
-                  className={styles.error}
-                />
-              </label>
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting, errors, touched }) => (
+                <Form className={styles.form}>
+                  <label className={styles.label}>
+                    <Field
+                      name='email'
+                      type='email'
+                      autoComplete='email'
+                      disabled={isSubmitting}
+                      placeholder='Пошта'
+                      className={`${styles.input} ${
+                        errors.email && touched.email ? styles.inputError : ''
+                      }`}
+                    />
+                    <ErrorMessage
+                      name='email'
+                      component='span'
+                      className={styles.error}
+                    />
+                  </label>
 
-              <label className={styles.label}>
-                <Field
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  disabled={isSubmitting}
-                  placeholder="Пароль"
-                  className={`${styles.input} ${
-                    errors.password && touched.password
-                      ? styles.inputError
-                      : ''
-                  }`}
-                />
-                <ErrorMessage
-                  name="password" component="span" className={styles.error}
-                />
-              </label>
+                  <label className={styles.label}>
+                    <Field
+                      name='password'
+                      type='password'
+                      autoComplete='current-password'
+                      disabled={isSubmitting}
+                      placeholder='Пароль'
+                      className={`${styles.input} ${
+                        errors.password && touched.password
+                          ? styles.inputError
+                          : ''
+                      }`}
+                    />
+                    <ErrorMessage
+                      name='password'
+                      component='span'
+                      className={styles.error}
+                    />
+                  </label>
 
-              <button
-                type="submit"
-                className={`${styles.button} pink`}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Завантаження...' : 'Увійти'}
-              </button>
+                  <button
+                    type='submit'
+                    className={`${styles.button} pink`}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Завантаження...' : 'Увійти'}
+                  </button>
 
-              <p className={styles.loginPrompt}>
-                Немає аккаунту?{' '}
-                <Link href="/auth/register" className={styles.loginLink}>
-                  Зареєструватися
-                </Link>
-              </p>
-            </Form>
-          )}
-        </Formik>
+                  <p className={styles.loginPrompt}>
+                    Немає аккаунту?{' '}
+                    <Link href='/auth/register' className={styles.loginLink}>
+                      Зареєструватися
+                    </Link>
+                  </p>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+
+        <div className={styles.background} />
       </div>
-    </div>
-
-    <div className={styles.background} />
-  </div>
-</section>
+    </section>
   );
 }
