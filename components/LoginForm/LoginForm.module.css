@@ -1,11 +1,13 @@
 .containerTwo {
   width: 100%;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .containerRegister {
   min-height: 100vh;
-  background: var(--color-scheme-background);
+
   display: flex;
   flex-direction: column;
 }
@@ -13,8 +15,6 @@
 .wrapper {
   width: 100%;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
 }
 
 .logoContainer {
@@ -22,7 +22,7 @@
   height: 72px;
   display: flex;
   align-items: center;
-  margin-bottom: 139px;
+  flex-shrink: 0;
 }
 
 .title {
@@ -35,23 +35,29 @@
 .formCont {
   width: 100%;
   max-width: 415px;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 auto;
 }
 
 .form {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.label {
+.formFields {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 14px;
-  line-height: 21px;
+  gap: 16px;
 }
 
 .input {
@@ -82,14 +88,13 @@
 }
 
 p:last-child {
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 5px;
-    font-size: 14px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
+  font-size: 14px;
 }
-
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -122,20 +127,16 @@ p:last-child {
   }
 
   .formCont {
-    max-width: 450px;
+    max-width: 480px;
     margin: 0 auto;
   }
 
   .form {
-    max-width: 450px;
-  }
-
-  .label {
-    width: 100%;
+    max-width: 480px;
   }
 
   .button {
-    max-width: 450px;
+    max-width: 480px;
   }
 }
 
@@ -159,10 +160,6 @@ p:last-child {
     margin-bottom: 0;
   }
 
-  .logoContainer {
-    padding-left: 64px;
-  }
-
   .formCont {
     max-width: 450px;
     margin: 0 auto;
@@ -175,7 +172,7 @@ p:last-child {
     gap: 5px;
     font-weight: 400;
     font-size: 16px;
-}
+  }
 
   .background {
     display: block;
