@@ -1,6 +1,7 @@
 import { User } from '@/types/user';
 import { nextServer } from './api';
 import { DiaryEntry } from '@/types/diary';
+import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 
 type CheckSessionRequest = {
   success: boolean;
@@ -11,8 +12,10 @@ export type loginRequest = {
   password: string;
 };
 
-export const checkSession = async () => {
-  const res = await nextServer.post<CheckSessionRequest>('/auth/refresh');
+export const checkSession = async (forceRefresh = false) => {
+  const res = await nextServer.post<CheckSessionRequest>('/auth/refresh', {
+    forceRefresh,
+  });
   return res.data.success;
 };
 
@@ -30,8 +33,16 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
   const endpoint = isAuthenticated
     ? '/weeks/status/private'
     : '/weeks/status/public';
-  const response = await nextServer.get(endpoint);
-  return response.data;
+
+  if (!isAuthenticated) {
+    const response = await nextServer.get(endpoint);
+    return response.data;
+  }
+
+  return requestWithAuthRefresh(async () => {
+    const response = await nextServer.get(endpoint);
+    return response.data;
+  });
 };
 
 export const getAllDiary = async (): Promise<DiaryEntry[]> => {
