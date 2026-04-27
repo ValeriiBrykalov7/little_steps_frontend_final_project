@@ -11,19 +11,19 @@ import toast from 'react-hot-toast';
 import Image from 'next/image';
 
 interface RegistrationFormValues {
-  name: string;
+  username: string;
   email: string;
   password: string;
 }
 
 const initialValues: RegistrationFormValues = {
-  name: '',
+  username: '',
   email: '',
   password: '',
 };
 
 const validationSchema = Yup.object({
-  name: Yup.string()
+  username: Yup.string()
     .max(32, 'Максимум 32 символи')
     .required("Ім'я обов'язкове"),
 
@@ -71,22 +71,22 @@ export default function RegistrationForm() {
           {({ errors, touched }) => (
             <Form className={styles.form}>
               <div className={styles.fieldWrapper}>
-                <label htmlFor='name' className={styles.label}>
+                <label htmlFor='username' className={styles.label}>
                   Ім’я*
                 </label>
 
                 <Field
-                  id='name'
-                  name='name'
+                  id='username'
+                  name='username'
                   type='text'
                   placeholder='Ваше ім’я'
                   className={`${styles.input} ${
-                    touched.name && errors.name ? styles.inputError : ''
+                    touched.username && errors.username ? styles.inputError : ''
                   }`}
                 />
 
                 <ErrorMessage
-                  name='name'
+                  name='username'
                   component='span'
                   className={styles.error}
                 />
