@@ -3,11 +3,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 import css from './Sidebar.module.css';
-
-type SidebarProps = {
-  isAuth: boolean;
-};
 
 const navItems = [
   { name: 'Мій день', path: '/' },
@@ -16,7 +13,8 @@ const navItems = [
   { name: 'Профіль', path: '/profile' },
 ];
 
-export default function Sidebar({ isAuth }: SidebarProps) {
+export default function Sidebar() {
+  const isAuth = useAuthStore((state) => state.isAuthenticated);
   const pathname = usePathname();
 
   return (
@@ -24,7 +22,7 @@ export default function Sidebar({ isAuth }: SidebarProps) {
       <ul className={css.list}>
         {navItems.map((item) => {
           const href = isAuth ? item.path : '/auth/login';
-          const isActiv = pathname === item.path;
+          const isActive = pathname === item.path;
 
           return (
             <li key={item.name}>
