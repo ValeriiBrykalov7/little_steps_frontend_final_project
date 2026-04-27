@@ -11,10 +11,16 @@ export type loginRequest = {
 };
 
 export const checkSession = async () => {
-  const res = await nextServer.post<CheckSessionRequest>('/auth/refresh');
+  const res = await nextServer.post<CheckSessionRequest>(
+    '/auth/refresh',
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+
   return res.data.success;
 };
-
 export const getMe = async () => {
   const { data } = await nextServer.get<User>('/users/current');
   return data;
