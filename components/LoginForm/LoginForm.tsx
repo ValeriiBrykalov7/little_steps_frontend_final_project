@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { User } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
 import { api } from '@/app/api/api';
+import { Loader } from '../Loader/Loader';
 
 interface FormValues {
   email: string;
@@ -53,7 +54,8 @@ export default function LoginForm() {
     <section className={styles.wrapper}>
       <div className={`container ${styles.containerRegister}`}>
         <div className={styles.containerTwo}>
-          <div className={styles.logoContainer}></div>
+          <div className={styles.logoContainer}>
+          </div>
 
           <div className={styles.formCont}>
             <h1 className={styles.title}>Вхід</h1>
@@ -65,58 +67,61 @@ export default function LoginForm() {
             >
               {({ isSubmitting, errors, touched }) => (
                 <Form className={styles.form}>
-                  <label className={styles.label}>
-                    <Field
-                      name='email'
-                      type='email'
-                      autoComplete='email'
+                  <div className={styles.formFields}>
+                    <label>
+                      <Field
+                        name='email'
+                        type='email'
+                        autoComplete='email'
+                        disabled={isSubmitting}
+                        placeholder='Пошта'
+                        className={`${styles.input} ${
+                          errors.email && touched.email ? styles.inputError : ''
+                        }`}
+                      />
+                      <ErrorMessage
+                        name='email'
+                        component='span'
+                        className={styles.error}
+                      />
+                    </label>
+
+                    <label>
+                      <Field
+                        name='password'
+                        type='password'
+                        autoComplete='current-password'
+                        disabled={isSubmitting}
+                        placeholder='Пароль'
+                        className={`${styles.input} ${
+                          errors.password && touched.password
+                            ? styles.inputError
+                            : ''
+                        }`}
+                      />
+                      <ErrorMessage
+                        name='password'
+                        component='span'
+                        className={styles.error}
+                      />
+                    </label>
+
+                    <button
+                      type='submit'
+                      className={`${styles.button} pink`}
                       disabled={isSubmitting}
-                      placeholder='Пошта'
-                      className={`${styles.input} ${
-                        errors.email && touched.email ? styles.inputError : ''
-                      }`}
-                    />
-                    <ErrorMessage
-                      name='email'
-                      component='span'
-                      className={styles.error}
-                    />
-                  </label>
-
-                  <label className={styles.label}>
-                    <Field
-                      name='password'
-                      type='password'
-                      autoComplete='current-password'
-                      disabled={isSubmitting}
-                      placeholder='Пароль'
-                      className={`${styles.input} ${
-                        errors.password && touched.password
-                          ? styles.inputError
-                          : ''
-                      }`}
-                    />
-                    <ErrorMessage
-                      name='password'
-                      component='span'
-                      className={styles.error}
-                    />
-                  </label>
-
-                  <button
-                    type='submit'
-                    className={`${styles.button} pink`}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? 'Завантаження...' : 'Увійти'}
-                  </button>
-
-                  <p className={styles.loginPrompt}>
-                    Немає аккаунту?{' '}
-                    <Link href='/auth/register' className={styles.loginLink}>
-                      Зареєструватися
-                    </Link>
-                  </p>
+                    >
+                      {isSubmitting ? <Loader /> : 'Увійти'}
+                    </button>
+                  </div>
+                  <div className={styles.loginContainer}>
+                    <p className={styles.loginPrompt}>
+                      Немає аккаунту?{' '}
+                      <Link href='/auth/register' className={styles.loginLink}>
+                        Зареєструватися
+                      </Link>
+                    </p>
+                  </div>
                 </Form>
               )}
             </Formik>
