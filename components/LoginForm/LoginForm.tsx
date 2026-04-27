@@ -3,12 +3,11 @@ import Link from 'next/link';
 import styles from './LoginForm.module.css';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-hot-toast/headless';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { User } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
-import { api } from '@/app/api/api';
+import { login } from '@/lib/api/clientApi';
 
 interface FormValues {
   email: string;
@@ -23,11 +22,14 @@ const validationSchema = Yup.object({
 });
 
 export default function LoginForm() {
-   const setUser = useAuthStore((state) => state.setUser);
+  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
-  const handleSubmit = async(  values: FormValues,
-    { setSubmitting }: FormikHelpers<FormValues>)=>{try {
-    const { data } = await api.post<User>('auth/login', values);
+  const handleSubmit = async (
+    values: FormValues,
+    { setSubmitting }: FormikHelpers<FormValues>,
+  ) => {
+    try {
+      const data = await login(values);
 
       setUser(data);
 
@@ -41,26 +43,14 @@ export default function LoginForm() {
       }
     } finally {
       setSubmitting(false);
-    }};
+    }
+  };
 
   return (
     <section className={styles.wrapper}>
-      <div className={styles.containerRegister}>
+      <div className={`container ${styles.containerRegister}`}>
         <div className={styles.containerTwo}>
-          <div className={styles.logoContainer}>
-            <div className={styles.logoWrapper}>
-              <div className={styles.logo}>
-                {/* <Link href="/" className={styles.logo}>
-                  <svg width="31" height="30">
-                    <use href="/sprite.svg#icon-Google" />
-                  </svg>
-                  <svg width="61" height="13">
-                    <use href="/sprite.svg#icon-menu" />
-                  </svg>
-                </Link> */}
-              </div>
-            </div>
-          </div>
+          <div className={styles.logoContainer}></div>
 
           <div className={styles.formCont}>
             <h1 className={styles.title}>Вхід</h1>
@@ -74,29 +64,29 @@ export default function LoginForm() {
                 <Form className={styles.form}>
                   <label className={styles.label}>
                     <Field
-                      name="email"
-                      type="email"
-                      autoComplete="email"
+                      name='email'
+                      type='email'
+                      autoComplete='email'
                       disabled={isSubmitting}
-                      placeholder="Пошта"
+                      placeholder='Пошта'
                       className={`${styles.input} ${
                         errors.email && touched.email ? styles.inputError : ''
                       }`}
                     />
                     <ErrorMessage
-                      name="email"
-                      component="span"
+                      name='email'
+                      component='span'
                       className={styles.error}
                     />
                   </label>
 
                   <label className={styles.label}>
                     <Field
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
+                      name='password'
+                      type='password'
+                      autoComplete='current-password'
                       disabled={isSubmitting}
-                      placeholder="Пароль"
+                      placeholder='Пароль'
                       className={`${styles.input} ${
                         errors.password && touched.password
                           ? styles.inputError
@@ -104,15 +94,15 @@ export default function LoginForm() {
                       }`}
                     />
                     <ErrorMessage
-                      name="password"
-                      component="span"
+                      name='password'
+                      component='span'
                       className={styles.error}
                     />
                   </label>
 
                   <button
-                    type="submit"
-                    className={styles.button}
+                    type='submit'
+                    className={`${styles.button} pink`}
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? 'Завантаження...' : 'Увійти'}
@@ -120,7 +110,7 @@ export default function LoginForm() {
 
                   <p className={styles.loginPrompt}>
                     Немає аккаунту?{' '}
-                    <Link href="/auth/register" className={styles.loginLink}>
+                    <Link href='/auth/register' className={styles.loginLink}>
                       Зареєструватися
                     </Link>
                   </p>
@@ -129,6 +119,7 @@ export default function LoginForm() {
             </Formik>
           </div>
         </div>
+
         <div className={styles.background} />
       </div>
     </section>
