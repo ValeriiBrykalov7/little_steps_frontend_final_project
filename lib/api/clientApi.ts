@@ -6,10 +6,16 @@ type CheckSessionRequest = {
   success: boolean;
 };
 
-export type loginRequest = {
+export interface LoginRequest {
   email: string;
   password: string;
-};
+}
+
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export const checkSession = async (forceRefresh = false) => {
   const res = await nextServer.post<CheckSessionRequest>('/auth/refresh', {
@@ -23,8 +29,13 @@ export const getMe = async () => {
   return data;
 };
 
-export const login = async (payload: loginRequest) => {
+export const login = async (payload: LoginRequest) => {
   const { data } = await nextServer.post<User>('/auth/login', payload);
+  return data;
+};
+
+export const register = async (body: RegisterRequest) => {
+  const { data } = await nextServer.post<User>('/auth/register', body);
   return data;
 };
 
