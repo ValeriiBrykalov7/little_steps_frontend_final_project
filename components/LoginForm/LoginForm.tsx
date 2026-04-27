@@ -6,9 +6,8 @@ import * as Yup from 'yup';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { User } from '@/types/user';
 import { useAuthStore } from '@/lib/store/authStore';
-import { api } from '@/app/api/api';
+import { login } from '@/lib/api/clientApi';
 
 interface FormValues {
   email: string;
@@ -30,11 +29,9 @@ export default function LoginForm() {
     { setSubmitting }: FormikHelpers<FormValues>,
   ) => {
     try {
-      const { data } = await api.post<User>('auth/login', values);
+      const data = await login(values);
 
       setUser(data);
-      console.log('STORE AFTER LOGIN');
-      console.log(useAuthStore.getState());
 
       toast.success('Вхід успішний! Вітаємо 👋');
       router.push('/');
