@@ -40,6 +40,7 @@
 @media only screen and (min-width: 1440px) {
   .mom-tip-card {
     justify-content: flex-start;
+    padding: 24px 0 24px 24px;
   }
   .card-title {
     font-weight: 700;

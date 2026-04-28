@@ -101,6 +101,7 @@
 @media only screen and (min-width: 1440px) {
   .card {
     justify-content: flex-start;
+    padding: 24px 0 24px 24px;
   }
 
   .card-title {
