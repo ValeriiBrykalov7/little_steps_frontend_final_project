@@ -54,7 +54,7 @@ const Breadcrumbs = () => {
   if (pathname.startsWith('/auth')) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className={styles.nav}>
+    <nav aria-label="Breadcrumb" className={`container ${styles.nav}`}>
       <ol className={styles.list}>
         <li className={styles.item}>
           <Link href="/" className={styles.link}>
