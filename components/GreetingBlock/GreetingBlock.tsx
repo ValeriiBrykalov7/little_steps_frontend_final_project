@@ -8,9 +8,9 @@ const GreetingBlock = () => {
     <div className={`container ${css.greeting_block}`}>
       {' '}
       {isAuthenticated ? (
-        <p className={css.greeting_text}>Доброго ранку,{user?.username}! </p>
+        <p className={css.greeting_text}>Доброго ранку, {user?.username}! </p>
       ) : (
-        <p className={css.greeting_text}>Доброго ранку,гість!</p>
+        <p className={css.greeting_text}>Доброго ранку, гість!</p>
       )}
     </div>
   );
