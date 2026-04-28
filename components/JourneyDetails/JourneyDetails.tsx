@@ -1,5 +1,6 @@
 'use client';
 
+import css from './JourneyDetails.module.css';
 import { useEffect, useState } from 'react';
 import { Loader } from '@/components/Loader/Loader';
 
