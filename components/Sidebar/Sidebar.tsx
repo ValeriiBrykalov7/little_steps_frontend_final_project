@@ -31,6 +31,7 @@ const SidebarContent = ({
   const isAuthChecked = useAuthStore((state) => state.isAuthChecked);
   const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
+  const isLoggedIn = isAuthChecked && isAuth && user;
 
   return (
     <div className={css.sidebarInner}>
@@ -38,7 +39,7 @@ const SidebarContent = ({
       <nav className={css.nav}>
         <ul className={css.list}>
           {navItems.map((item) => {
-            const href = isAuth ? item.path : '/auth/login';
+            const href = !isAuthChecked || isAuth ? item.path : '/auth/login';
             const isActive = pathname === item.path;
 
             return (
@@ -60,7 +61,7 @@ const SidebarContent = ({
         </ul>
       </nav>
 
-      {isAuthChecked && isAuth && user ? (
+      {!isAuthChecked ? null : isLoggedIn ? (
         <UserBar onNavigate={onNavigate} />
       ) : (
         <AuthBar onNavigate={onNavigate} />
