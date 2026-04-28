@@ -1,23 +1,24 @@
-import { Emotion } from '@/types/emotion';
+"use client";
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 import styles from './FeelingCheckcard.module.css';
 
-export const FeelingCheckcard = () => {
-  const moods: Emotion[] = [];
+export default function FeelingCheckcard({ openAddDiaryEntryModal }: { openAddDiaryEntryModal: () => void }) {
+  const router = useRouter();
+const { isAuthenticated } = useAuthStore();
+
+  const handleDiaryClick = () => {
+    if (!isAuthenticated) {
+      router.push('/app/(public routes)/auth/register');
+    } else {
+      openAddDiaryEntryModal();
+    }
+  };
 
   return (
     <div className={styles.card}>
-      <h2 className={styles.title}>Як ви почуваєтесь сьогодні?</h2>
-      <p className={styles.desc}>Рекомендація на сьогодні: Занотуйте незвичні відчуття у тілі.</p>
-      
-      <div className={styles.moodList}>
-        {moods.map((mood) => (
-          <button key={mood._id} className={styles.moodBtn}>
-            {mood.title}
-          </button>
-        ))}
-      </div>
-
-      <button className={styles.diaryBtn}>Зробити запис у щоденник</button>
+      <h3>Як ви себе почуваєте?</h3>
+      <button onClick={handleDiaryClick}>Зробити запис у щоденник</button>
     </div>
   );
-};
+}

@@ -1,131 +1,85 @@
 "use client";
 
-import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/store/authStore";
+import { nextServer } from "@/lib/api/api";
 import styles from "./TaskReminderCard.module.css";
-import Image from "next/image";
+
+interface BackendTask {
+  _id: string;
+  name: string;
+  isDone: boolean;
+  date: string;
+}
 
 type Task = {
-  id: number;
+  id: string;
   date: string;
   title: string;
   completed: boolean;
   group?: "today" | "week";
 };
 
-const useAuth = () => {
-  // TODO: replace with real auth logic
-  return {
-    isAuth: true,
-  };
-};
-
-const useUserTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      date: "22.07",
-      title: "Записатися на другий плановий скринінг за 3 дні",
-      completed: false,
-      // group: "today",
-    },
-    {
-      id: 2,
-      date: "22.07",
-      title: "Прийняти вітаміни для вагітних",
-      completed: false,
-      // group: "today",
-    },
-    {
-      id: 3,
-      date: "22.07",
-      title: "Відвідати плановий скринінг",
-      completed: false,
-      // group: "week",
-    },
-  ]);
-
-  // TODO: replace with user tasks module
-  return {
-    tasks,
-    setTasks,
-  };
-};
-
 export default function TasksReminderCard() {
   const router = useRouter();
-  const { isAuth } = useAuth();
-  //   const [tasks, setTasks] = useState<Task[]>([]);
-  const { tasks, setTasks } = useUserTasks();
+  const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuthStore();
 
-  const handleToggleTask = async (id: number) => {
-    const task = tasks.find((t) => t.id === id);
-    if (!task) return;
+  const { data: tasks = [], isLoading } = useQuery<Task[]>({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      const response = await nextServer.get<BackendTask[]>("/tasks/allTasks");
+      return response.data.map((t) => ({
+        id: t._id,
+        title: t.name,
+        completed: t.isDone,
+        date: t.date,
+      }));
+    },
+    enabled: isAuthenticated,
+  });
 
-    const newStatus = !task.completed;
-    const prevTasks = tasks;
+  const toggleTaskMutation = useMutation({
+    mutationFn: async ({ id, isDone }: { id: string; isDone: boolean }) => {
+      return await nextServer.patch(`/tasks/update/${id}`, { isDone });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
 
-    setTasks((currentTasks) =>
-      currentTasks.map((t) =>
-        t.id === id ? { ...t, completed: newStatus } : t,
-      ),
-    );
-
-    try {
-      // TODO: uncomment when tasks API is ready
-      // const response = await fetch(`/api/tasks/${id}`, {
-      //   method: "PATCH",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ completed: newStatus }),
-      // });
-      // if (!response.ok) {
-      //   throw new Error("Failed to update task");
-      // }
-    } catch (error) {
-      console.error("Помилка оновлення задачі", error);
-      setTasks(prevTasks);
-    }
+  const handleToggleTask = (id: string, currentStatus: boolean) => {
+    toggleTaskMutation.mutate({ id, isDone: !currentStatus });
   };
 
   const handleAddTask = () => {
-    if (!isAuth) {
+    if (!isAuthenticated) {
       router.push("/auth/register");
       return;
     }
-
-    console.log("Open AddTaskModal"); // TODO: open AddTaskModal
+    console.log("Open AddTaskModal");
   };
 
+ 
   const todayTasks = tasks.filter((task) => task.group === "today");
   const weekTasks = tasks.filter((task) => task.group === "week");
   const noGroupTasks = tasks.filter((task) => !task.group);
-
-  const hasGroupedTasks = todayTasks.length > 0 || weekTasks.length > 0;
+  const hasGroupedTasks = todayTasks.length > 0 || weekTasks.length > 0 || noGroupTasks.length > 0;
 
   const renderTask = (task: Task) => (
     <li className={styles.taskItem} key={task.id}>
       <div className={styles.taskContent}>
         <p className={styles.taskDate}>{task.date}</p>
-
         <label className={styles.taskRow}>
           <input
             type="checkbox"
             checked={task.completed}
-            onChange={() => handleToggleTask(task.id)}
+            onChange={() => handleToggleTask(task.id, task.completed)}
             className={styles.taskCheckbox}
           />
-
           <span className={styles.customCheckbox}></span>
-
-          <p
-            className={
-              task.completed
-                ? `${styles.taskText} ${styles.taskTextDone}`
-                : styles.taskText
-            }
-          >
+          <p className={task.completed ? `${styles.taskText} ${styles.taskTextDone}` : styles.taskText}>
             {task.title}
           </p>
         </label>
@@ -137,73 +91,24 @@ export default function TasksReminderCard() {
     <div className={styles.tasksReminderCard}>
       <div className={styles.tasksHeader}>
         <h2 className={styles.tasksTitle}>Важливі завдання</h2>
-
-        <button
-          type="button"
-          className={styles.addTaskButton}
-          onClick={handleAddTask}
-        >
-          {/* <img
-            src="/icons/add.svg"
-            alt="Add button"
-            className={styles.addTaskIcon}
-          /> */}
-
-          <Image
-  src="/icons/add.svg"
-  alt="Add button"
-  width={24}   // обов'язково для next/image
-  height={24}  // обов'язково для next/image
-  className={styles.addTaskIcon}
-/>
+        <button type="button" className={styles.addTaskButton} onClick={handleAddTask}>
+           <img src="/icons/add.svg" alt="Add" className={styles.addTaskIcon} />
         </button>
       </div>
 
-      {tasks.length === 0 ? (
+      {isLoading ? (
+        <p>Завантаження...</p>
+      ) : tasks.length === 0 ? (
         <div className={styles.tasksPlaceholder}>
-          <div className={styles.placeholderTextBlock}>
-            <p className={styles.placeholderTitle}>
-              Наразі немає жодних завдань
-            </p>
-            <p className={styles.placeholderText}>Створіть мершій завдання!</p>
-          </div>
-
-          <button
-            type="button"
-            className={styles.createTaskButton}
-            onClick={handleAddTask}
-          >
-            Створити завдання
-          </button>
+          <button type="button" className={styles.createTaskButton} onClick={handleAddTask}>Створити завдання</button>
         </div>
-      ) : hasGroupedTasks ? (
-        <>
-          {todayTasks.length > 0 && (
-            <div className={styles.tasksGroup}>
-              <p className={styles.tasksGroupTitle}>Сьогодні:</p>
-
-              <ul className={styles.tasksList}>{todayTasks.map(renderTask)}</ul>
-            </div>
-          )}
-
-          {weekTasks.length > 0 && (
-            <div className={styles.tasksGroup}>
-              <p className={styles.tasksGroupTitle}>Найближчий тиждень:</p>
-
-              <ul className={styles.tasksList}>{weekTasks.map(renderTask)}</ul>
-            </div>
-          )}
-
-          {noGroupTasks.length > 0 && (
-            <div className={styles.tasksGroup}>
-              <ul className={styles.tasksList}>
-                {noGroupTasks.map(renderTask)}
-              </ul>
-            </div>
-          )}
-        </>
       ) : (
-        <ul className={styles.tasksList}>{tasks.map(renderTask)}</ul>
+
+        <>
+          {todayTasks.length > 0 && <ul className={styles.tasksList}>{todayTasks.map(renderTask)}</ul>}
+          {weekTasks.length > 0 && <ul className={styles.tasksList}>{weekTasks.map(renderTask)}</ul>}
+          {noGroupTasks.length > 0 && <ul className={styles.tasksList}>{noGroupTasks.map(renderTask)}</ul>}
+        </>
       )}
     </div>
   );
