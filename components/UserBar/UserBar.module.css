@@ -1,0 +1,153 @@
+.divider {
+  width: calc(100% - 32px);
+  margin: 0 16px;
+  border-top: 1px solid var(--opacity-neutral-darkest-15);
+}
+
+.userBar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: auto;
+  padding-bottom: 24px;
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  width: calc(100% - 32px);
+  min-height: 40px;
+  margin: 0 16px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-pastel-pink-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  overflow: hidden;
+}
+
+.avatarImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userText {
+  min-width: 0;
+}
+
+.userName,
+.userEmail {
+  margin: 0;
+  font-size: 14px;
+  line-height: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userName {
+  font-weight: 500;
+}
+
+.userEmail {
+  color: var(--color-neutral-dark);
+  font-weight: 400;
+}
+
+.logoutButton {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.logoutButton:hover,
+.logoutButton:focus-visible {
+  background: var(--opacity-neutral-darkest-5);
+}
+
+.logoutIcon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1439px) {
+  .divider {
+    width: 268px;
+    margin: 0 16px;
+  }
+
+  .userBar {
+    gap: 16px;
+  }
+
+  .userRow {
+    width: 268px;
+    min-height: 40px;
+    margin: 0 16px;
+    gap: 4px;
+  }
+
+  .userInfo {
+    width: 228px;
+    gap: 8px;
+  }
+
+  .userName,
+  .userEmail {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .divider {
+    width: 280px;
+    margin: 0 16px;
+  }
+
+  .userBar {
+    gap: 24px;
+    padding-bottom: 24px;
+  }
+
+  .userRow {
+    width: 280px;
+    height: 44px;
+    margin: 0 16px;
+    gap: 4px;
+  }
+
+  .userInfo {
+    width: 240px;
+    gap: 12px;
+  }
+
+  .userName,
+  .userEmail {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
