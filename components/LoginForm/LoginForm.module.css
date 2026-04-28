@@ -12,6 +12,10 @@
   flex-direction: column;
 }
 
+.fieldWrapper {
+  position: relative;
+}
+
 .wrapper {
   width: 100%;
   min-height: 100vh;
@@ -72,10 +76,18 @@
   border: 2px solid var(--color-red);
   animation: shake 0.3s ease-in-out;
 }
+.inputError::placeholder {
+  color: var(--color-red);
+}
 
 .error {
-  color: var(--color-red);
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  font-weight: 400;
   font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-red);
 }
 
 .button {
@@ -144,7 +156,9 @@ p:last-child {
   .wrapper {
     align-items: center;
   }
-
+  .title {
+    font-size: 48px;
+  }
   .containerRegister {
     min-height: auto;
     flex-direction: row;
