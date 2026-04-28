@@ -7,6 +7,8 @@ import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
 import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
+import css from './page.module.css';
+import { ClearCacheButton } from '@/components/RemoveCashButton/RemoveCashButton';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -24,15 +26,20 @@ export default function DashboardPage() {
   if (!data) return <div>No data found.</div>;
   return (
     <>
-      <GreetingBlock />
-      <StatusBlock
-        daysToMeeting={data.daysToMeeting}
-        currentWeek={data.currentWeek}
-      />
-      <div className='container'>
-        <BabyTodayCard currentWeek={data.currentWeek} />
-        <MomTipCard currentWeek={data.currentWeek} />
-      </div>
+      <ClearCacheButton />
+      <section className={css.dashboard}>
+        <div className='container'>
+          <GreetingBlock />
+          <StatusBlock
+            daysToMeeting={data.baby.size}
+            currentWeek={data.currentWeek}
+          />
+          <div className='container'>
+            <BabyTodayCard currentWeek={data.currentWeek} />
+            <MomTipCard currentWeek={data.currentWeek} />
+          </div>
+        </div>
+      </section>
     </>
   );
 }

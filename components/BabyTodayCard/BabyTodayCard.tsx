@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { nextServer } from '@/lib/api/api';
 import type { StatusBlockProps } from '@/types/week';
 import css from './BabyTodayCard.module.css';
+import { Loader } from '../Loader/Loader';
 
 type CurrentWeekProps = Pick<StatusBlockProps, 'currentWeek'>;
 
@@ -17,7 +18,12 @@ export const BabyTodayCard = ({ currentWeek }: CurrentWeekProps) => {
     },
   });
 
-  if (isLoading) return <div>Завантаження...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loader />{' '}
+      </div>
+    );
   if (isError || !data) return null;
 
   return (

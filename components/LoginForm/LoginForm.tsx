@@ -37,7 +37,7 @@ export default function LoginForm() {
       router.push('/');
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.error || 'Email або пароль невірні');
+        toast.error('Email або пароль неправильні. Спробуйте ще раз.');
       } else {
         toast.error('Помилка входу');
       }
@@ -48,20 +48,18 @@ export default function LoginForm() {
 
   return (
     <section className={styles.wrapper}>
-      <div className={`container ${styles.containerRegister}`}>
-        <div className={styles.containerTwo}>
-          <div className={styles.logoContainer}></div>
+      <div className={styles.containerTwo}>
+        <div className={styles.formCont}>
+          <h1 className={styles.title}>Вхід</h1>
 
-          <div className={styles.formCont}>
-            <h1 className={styles.title}>Вхід</h1>
-
-            <Formik
-              initialValues={{ email: '', password: '' }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting, errors, touched }) => (
-                <Form className={styles.form}>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, errors, touched }) => (
+              <Form className={styles.form}>
+                <div className={styles.fieldWrapper}>
                   <label className={styles.label}>
                     <Field
                       name='email'
@@ -79,7 +77,9 @@ export default function LoginForm() {
                       className={styles.error}
                     />
                   </label>
+                </div>
 
+                <div className={styles.fieldWrapper}>
                   <label className={styles.label}>
                     <Field
                       name='password'
@@ -99,29 +99,28 @@ export default function LoginForm() {
                       className={styles.error}
                     />
                   </label>
+                </div>
+                <button
+                  type='submit'
+                  className={`${styles.button} pink`}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Завантаження...' : 'Увійти'}
+                </button>
 
-                  <button
-                    type='submit'
-                    className={`${styles.button} pink`}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? 'Завантаження...' : 'Увійти'}
-                  </button>
-
-                  <p className={styles.loginPrompt}>
-                    Немає аккаунту?{' '}
-                    <Link href='/auth/register' className={styles.loginLink}>
-                      Зареєструватися
-                    </Link>
-                  </p>
-                </Form>
-              )}
-            </Formik>
-          </div>
+                <p className={styles.loginPrompt}>
+                  Немає аккаунту?{' '}
+                  <Link href='/auth/register' className={styles.loginLink}>
+                    Зареєструватися
+                  </Link>
+                </p>
+              </Form>
+            )}
+          </Formik>
         </div>
-
-        <div className={styles.background} />
       </div>
+
+      <div className={styles.background} />
     </section>
   );
 }

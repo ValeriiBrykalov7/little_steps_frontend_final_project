@@ -1,5 +1,8 @@
 import css from './StatusBlock.module.css';
-import type { StatusBlockProps } from '@/types/week';
+export type StatusBlockProps = {
+  daysToMeeting: number;
+  currentWeek: number;
+};
 
 const StatusBlock = ({ daysToMeeting, currentWeek }: StatusBlockProps) => {
   return (
