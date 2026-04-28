@@ -1,0 +1,87 @@
+.divider {
+  width: calc(100% - 32px);
+  margin: 0 16px;
+  border-top: 1px solid var(--opacity-neutral-darkest-15);
+}
+
+.authBar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: auto;
+  padding-bottom: 24px;
+}
+
+.authButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 32px);
+  min-height: 42px;
+  margin: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.authButton:hover,
+.authButton:focus-visible {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.authButtonPrimary {
+  border-color: var(--color-pastel-pink);
+  background: var(--color-pastel-pink-light);
+  box-shadow: 0 3px 0 0 var(--color-pastel-pink);
+}
+
+.authButtonSecondary {
+  border-color: var(--opacity-neutral-darkest-15);
+  background: var(--opacity-neutral-darkest-5);
+  box-shadow: 0 3px 0 0 var(--opacity-neutral-darkest-15);
+}
+
+.authButtonPrimary:hover,
+.authButtonPrimary:focus-visible {
+  box-shadow: 0 2px 0 0 var(--color-pastel-pink);
+}
+
+.authButtonSecondary:hover,
+.authButtonSecondary:focus-visible {
+  box-shadow: 0 2px 0 0 var(--opacity-neutral-darkest-15);
+}
+
+.authButtonPrimary:active,
+.authButtonSecondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.12);
+}
+
+@media only screen and (min-width: 1440px) {
+  .divider {
+    width: calc(100% - 32px);
+  }
+
+  .authBar {
+    gap: 16px;
+  }
+
+  .authButton {
+    width: calc(100% - 32px);
+    min-height: 46px;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+  }
+}

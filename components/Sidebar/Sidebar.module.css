@@ -6,6 +6,16 @@
   margin-left: 14px;
 }
 
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.nav {
+  flex: 1;
+}
+
 .backdrop {
   position: fixed;
   top: 64px;
@@ -31,7 +41,7 @@
   z-index: 40;
   width: min(312px, 86vw);
   height: calc(100vh - 64px);
-  padding: 16px 0;
+  padding-top: 16px;
   overflow-y: auto;
   background: var(--color-white);
   box-shadow: 12px 0 30px rgba(0, 0, 0, 0.14);
@@ -48,7 +58,6 @@
   flex-direction: column;
   gap: 8px;
   width: min(312px, 100%);
-  min-height: 680px;
   padding: 0 16px;
 }
 
@@ -95,9 +104,13 @@
   .desktopSidebar {
     display: block;
     flex: 0 0 312px;
+    height: 100vh;
+    border-right: 1px solid var(--opacity-neutral-darkest-10);
+    background: var(--color-white);
+    overflow-y: auto;
   }
 
   .list {
-    padding: 8px 16px 1111px;
+    padding: 8px 16px;
   }
 }
