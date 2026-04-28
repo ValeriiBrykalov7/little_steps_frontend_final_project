@@ -1,17 +1,22 @@
 'use client';
 import LoginForm from '@/components/LoginForm/LoginForm';
 import styles from './page.module.css';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
+import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
 
 export default function ToggleLoginRegister() {
   const params = useParams();
   const authType = params.authType as string;
 
+  if (authType !== 'login' && authType !== 'register') {
+    notFound();
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.formContainer}>
         {authType === 'login' && <LoginForm />}
-        {/* {authType === 'register' && <RegistrationForm/>} */}
+        {authType === 'register' && <RegistrationForm />}
       </div>
     </main>
   );

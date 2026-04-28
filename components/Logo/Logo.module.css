@@ -1,23 +1,22 @@
 .logo_link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.logo_link{
-    margin-top: 16px;
-    margin-bottom: 16px;
-    margin-left: 16px;
+.logo_link {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 @media screen and (min-width: 768px) {
-  .header_logo{
+  .header_logo {
     width: 30px;
     height: 30px;
-}  
+  }
 }
 @media screen and (min-width: 1440px) {
-    .logo_link{
+  .logo_link {
     margin-top: 16px;
-    margin-bottom: 16px;
-    margin-left: 20px;
-}
+    margin-bottom: 17px;
+    margin-left: 14px;
+  }
 }
