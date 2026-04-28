@@ -29,14 +29,8 @@
   font-size: 12px;
   line-height: 1.6;
   text-align: center;
-
-  color: var(--color-scheme-text);
-  text-decoration: none;
 }
 
-.link:visited {
-  color: var(--color-scheme-text);
-}
 
 .link:hover,
 .link:focus-visible {
@@ -65,10 +59,10 @@
 @media screen and (min-width: 768px) {
   .nav {
     max-width: 768px;
-  }
+  } 
 }
 @media screen and (min-width: 1440px) {
-  .nav {
+   .nav {
     max-width: 1440px;
   }
 }
