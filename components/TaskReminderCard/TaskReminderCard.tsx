@@ -4,16 +4,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { nextServer } from "@/lib/api/api";
+import Image from "next/image";
 import styles from "./TaskReminderCard.module.css";
+import { Task } from "@/types/task";
 
-interface BackendTask {
-  _id: string;
-  name: string;
-  isDone: boolean;
-  date: string;
-}
-
-type Task = {
+type FrontTask = {
   id: string;
   date: string;
   title: string;
@@ -26,10 +21,10 @@ export default function TasksReminderCard() {
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuthStore();
 
-  const { data: tasks = [], isLoading } = useQuery<Task[]>({
+  const { data: tasks = [], isLoading } = useQuery<FrontTask[]>({
     queryKey: ["tasks"],
     queryFn: async () => {
-      const response = await nextServer.get<BackendTask[]>("/tasks/allTasks");
+      const response = await nextServer.get<Task[]>("/tasks/allTasks");
       return response.data.map((t) => ({
         id: t._id,
         title: t.name,
@@ -67,7 +62,7 @@ export default function TasksReminderCard() {
   const noGroupTasks = tasks.filter((task) => !task.group);
   const hasGroupedTasks = todayTasks.length > 0 || weekTasks.length > 0 || noGroupTasks.length > 0;
 
-  const renderTask = (task: Task) => (
+  const renderTask = (task: FrontTask) => (
     <li className={styles.taskItem} key={task.id}>
       <div className={styles.taskContent}>
         <p className={styles.taskDate}>{task.date}</p>
@@ -92,7 +87,13 @@ export default function TasksReminderCard() {
       <div className={styles.tasksHeader}>
         <h2 className={styles.tasksTitle}>Важливі завдання</h2>
         <button type="button" className={styles.addTaskButton} onClick={handleAddTask}>
-           <img src="/icons/add.svg" alt="Add" className={styles.addTaskIcon} />
+           <Image 
+            src="/public/images/add.svg" 
+            alt="" 
+            width={24} 
+            height={24} 
+            className={styles.addTaskIcon} 
+            />
         </button>
       </div>
 
@@ -100,6 +101,10 @@ export default function TasksReminderCard() {
         <p>Завантаження...</p>
       ) : tasks.length === 0 ? (
         <div className={styles.tasksPlaceholder}>
+          <div className={styles.noTasks}>
+            <h4>Наразі немає жодних завдань</h4>
+            <p>Створіть мерщій нове завдання!</p>
+          </div>
           <button type="button" className={styles.createTaskButton} onClick={handleAddTask}>Створити завдання</button>
         </div>
       ) : (

@@ -1,13 +1,13 @@
 /* Tasks Reminder Card */
 .tasksReminderCard {
     width: 100%;
-    min-height: 498px;
+    min-height: 209px;
     border-radius: 32px;
     padding: 16px 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    background: #f3e9ea;
+    background: var(--color-scheme-foreground);
 }
 
 .tasksHeader {
@@ -19,10 +19,13 @@
 .tasksTitle {
     margin: 0;
     flex: 1;
-    font-size: 20px;
-    line-height: 1.4;
-    letter-spacing: 0.01em;
     white-space: nowrap;
+    font-family: var(--second-family);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: var(--color-scheme-text);
 }
 
 .addTaskButton {
@@ -37,10 +40,6 @@
     cursor: pointer;
 }
 
-.addTaskIcon {
-    width: 24px;
-    height: 24px;
-}
 
 .tasksGroupTitle {
     font-size: 16px;
@@ -162,8 +161,27 @@
     border-bottom: 4px solid #f5b8c4;
     border-radius: 100px;
     background: #ffdae0;
-    font-size: 16px;
     cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 160%;
+    color: var(--color-scheme-text);
+}
+.noTasks{
+    display: flex;
+    flex-direction: column;
+    gap:4px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: var(--color-scheme-text)
+}
+.noTasks h4{
+    font-family: var(--font-family);
+    font-weight: 700;
+    line-height: 160%;
 }
 
 @media (min-width: 1440px) {

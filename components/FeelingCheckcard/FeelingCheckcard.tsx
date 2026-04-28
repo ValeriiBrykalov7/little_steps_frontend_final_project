@@ -18,7 +18,11 @@ const { isAuthenticated } = useAuthStore();
   return (
     <div className={styles.card}>
       <h3>Як ви себе почуваєте?</h3>
-      <button onClick={handleDiaryClick}>Зробити запис у щоденник</button>
+      <div className={styles.noDiary}>
+            <h4>Рекомендація на сьогодні:</h4>
+            <p>Занотуйте незвичні відчуття у тілі.</p>
+        </div>
+      <button className={styles.createDiaryButton} onClick={handleDiaryClick}>Зробити запис у щоденник</button>
     </div>
   );
 }
