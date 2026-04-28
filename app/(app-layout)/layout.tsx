@@ -9,9 +9,8 @@ type AppLayoutProps = {
 export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className={styles.shell}>
-      <Sidebar />
-
-      <main className={styles.content}>
+      <Sidebar/>  
+      <main className={`container ${styles.content}`}>
         <Breadcrumbs />
         {children}
       </main>
