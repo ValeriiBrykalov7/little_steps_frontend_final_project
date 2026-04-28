@@ -39,7 +39,7 @@
   top: 64px;
   left: 0;
   z-index: 40;
-  width: min(312px, 86vw);
+  width: min(300px, 86vw);
   height: calc(100vh - 64px);
   padding-top: 16px;
   overflow-y: auto;
@@ -56,8 +56,8 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: min(312px, 100%);
+  gap: 0;
+  width: min(300px, 100%);
   padding: 0 16px;
 }
 
@@ -73,7 +73,7 @@
   gap: 12px;
   width: 100%;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-scheme-text);
   transition:
     background 0.2s ease,

@@ -65,11 +65,12 @@
 }
 
 .userName {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .userEmail {
   color: var(--color-neutral-dark);
+  font-weight: 400;
 }
 
 .logoutButton {
@@ -92,6 +93,35 @@
   fill: currentColor;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 1439px) {
+  .divider {
+    width: 268px;
+    margin: 0 16px;
+  }
+
+  .userBar {
+    gap: 16px;
+  }
+
+  .userRow {
+    width: 268px;
+    min-height: 40px;
+    margin: 0 16px;
+    gap: 4px;
+  }
+
+  .userInfo {
+    width: 228px;
+    gap: 8px;
+  }
+
+  .userName,
+  .userEmail {
+    font-size: 14px;
+    line-height: 19px;
+  }
+}
+
 @media only screen and (min-width: 1440px) {
   .divider {
     width: 280px;
@@ -106,7 +136,7 @@
   .userRow {
     width: 280px;
     height: 44px;
-    margin: 0 24px;
+    margin: 0 16px;
     gap: 4px;
   }
 

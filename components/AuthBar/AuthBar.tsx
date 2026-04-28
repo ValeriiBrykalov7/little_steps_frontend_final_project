@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import css from './AuthBar.module.css';
 
 type AuthBarProps = {
@@ -8,23 +8,31 @@ type AuthBarProps = {
 };
 
 export default function AuthBar({ onNavigate }: AuthBarProps) {
+  const router = useRouter();
+
   return (
     <div className={css.authBar}>
       <div className={css.divider} />
-      <Link
-        href='/auth/register'
-        className={`${css.authButton} ${css.authButtonPrimary}`}
-        onClick={() => onNavigate?.()}
+      <button
+        type='button'
+        className={`${css.authButton} pink`}
+        onClick={() => {
+          onNavigate?.();
+          router.push('/auth/register');
+        }}
       >
         Зареєструватися
-      </Link>
-      <Link
-        href='/auth/login'
-        className={`${css.authButton} ${css.authButtonSecondary}`}
-        onClick={() => onNavigate?.()}
+      </button>
+      <button
+        type='button'
+        className={`${css.authButton} gray`}
+        onClick={() => {
+          onNavigate?.();
+          router.push('/auth/login');
+        }}
       >
         Увійти
-      </Link>
+      </button>
     </div>
   );
 }

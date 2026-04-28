@@ -19,7 +19,6 @@
   width: calc(100% - 32px);
   min-height: 42px;
   margin: 0 16px;
-  border: 1px solid transparent;
   border-radius: 100px;
   font-family: var(--font-family);
   font-size: 14px;
@@ -27,49 +26,18 @@
   line-height: 22px;
   letter-spacing: 0;
   text-decoration: none;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
 }
 
 .authButton:hover,
 .authButton:focus-visible {
   text-decoration: none;
-  transform: translateY(-1px);
+  outline: none;
 }
 
-.authButtonPrimary {
-  border-color: var(--color-pastel-pink);
-  background: var(--color-pastel-pink-light);
-  box-shadow: 0 3px 0 0 var(--color-pastel-pink);
-}
-
-.authButtonSecondary {
-  border-color: var(--opacity-neutral-darkest-15);
-  background: var(--opacity-neutral-darkest-5);
-  box-shadow: 0 3px 0 0 var(--opacity-neutral-darkest-15);
-}
-
-.authButtonPrimary:hover,
-.authButtonPrimary:focus-visible {
-  box-shadow: 0 2px 0 0 var(--color-pastel-pink);
-}
-
-.authButtonSecondary:hover,
-.authButtonSecondary:focus-visible {
-  box-shadow: 0 2px 0 0 var(--opacity-neutral-darkest-15);
-}
-
-.authButtonPrimary:active,
-.authButtonSecondary:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.12);
-}
-
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-width: 768px) and (max-width: 1439px) {
   .divider {
-    width: calc(100% - 32px);
+    width: 268px;
+    margin: 0 16px;
   }
 
   .authBar {
@@ -77,8 +45,29 @@
   }
 
   .authButton {
-    width: calc(100% - 32px);
+    width: 268px;
+    min-height: 42px;
+    margin: 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .divider {
+    width: 280px;
+    margin: 0 16px;
+  }
+
+  .authBar {
+    gap: 16px;
+  }
+
+  .authButton {
+    width: 280px;
     min-height: 46px;
+    margin: 0 16px;
     font-family: var(--font-family);
     font-size: 16px;
     font-weight: 500;
