@@ -29,8 +29,10 @@ export default function DashboardPage() {
         daysToMeeting={data.daysToMeeting}
         currentWeek={data.currentWeek}
       />
-      <BabyTodayCard currentWeek={data.currentWeek} />
-      <MomTipCard currentWeek={data.currentWeek} />
+      <div className='container'>
+        <BabyTodayCard currentWeek={data.currentWeek} />
+        <MomTipCard currentWeek={data.currentWeek} />
+      </div>
     </>
   );
 }

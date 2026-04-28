@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { nextServer } from '@/lib/api/api';
 import type { StatusBlockProps } from '@/types/week';
+import css from './MomTipCard.module.css';
 
 type CurrentWeekProps = Pick<StatusBlockProps, 'currentWeek'>;
 
@@ -21,9 +22,9 @@ export const MomTipCard = ({ currentWeek }: CurrentWeekProps) => {
   const currentTip = data.comfortTips[0];
 
   return (
-    <div className='mom-tip-card'>
-      <h3>Порада для мами</h3>
-      <p>{currentTip.tip}</p>
+    <div className={css['mom-tip-card']}>
+      <h2 className={css['card-title']}>Порада для мами</h2>
+      <p className={css['card-text']}>{currentTip.tip}</p>
     </div>
   );
 };

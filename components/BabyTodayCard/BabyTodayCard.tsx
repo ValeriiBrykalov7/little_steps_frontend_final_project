@@ -21,24 +21,19 @@ export const BabyTodayCard = ({ currentWeek }: CurrentWeekProps) => {
   if (isError || !data) return null;
 
   return (
-    <div className={css['card']}>
+    <div className={css.card}>
+      <h2 className={css['card-title']}>Малюк сьогодні</h2>
       <div className={css['card-subcontainer']}>
-        <div className={css['card-subcontainer-tablet']}>
-          <h2 className={css['card-title']}>Малюк сьогодні</h2>
-
-          <div
+        <div className={css['card-img-container']}>
+          <Image
             className={css['card-img']}
-            style={{ position: 'relative', width: '100%', height: '220px' }}
-          >
-            <Image
-              src={data.image}
-              alt={data.analogy || 'Baby illustration'}
-              fill
-              priority
-              style={{ objectFit: 'contain' }}
-              sizes='(max-width: 768px) 100vw, 350px'
-            />
-          </div>
+            src={data.image}
+            alt={data.analogy || 'Baby illustration'}
+            fill
+            priority
+            style={{ objectFit: 'cover' }}
+            sizes='(min-width: 768px) 257px, 100vw'
+          />
         </div>
 
         <div className={css['card-list']}>
