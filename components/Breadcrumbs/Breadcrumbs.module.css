@@ -1,13 +1,12 @@
-.nav{
-      padding-bottom: 16px;
-    padding-left: 32px;
-    padding-top: 24px;
+.nav {
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 .list {
   display: flex;
   align-items: center;
   gap: 8px;
- }
+}
 
 .item {
   display: flex;
@@ -21,7 +20,6 @@
   line-height: 1.6;
   text-align: center;
 }
-
 
 .link:hover,
 .link:focus-visible {
@@ -47,11 +45,9 @@
   stroke: var(--color-scheme-text);
 }
 
-
 /* Styles for desktop */
 @media only screen and (min-width: 1440px) {
   .nav {
     padding-left: 0px;
   }
 }
-
