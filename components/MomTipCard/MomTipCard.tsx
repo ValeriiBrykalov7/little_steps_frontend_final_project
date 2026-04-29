@@ -10,9 +10,9 @@ export const MomTipCard = ({ currentTip }: CurrentTipProps) => {
     return <Loader />;
   }
   return (
-    <div className={css['mom-tip-card']}>
-      <h2 className={css['card-title']}>Порада для мами</h2>
-      <p className={css['card-text']}>{currentTip}</p>
+    <div className={css.momTipCard}>
+      <h2 className={css.cardTitle}>Порада для мами</h2>
+      <p className={css.cardText}>{currentTip}</p>
     </div>
   );
 };

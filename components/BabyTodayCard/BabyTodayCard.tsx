@@ -25,11 +25,11 @@ export const BabyTodayCard = ({ dataBaby }: DataBabyProps) => {
 
   return (
     <div className={css.card}>
-      <h2 className={css['card-title']}>Малюк сьогодні</h2>
-      <div className={css['card-subcontainer']}>
-        <div className={css['card-img-container']}>
+      <h2 className={css.cardTitle}>Малюк сьогодні</h2>
+      <div className={css.cardSubcontainer}>
+        <div className={css.cardImgContainer}>
           <Image
-            className={css['card-img']}
+            className={css.cardImg}
             src={dataBaby.image}
             alt={dataBaby.analogy || 'Baby illustration'}
             fill
@@ -39,22 +39,22 @@ export const BabyTodayCard = ({ dataBaby }: DataBabyProps) => {
           />
         </div>
 
-        <div className={css['card-list']}>
-          <p className={css['card-text']}>
+        <div className={css.cardList}>
+          <p className={css.cardText}>
             <strong className={css['card-text-strong']}>Розмір:</strong>{' '}
             Приблизно {dataBaby.size} см
           </p>
-          <p className={css['card-text']}>
-            <strong className={css['card-text-strong']}>Вага:</strong> Близько{' '}
+          <p className={css.cardText}>
+            <strong className={css.cardTextStrong}>Вага:</strong> Близько{' '}
             {dataBaby.weight} грамів
           </p>
-          <p className={css['card-text']}>
+          <p className={css.cardText}>
             <strong className={css['card-text-strong']}>Активність:</strong>{' '}
             {dataBaby.activity}
           </p>
         </div>
       </div>
-      <p className={css['card-text']}>{dataBaby.description}</p>
+      <p className={css.cardText}>{dataBaby.description}</p>
     </div>
   );
 };

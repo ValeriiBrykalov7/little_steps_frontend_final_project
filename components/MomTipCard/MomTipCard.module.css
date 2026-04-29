@@ -1,4 +1,4 @@
-.mom-tip-card {
+.momTipCard {
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@
   border-radius: 32px;
 }
 
-.card-title {
+.cardTitle {
   font-weight: 700;
   font-size: 20px;
   line-height: 1.4;
@@ -18,7 +18,7 @@
   font-family: var(--second-family);
 }
 
-.card-text {
+.cardText {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
@@ -27,22 +27,22 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .mom-tip-card {
+  .momTipCard {
     padding: 24px;
     gap: 24px;
   }
-  .card-text {
+  .cardText {
     width: 100%;
     flex-grow: 1;
   }
 }
 
 @media only screen and (min-width: 1440px) {
-  .mom-tip-card {
+  .momTipCard {
     justify-content: flex-start;
     padding: 24px 0 24px 24px;
   }
-  .card-title {
+  .cardTitle {
     font-weight: 700;
     font-size: 24px;
 
@@ -50,7 +50,7 @@
     letter-spacing: 0.01em;
   }
 
-  .card-text {
+  .cardText {
     font-size: 16px;
   }
 }

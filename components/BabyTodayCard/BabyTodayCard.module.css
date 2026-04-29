@@ -10,13 +10,13 @@
   border-radius: 32px;
 }
 
-.card-subcontainer {
+.cardSubcontainer {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.card-title {
+.cardTitle {
   font-weight: 700;
   font-size: 20px;
   line-height: 1.4;
@@ -24,7 +24,7 @@
   font-family: var(--second-family);
 }
 
-.card-img-container {
+.cardImgContainer {
   position: relative;
   border: 1px solid var(--color-scheme-border);
   border-radius: 24px;
@@ -34,23 +34,23 @@
   overflow: hidden;
 }
 
-.card-img {
+.cardImg {
   object-fit: contain;
 }
 
-.card-list {
+.cardList {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.card-text-strong {
+.cardTextStrong {
   display: inline;
   font-size: 14px;
   line-height: 1.5;
   font-family: var(--font-family);
 }
 
-.card-text {
+.cardText {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
@@ -63,14 +63,14 @@
     padding: 24px;
     gap: 24px;
   }
-  .card-subcontainer {
+  .cardSubcontainer {
     display: flex;
     flex-direction: row;
     gap: 16px;
     align-items: center;
   }
 
-  .card-img-container {
+  .cardImgContainer {
     position: relative;
     width: 100%;
     max-width: 257px;
@@ -79,20 +79,20 @@
     border-radius: 24px;
     overflow: hidden;
   }
-  .card-img {
+  .cardImg {
     border: 1px solid var(--color-scheme-border);
     border-radius: 24px;
     width: 257px;
     height: 194px;
     display: block;
   }
-  .card-list {
+  .cardList {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
-  .card-text {
+  .cardText {
     width: 100%;
     flex-grow: 1;
   }
@@ -104,7 +104,7 @@
     padding: 24px 0 24px 24px;
   }
 
-  .card-title {
+  .cardTitle {
     font-weight: 700;
     font-size: 24px;
 
@@ -112,11 +112,11 @@
     letter-spacing: 0.01em;
   }
 
-  .card-text-strong {
+  .cardTextStrong {
     font-size: 14px;
   }
 
-  .card-text {
+  .cardText {
     font-size: 16px;
   }
 }
