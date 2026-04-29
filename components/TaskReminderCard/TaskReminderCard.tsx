@@ -145,7 +145,7 @@ export default function TasksReminderCard({
           </div>
           <button
             type='button'
-            className={styles.createTaskButton}
+            className={`pink ${styles.createTaskButton}`}
             onClick={handleAddTask}
           >
             Створити завдання

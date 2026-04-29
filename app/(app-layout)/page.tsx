@@ -30,30 +30,34 @@ export default function DashboardPage() {
     <>
       <section className={css.dashboard}>
         <div className='container'>
-          <div className={css.dashboard_greeting_status}>
-            <GreetingBlock />
-            <StatusBlock
-              daysToMeeting={data.daysToMeeting}
-              currentWeek={data.currentWeek}
-            />
-            <BabyTodayCard dataBaby={data.baby} />
-            <MomTipCard currentTip={data.dailyAdvice} />
+          <GreetingBlock />
+
+          <div className={css.dashboard_content}>
+            <div className={css.dashboard_greeting_status}>
+              <StatusBlock
+                daysToMeeting={data.daysToMeeting}
+                currentWeek={data.currentWeek}
+              />
+              <BabyTodayCard dataBaby={data.baby} />
+              <MomTipCard currentTip={data.dailyAdvice} />
+            </div>
+
+            <div className={css.dashboard_task_diary}>
+              <TasksReminderCard
+                openAddTaskModal={() => {
+                  router.push('/journey');
+                }}
+              />
+              {/*поки немає модалки, тому просто пушимо на сторінку подорожіу /*/}
+              <FeelingCheckcard
+                openAddDiaryEntryModal={() => {
+                  router.push('/diary');
+                }}
+              />
+              {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
+            </div>
           </div>
 
-          <div className={css.dashboard_task_diary}>
-            <TasksReminderCard
-              openAddTaskModal={() => {
-                router.push('/journey');
-              }}
-            />
-            {/*поки немає модалки, тому просто пушимо на сторінку подорожіу /*/}
-            <FeelingCheckcard
-              openAddDiaryEntryModal={() => {
-                router.push('/diary');
-              }}
-            />
-            {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
-          </div>
         </div>
       </section>
     </>

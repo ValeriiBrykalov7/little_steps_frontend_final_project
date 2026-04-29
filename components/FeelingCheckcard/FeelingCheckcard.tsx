@@ -23,14 +23,16 @@ export default function FeelingCheckcard({
 
   return (
     <div className={styles.card}>
-      <h3>Як ви себе почуваєте?</h3>
-      <div className={styles.noDiary}>
-        <h4>Рекомендація на сьогодні:</h4>
-        <p>Занотуйте незвичні відчуття у тілі.</p>
+      <div className={styles.content}>
+        <h3>Як ви себе почуваєте?</h3>
+        <div className={styles.noDiary}>
+          <h4>Рекомендація на сьогодні:</h4>
+          <p>Занотуйте незвичні відчуття у тілі.</p>
+        </div>
       </div>
       <button
         type='button'
-        className={styles.createDiaryButton}
+        className={`pink ${styles.createDiaryButton}`}
         onClick={handleDiaryClick}
       >
         Зробити запис у щоденник
