@@ -1,0 +1,59 @@
+.diaryListItem{
+    background-color: #FFDAE0;
+    width: 303px;
+    margin: 0 auto;
+    padding: 16px;
+    border-radius: 16px;
+}
+@media only screen and (min-width: 768px) {
+    .diaryListItem {
+            width: 672px;
+    }
+}
+@media only screen and (min-width: 1440px) {
+    .diaryListItem {
+        width: 357px;
+    }
+}
+.cardTitle{
+    font-weight: 600;
+    line-height: 1.6;
+}
+@media only screen and (min-width: 1440px) {
+    .cardTitle {
+        font-size: 18px;
+    }
+}
+.emotionList{
+    display: flex;
+    gap:8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+.emotionListItem{
+    background-color: #FFF4F6;
+    padding: 2px 12px;
+    border-radius: 100px;
+    font-size: 14px;
+}
+@media only screen and (min-width: 1440px) {
+    .emotionListItem {
+        background-color: #FFF4F6;
+        padding: 2px 12px;
+        border-radius: 100px;
+        font-size: 16px;
+    }
+}
+.headerCard{
+    display: flex;
+    justify-content: space-between;
+}
+.dateInfo{
+    font-size: 12px;
+    line-height: 1.6;
+}
+@media only screen and (min-width: 1440px) {
+    .dateInfo {
+        font-size: 14px;
+    }
+}

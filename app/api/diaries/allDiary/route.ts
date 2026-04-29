@@ -5,7 +5,7 @@ import { api } from '../../api';
 import { logErrorResponse } from '../../_utils/utils';
 
 export async function GET() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   try {
     const res = await api.get('/diaries/allDiary', {
