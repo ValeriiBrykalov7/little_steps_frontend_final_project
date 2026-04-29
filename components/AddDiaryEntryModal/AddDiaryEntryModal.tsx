@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import css from './AddTaskModal.module.css';
+import css from './AddDiaryEntryModal.module.css';
 
 interface ModalProps {
     onClose: () => void;
