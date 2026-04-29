@@ -2,14 +2,20 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+
   width: 100%;
   justify-content: center;
 
-  background-color: #ffffff;
   border-radius: 32px;
+
+  background: var(--color-scheme-foreground);
+  margin-top: 16px;
+  margin-bottom: 24px;
 }
 
+.container_card {
+  padding: 0 20px;
+}
 .cardSubcontainer {
   display: flex;
   flex-direction: column;
@@ -18,10 +24,12 @@
 
 .cardTitle {
   font-weight: 700;
-  font-size: 20px;
+
+  font-size: 24px;
   line-height: 1.4;
   letter-spacing: 0.01em;
   font-family: var(--second-family);
+  margin-bottom: 16px;
 }
 
 .cardImgContainer {
@@ -42,6 +50,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-bottom: 24px;
 }
 .cardTextStrong {
   display: inline;
@@ -52,7 +61,8 @@
 
 .cardText {
   margin: 0;
-  font-size: 14px;
+
+  font-size: 16px;
   line-height: 1.5;
   font-family: var(--font-family);
   font-weight: 400;
@@ -62,11 +72,16 @@
   .card {
     padding: 24px;
     gap: 24px;
+    margin-top: 32px;
+  }
+  .cardTitle {
+    margin-bottom: 0;
   }
   .cardSubcontainer {
     display: flex;
     flex-direction: row;
     gap: 16px;
+
     align-items: center;
   }
 
@@ -101,7 +116,10 @@
 @media only screen and (min-width: 1440px) {
   .card {
     justify-content: flex-start;
-    padding: 24px 0 24px 24px;
+    padding: 24px;
+    max-width: 642px;
+    margin-bottom: 16px;
+    gap: 0;
   }
 
   .cardTitle {
@@ -110,6 +128,7 @@
 
     line-height: 1.4;
     letter-spacing: 0.01em;
+    margin-bottom: 16px;
   }
 
   .cardTextStrong {
@@ -118,5 +137,13 @@
 
   .cardText {
     font-size: 16px;
+  }
+
+  .container_card {
+    padding: 0 32px 0 0;
+  }
+
+  .cardSubcontainer {
+    margin-bottom: 24px;
   }
 }
