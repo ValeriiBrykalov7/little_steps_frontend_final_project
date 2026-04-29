@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import { Toaster } from 'react-hot-toast';
-import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],

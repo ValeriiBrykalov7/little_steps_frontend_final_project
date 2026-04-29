@@ -1,9 +1,44 @@
-.dashboard {
-  padding-top: 32px;
+.dashboard_content {
+  display: block;
 }
+
+.dashboard_greeting_status {
+  display: flex;
+  flex-direction: column;
+}
+
 .dashboard_task_diary {
   display: flex;
   flex-direction: column;
   gap: 32px;
   margin-top: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+  .dashboard_task_diary {
+    padding-inline: 32px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .dashboard_content {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-top: 16px;
+  }
+
+  .dashboard_greeting_status {
+    width: 674px;
+    flex-shrink: 0;
+  }
+
+  .dashboard_task_diary {
+    width: 422px;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 17px;
+    padding-inline: 0;
+  }
 }
