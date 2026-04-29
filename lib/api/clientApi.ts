@@ -1,6 +1,10 @@
 import { User } from '@/types/user';
+import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
+import { DiaryEntry } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
+
+export { nextServer };
 
 type CheckSessionRequest = {
   success: boolean;
@@ -17,6 +21,9 @@ export interface RegisterRequest {
   password: string;
 }
 
+//
+// Auth
+//
 export const checkSession = async (forceRefresh = false) => {
   const res = await nextServer.post<CheckSessionRequest>('/auth/refresh', {
     forceRefresh,
@@ -39,6 +46,14 @@ export const register = async (body: RegisterRequest) => {
   return data;
 };
 
+export const logout = async () => {
+  await nextServer.post('/auth/logout');
+};
+
+//
+//Weeks
+//
+
 export const getDashboardInfo = async (isAuthenticated: boolean) => {
   const endpoint = isAuthenticated
     ? '/weeks/status/private'
@@ -54,3 +69,48 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
     return response.data;
   });
 };
+
+//
+// Tasks
+//
+export const getAllTasks = async () => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<Task[]>('/tasks/allTasks');
+    return data;
+  });
+};
+
+export const createTask = async (payload: CreateTaskRequest) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.post<Task>('/tasks/createTask', payload);
+    return data;
+  });
+};
+
+export const updateTask = async (
+  taskId: string,
+  payload: UpdateTaskRequest,
+) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.patch<Task>(
+      `/tasks/update/${taskId}`,
+      payload,
+    );
+    return data;
+  });
+};
+
+//
+//Diaries
+//
+
+export const getAllDiaries = async () => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<DiaryEntry[]>('/diaries/allDiary');
+    return data;
+  });
+};
+
+//
+//User
+//

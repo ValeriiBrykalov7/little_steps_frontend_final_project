@@ -13,11 +13,9 @@ export default function ToggleLoginRegister() {
   }
 
   return (
-    <main className={styles.main}>
-      <div className={styles.formContainer}>
-        {authType === 'login' && <LoginForm />}
-        {authType === 'register' && <RegistrationForm />}
-      </div>
-    </main>
+    <>
+      {authType === 'login' && <LoginForm />}
+      {authType === 'register' && <RegistrationForm />}
+    </>
   );
 }

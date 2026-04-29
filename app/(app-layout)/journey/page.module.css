@@ -1,0 +1,10 @@
+.journey {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media only screen and (min-width: 1440px) {
+  .journey {
+    overflow-x: visible;
+  }
+}
