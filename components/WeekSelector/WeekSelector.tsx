@@ -1,59 +1,76 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import css from './WeekSelector.module.css';
+
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import css from './WeekSelector.module.css';
 
+type Props = {
+  currentWeek: number;
+  selectedWeek?: number;
+};
 
-interface Props {
-    initialWeek: number;
-}
+const FIRST_WEEK = 1;
+const LAST_WEEK = 40;
 
-export const WeekSelector = ({ initialWeek }: Props) => {
-    const router = useRouter();
-    const [selectedWeek, setSelectedWeek] = useState<number>(initialWeek);
-    const activeRef = useRef<HTMLButtonElement>(null);
+const clampWeek = (week: number) => {
+  if (!Number.isFinite(week)) return FIRST_WEEK;
+  return Math.min(Math.max(week, FIRST_WEEK), LAST_WEEK);
+};
 
-    useEffect(() => {
-        activeRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center",
-        });
-    }, [selectedWeek]);
+export const WeekSelector = ({ currentWeek, selectedWeek }: Props) => {
+  const router = useRouter();
+  const weekRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
-    function handleWeekClick(week: number) {
-        setSelectedWeek(week);
-        router.push(`/journey/${week}`);
-    }
+  const availableWeek = useMemo(() => clampWeek(currentWeek), [currentWeek]);
+  const selectedWeekFromProps = useMemo(
+    () => Math.min(clampWeek(selectedWeek ?? availableWeek), availableWeek),
+    [availableWeek, selectedWeek],
+  );
 
-    function renderButtons() {
-        const weeks = [];
-        for (let i = 1; i <= 40; i++) {
-            if (i > initialWeek) {
-                weeks.push(
-                    <button key={i} className={`${css.future} ${css.weekbox}`} disabled>
-                        <div className={css.text}>
-                            <div className={css.textfornumver}>{i}</div> Тиждень
-                        </div>
-                    </button>
-                );
-            } else {
-                weeks.push(
-                    <button
-                        key={i}
-                        ref={selectedWeek === i ? activeRef : null}
-                        className={`${selectedWeek === i ? css.active : css.lastActive} ${css.weekbox}`}
-                        onClick={() => handleWeekClick(i)}
-                    >
-                        <div className={css.text}>
-                            <div className={css.textfornumver}>{i}</div> Тиждень
-                        </div>
-                    </button>
-                );
-            }
-        }
-        return weeks;
-    }
+  const activeWeek = selectedWeekFromProps;
 
-    return <div className={css.weekSelector}>{renderButtons()}</div>;
+  useLayoutEffect(() => {
+    weekRefs.current[activeWeek]?.scrollIntoView({
+      behavior: 'auto',
+      block: 'nearest',
+      inline: activeWeek === FIRST_WEEK ? 'start' : 'center',
+    });
+  }, [activeWeek]);
+
+  const handleWeekClick = (week: number) => {
+    if (week === activeWeek) return;
+
+    router.push(`/journey/${week}`);
+  };
+
+  return (
+    <div className={css.weekSelectorViewport}>
+      <div className={css.weekSelector}>
+        {Array.from({ length: LAST_WEEK }, (_, index) => {
+          const week = index + 1;
+          const isFuture = week > availableWeek;
+          const isActive = week === activeWeek && !isFuture;
+
+          return (
+            <button
+              key={week}
+              ref={(element) => {
+                weekRefs.current[week] = element;
+              }}
+              type='button'
+              className={`${css.weekbox} ${
+                isFuture ? css.future : isActive ? css.active : css.lastActive
+              }`}
+              disabled={isFuture}
+              onClick={() => handleWeekClick(week)}
+            >
+              <span className={css.text}>
+                <span className={css.weekNumber}>{week}</span> Тиждень
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 };

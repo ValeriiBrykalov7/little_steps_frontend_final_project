@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { api } from '../../api';
 import { parse } from 'cookie';
@@ -7,20 +7,33 @@ import { logErrorResponse } from '../../_utils/utils';
 
 const authCookieNames = ['accessToken', 'refreshToken', 'sessionId'] as const;
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
+    let forceRefresh = false;
+
+    try {
+      const body = await req.json();
+      forceRefresh = Boolean(body?.forceRefresh);
+    } catch {}
+
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
     const refreshToken = cookieStore.get('refreshToken')?.value;
+    const sessionId = cookieStore.get('sessionId')?.value;
 
-    if (accessToken) {
+    if (accessToken && !forceRefresh) {
       return NextResponse.json({ success: true });
     }
 
-    if (refreshToken) {
-      const apiRes = await api.get('/auth/refresh', {
+    if (refreshToken && sessionId) {
+      const cookieHeader = [
+        `refreshToken=${refreshToken}`,
+        `sessionId=${sessionId}`,
+      ].join('; ');
+
+      const apiRes = await api.post('/auth/refresh', null, {
         headers: {
-          Cookie: cookieStore.toString(),
+          Cookie: cookieHeader,
         },
       });
 

@@ -5,7 +5,7 @@ import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import { Loader } from '@/components/Loader/Loader';
-import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
+import css from './page.module.css';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -23,13 +23,15 @@ export default function DashboardPage() {
   if (!data) return <div>No data found.</div>;
   return (
     <>
-      <GreetingBlock />
-      <WeekSelector initialWeek={data.currentWeek} />
-      <StatusBlock
-        daysToMeeting={data.daysToMeeting}
-        currentWeek={data.currentWeek}
-      />
-
+      <section className={css.dashboard}>
+        <div className='container'>
+          <GreetingBlock />
+          <StatusBlock
+            daysToMeeting={data.daysToMeeting}
+            currentWeek={data.currentWeek}
+          />
+        </div>
+      </section>
     </>
   );
 }
