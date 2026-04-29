@@ -51,7 +51,7 @@ export const AddTaskModal = ({ onClose, children }: ModalProps) => {
                         <use href="/sprite.svg#icon-close"></use>
                     </svg>
                 </button>
-                <p className={css.textfortask}>Нове завдання</p>
+                <p className={css.textfortask}>Новий запис</p>
                 {children}
             </div>
         </div>,

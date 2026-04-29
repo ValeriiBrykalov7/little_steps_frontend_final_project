@@ -9,3 +9,5 @@ export type DiaryEntry = {
   createdAt: string;
   updatedAt: string;
 };
+
+

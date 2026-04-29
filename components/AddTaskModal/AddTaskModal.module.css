@@ -2,6 +2,7 @@
   position: relative;
   border-radius: 40px;
   padding: 64px 20px;
+  padding-bottom: 48px;
   width: 335px;
   height: 484px;
   margin: 0 auto;
@@ -16,7 +17,7 @@
   letter-spacing: 0.01em;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
   color: var(--color-scheme-text);
 }
 .btnboxclose {
@@ -44,8 +45,11 @@
     max-width: 768px;
   }
   .btnboxclose {
-    top: 22.5px;
+    top: 32px;
     right: 32px;
+  }
+  .textfortask {
+    margin-bottom: 48px;
   }
 }
 
@@ -57,7 +61,7 @@
     height: 472px;
   }
   .btnboxclose {
-    top: 25px;
+    top: 28px;
     right: 32px;
   }
   .textfortask {
