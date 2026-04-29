@@ -2,7 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
 import css from './UserBar.module.css';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type UserBarProps = {
   onNavigate?: () => void;
@@ -19,7 +22,7 @@ export default function UserBar({ onNavigate }: UserBarProps) {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
+      await logout();
     } finally {
       clearIsAuthenticated();
       onNavigate?.();
@@ -31,19 +34,31 @@ export default function UserBar({ onNavigate }: UserBarProps) {
     <div className={css.userBar}>
       <div className={css.divider} />
       <div className={css.userRow}>
-        <div className={css.userInfo}>
-          <div className={css.avatar}>
-            {user.avatar ? (
-              <img src={user.avatar} alt={user.username} className={css.avatarImage} />
-            ) : (
-              user.username?.[0]?.toUpperCase() ?? 'U'
-            )}
+        <Link
+          href='/profile'
+          className={css.userInfo}
+          onClick={() => onNavigate?.()}
+        >
+          <div className={css.userInfo}>
+            <div className={css.avatar}>
+              {user.avatar ? (
+                <Image
+                  src={user.avatar}
+                  alt={user.username}
+                  className={css.avatarImage}
+                  width={40}
+                  height={40}
+                />
+              ) : (
+                (user.username?.[0]?.toUpperCase() ?? 'U')
+              )}
+            </div>
+            <div className={css.userText}>
+              <p className={css.userName}>{user.username}</p>
+              <p className={css.userEmail}>{user.email}</p>
+            </div>
           </div>
-          <div className={css.userText}>
-            <p className={css.userName}>{user.username}</p>
-            <p className={css.userEmail}>{user.email}</p>
-          </div>
-        </div>
+        </Link>
         <button
           type='button'
           className={css.logoutButton}

@@ -40,6 +40,10 @@ export const register = async (body: RegisterRequest) => {
   return data;
 };
 
+export const logout = async () => {
+  await nextServer.post('/auth/logout');
+};
+
 export const getDashboardInfo = async (isAuthenticated: boolean) => {
   const endpoint = isAuthenticated
     ? '/weeks/status/private'
