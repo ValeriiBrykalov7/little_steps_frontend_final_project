@@ -1,4 +1,5 @@
 import { User } from '@/types/user';
+import type { DiaryEntry } from '@/types/diary';
 import { nextServer } from './api';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 
@@ -56,5 +57,12 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
   return requestWithAuthRefresh(async () => {
     const response = await nextServer.get(endpoint);
     return response.data;
+  });
+};
+
+export const getAllDiaries = async () => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<DiaryEntry[]>('/diaries/allDiary');
+    return data;
   });
 };

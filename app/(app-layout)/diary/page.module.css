@@ -1,0 +1,17 @@
+.diary {
+  max-width: 100%;
+  overflow-x: hidden;
+  padding-top: 32px;
+}
+
+.diaryList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+@media only screen and (min-width: 1440px) {
+  .diary {
+    overflow-x: visible;
+  }
+}
