@@ -1,17 +1,21 @@
 'use client';
+
 import { useAuthStore } from '@/lib/store/authStore';
 import { useQuery } from '@tanstack/react-query';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
+import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
+import FeelingCheckcard from '@/components/FeelingCheckcard/FeelingCheckcard';
 import { Loader } from '@/components/Loader/Loader';
-
+import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
+import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
-
+  const router = useRouter();
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', isAuthenticated],
@@ -28,11 +32,32 @@ export default function DashboardPage() {
       <section className={css.dashboard}>
         <div className='container'>
           <GreetingBlock />
-          <StatusBlock
-            daysToMeeting={data.daysToMeeting}
-            currentWeek={data.currentWeek}
-          />
-          <JourneyDetails weekNumber={data.currentWeek} />
+
+          <div className={css.dashboard_content}>
+            <div className={css.dashboard_greeting_status}>
+              <StatusBlock
+                daysToMeeting={data.daysToMeeting}
+                currentWeek={data.currentWeek}
+              />
+              <BabyTodayCard dataBaby={data.baby} />
+              <MomTipCard currentTip={data.dailyAdvice} />
+            </div>
+
+            <div className={css.dashboard_task_diary}>
+              <TasksReminderCard
+                openAddTaskModal={() => {
+                  router.push('/journey');
+                }}
+              />
+              {/*поки немає модалки, тому просто пушимо на сторінку подорожіу /*/}
+              <FeelingCheckcard
+                openAddDiaryEntryModal={() => {
+                  router.push('/diary');
+                }}
+              />
+              {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
+            </div>
+          </div>
         </div>
       </section>
     </>
