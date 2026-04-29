@@ -8,7 +8,6 @@ import { Loader } from '@/components/Loader/Loader';
 import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
 import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
-import { ClearCacheButton } from '@/components/RemoveCashButton/RemoveCashButton';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -21,25 +20,21 @@ export default function DashboardPage() {
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
-  console.log(data);
-
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
   return (
     <>
-      <ClearCacheButton />
       <section className={css.dashboard}>
         <div className='container'>
           <GreetingBlock />
           <StatusBlock
-            daysToMeeting={data.baby.size}
+            daysToMeeting={data.daysToMeeting}
             currentWeek={data.currentWeek}
           />
-          <div className='container'>
-            <BabyTodayCard dataBaby={data.baby} />
-            <MomTipCard currentTip={data.momDailyTips[0]} />
-          </div>
+
+          <BabyTodayCard dataBaby={data.baby} />
+          <MomTipCard currentTip={data.dailyAdvice} />
         </div>
       </section>
     </>

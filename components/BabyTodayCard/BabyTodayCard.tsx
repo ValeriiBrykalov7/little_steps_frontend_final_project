@@ -1,7 +1,6 @@
 import Image from 'next/image';
 
 import css from './BabyTodayCard.module.css';
-import { Loader } from '../Loader/Loader';
 
 interface BabyData {
   image: string;
@@ -17,12 +16,6 @@ interface DataBabyProps {
 }
 
 export const BabyTodayCard = ({ dataBaby }: DataBabyProps) => {
-  console.log(dataBaby);
-
-  if (!dataBaby) {
-    return <Loader />;
-  }
-
   return (
     <div className={css.card}>
       <h2 className={css.cardTitle}>Малюк сьогодні</h2>
