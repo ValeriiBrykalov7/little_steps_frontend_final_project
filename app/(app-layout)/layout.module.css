@@ -1,4 +1,8 @@
 .shell {
+  --app-sidebar-width: 312px;
+  --app-layout-gap: 32px;
+  --app-sidebar-offset: calc(var(--app-sidebar-width) + var(--app-layout-gap));
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -7,6 +11,7 @@
 .content {
   flex: 1;
   min-width: 0;
+  overflow-x: hidden;
   padding: 24px 0;
 }
 
@@ -18,14 +23,20 @@
 
 @media only screen and (min-width: 1440px) {
   .shell {
+    position: relative;
+    isolation: isolate;
     max-width: 1440px;
     margin: 0 auto;
     flex-direction: row;
     align-items: flex-start;
     gap: 32px;
+    overflow-x: clip;
   }
 
   .content {
+    position: relative;
+    z-index: 1;
+    overflow-x: visible;
     padding: 0;
   }
 }
