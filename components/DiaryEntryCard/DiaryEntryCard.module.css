@@ -1,18 +1,17 @@
 .diaryListItem {
   width: 303px;
-  margin: 0 auto;
 }
 
 .diaryButton {
   display: block;
   width: 100%;
   padding: 16px;
-  border: 2px solid transparent;
+
   border-radius: 16px;
-  background-color: var(--color-pastel-pink-lighter);
+  background-color: var(--color-pastel-pink);
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 8px 22px rgba(255, 203, 211, 0.55);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -22,28 +21,18 @@
 
 .diaryButton:hover,
 .diaryButton:focus-visible {
-  border-color: var(--color-pastel-pink-light);
-  background-color: var(--color-pastel-pink-lightest);
+  border-color: #ffcbd3;
+  background-color: var(--color-pastel-pink-light);
   outline: none;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 24px rgba(204, 162, 168, 0.38);
 }
 
 .diaryButton:active {
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.diaryButtonActive {
-  border-color: var(--color-pastel-pink-dark);
-  background-color: var(--color-pastel-pink);
-  box-shadow: 0 8px 22px rgba(255, 203, 211, 0.55);
-}
-
-.diaryButtonActive:hover,
-.diaryButtonActive:focus-visible {
-  border-color: var(--color-pastel-pink-dark);
-  background-color: var(--color-pastel-pink);
+  border-color: var(--color-pastel-pink-darkest);
+  background-color: var(--color-pastel-pink-dark);
+  box-shadow: 0 4px 12px rgba(204, 162, 168, 0.28);
 }
 
 .headerCard {

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import DiaryEntryCard from '@/components/DiaryEntryCard/DiaryEntryCard';
@@ -14,7 +13,6 @@ import css from './page.module.css';
 const DiaryListPage = () => {
   const router = useRouter();
   const { isAuthenticated, isAuthChecked } = useAuthStore();
-  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
 
   const {
     data: diaries = [],
@@ -28,13 +26,7 @@ const DiaryListPage = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  const selectedEntryExists = diaries.some(
-    (card) => card._id === selectedEntryId,
-  );
-  const activeEntryId = selectedEntryExists ? selectedEntryId : diaries[0]?._id;
-
   const handleClick = (card: DiaryEntry) => {
-    setSelectedEntryId(card._id);
     router.push(`/diary/${card._id}`);
   };
 
@@ -54,7 +46,6 @@ const DiaryListPage = () => {
             <DiaryEntryCard
               key={card._id}
               card={card}
-              isActive={card._id === activeEntryId}
               onClick={() => handleClick(card)}
             />
           ))}

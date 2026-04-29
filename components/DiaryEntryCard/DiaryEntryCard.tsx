@@ -3,15 +3,10 @@ import css from './DiaryEntryCard.module.css';
 
 type DiaryEntryCardProps = {
   card: DiaryEntry;
-  isActive?: boolean;
   onClick: () => void;
 };
 
-const DiaryEntryCard = ({
-  card,
-  isActive = false,
-  onClick,
-}: DiaryEntryCardProps) => {
+const DiaryEntryCard = ({ card, onClick }: DiaryEntryCardProps) => {
   const formattedDate = new Date(card.createdAt)
     .toLocaleDateString('uk-UA', {
       day: 'numeric',
@@ -24,10 +19,7 @@ const DiaryEntryCard = ({
     <li className={css.diaryListItem}>
       <button
         type='button'
-        className={`${css.diaryButton} ${
-          isActive ? css.diaryButtonActive : ''
-        }`}
-        aria-current={isActive ? 'true' : undefined}
+        className={css.diaryButton}
         onClick={onClick}
       >
         <div className={css.headerCard}>
