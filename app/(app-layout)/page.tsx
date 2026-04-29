@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
- const router=useRouter();
+  const router = useRouter();
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', isAuthenticated],
@@ -35,16 +35,23 @@ export default function DashboardPage() {
               currentWeek={data.currentWeek}
             />
           </div>
-          
+
           <div className={css.dashboard_task_diary}>
-            <TasksReminderCard/>
-            <FeelingCheckcard openAddDiaryEntryModal={()=>{router.push('/diary')}}/> {/* для прикладу */}
+            <TasksReminderCard
+              openAddTaskModal={() => {
+                router.push('/journey');
+              }}
+            />
+            {/*поки немає модалки, тому просто пушимо на сторінку щоденника, де вже буде кнопка для створення запису /*/}
+            <FeelingCheckcard
+              openAddDiaryEntryModal={() => {
+                router.push('/diary');
+              }}
+            />
+            {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
           </div>
-          
         </div>
-        <div className='container'> 
-          
-        </div>
+        <div className='container'></div>
       </section>
     </>
   );
