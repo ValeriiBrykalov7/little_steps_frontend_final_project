@@ -7,6 +7,8 @@ import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
 import FeelingCheckcard from '@/components/FeelingCheckcard/FeelingCheckcard';
 import { Loader } from '@/components/Loader/Loader';
+import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
+import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
 import { useRouter } from 'next/navigation';
 
@@ -34,6 +36,8 @@ export default function DashboardPage() {
               daysToMeeting={data.daysToMeeting}
               currentWeek={data.currentWeek}
             />
+            <BabyTodayCard dataBaby={data.baby} />
+            <MomTipCard currentTip={data.dailyAdvice} />
           </div>
 
           <div className={css.dashboard_task_diary}>
@@ -51,7 +55,6 @@ export default function DashboardPage() {
             {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
           </div>
         </div>
-        <div className='container'></div>
       </section>
     </>
   );

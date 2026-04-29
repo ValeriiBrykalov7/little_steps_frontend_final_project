@@ -13,4 +13,6 @@ export type CreateTaskRequest = {
   date: string;
 };
 
-export type UpdateTaskRequest = Partial<Pick<Task, 'name' | 'date' | 'isDone'>>;
+export type UpdateTaskRequest = Partial<
+  Pick<Task, '_id' | 'name' | 'date' | 'isDone'>
+>;

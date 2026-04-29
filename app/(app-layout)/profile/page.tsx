@@ -1,7 +1,9 @@
+import { ProfileForm } from '@/components/ProfileForm/ProfileForm';
+
 const Home = async () => {
   return (
     <div>
-      <h1>Profile</h1>
+      <ProfileForm />
     </div>
   );
 };

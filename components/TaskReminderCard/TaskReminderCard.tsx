@@ -22,6 +22,7 @@ type ToggleTaskContext = {
   previousTasks?: Task[];
 };
 
+// Це функція для форматування дати таски у вигляді 01.01, а не 2026-01-01, що приходить з серваку
 const formatTaskDate = (date: string) => {
   const [year, month, day] = date.split('-');
 
@@ -45,7 +46,7 @@ export default function TasksReminderCard({
     staleTime: 1000 * 60 * 5,
   });
 
-  // Також тут у мутаціїї використовується optimistic update тому код виглядає реально сумбурно. Але погугліть і пчочитайте що це. Я так зрозумів, що це реально стандарт
+  // Також тут у мутаціїї використовується optimistic update(для чекбоксів) тому код виглядає реально сумбурно. Але погугліть і пчочитайте що це. Я так зрозумів, що це реально стандарт
   const toggleTaskMutation = useMutation({
     mutationFn: ({ taskId, isDone }: ToggleTaskPayload) => {
       return updateTask(taskId, { isDone });

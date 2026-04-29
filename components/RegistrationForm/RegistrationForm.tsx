@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { register } from '@/lib/api/clientApi';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import Image from 'next/image';
+import { useAuthStore } from '@/lib/store/authStore';
 
 interface RegistrationFormValues {
   username: string;
@@ -40,11 +40,13 @@ const validationSchema = Yup.object({
 
 export default function RegistrationForm() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
 
   const { mutate, isPending } = useMutation({
     mutationFn: register,
 
-    onSuccess: () => {
+    onSuccess: (user) => {
+      setUser(user);
       toast.success('Реєстрація успішна!');
       router.push('/profile/edit');
     },
@@ -59,110 +61,99 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className={`${styles.pageWrapper} container`}>
-      <div className={styles.formWrapper}>
-        <h1 className={styles.title}>Реєстрація</h1>
+    <div className={styles.formWrapper}>
+      <h1 className={styles.title}>Реєстрація</h1>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ errors, touched }) => (
-            <Form className={styles.form}>
-              <div className={styles.fieldWrapper}>
-                <label htmlFor='username' className={styles.label}>
-                  Ім’я*
-                </label>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched }) => (
+          <Form className={styles.form}>
+            <div className={styles.fieldWrapper}>
+              <label htmlFor='username' className={styles.label}>
+                Ім’я*
+              </label>
 
-                <Field
-                  id='username'
-                  name='username'
-                  type='text'
-                  placeholder='Ваше ім’я'
-                  className={`${styles.input} ${
-                    touched.username && errors.username ? styles.inputError : ''
-                  }`}
-                />
+              <Field
+                id='username'
+                name='username'
+                type='text'
+                placeholder='Ваше ім’я'
+                className={`${styles.input} ${
+                  touched.username && errors.username ? styles.inputError : ''
+                }`}
+              />
 
-                <ErrorMessage
-                  name='username'
-                  component='span'
-                  className={styles.error}
-                />
-              </div>
+              <ErrorMessage
+                name='username'
+                component='span'
+                className={styles.error}
+              />
+            </div>
 
-              <div className={styles.fieldWrapper}>
-                <label htmlFor='email' className={styles.label}>
-                  Пошта*
-                </label>
+            <div className={styles.fieldWrapper}>
+              <label htmlFor='email' className={styles.label}>
+                Пошта*
+              </label>
 
-                <Field
-                  id='email'
-                  name='email'
-                  type='email'
-                  placeholder='hello@leleka.com'
-                  className={`${styles.input} ${
-                    touched.email && errors.email ? styles.inputError : ''
-                  }`}
-                />
+              <Field
+                id='email'
+                name='email'
+                type='email'
+                placeholder='hello@leleka.com'
+                className={`${styles.input} ${
+                  touched.email && errors.email ? styles.inputError : ''
+                }`}
+              />
 
-                <ErrorMessage
-                  name='email'
-                  component='span'
-                  className={styles.error}
-                />
-              </div>
+              <ErrorMessage
+                name='email'
+                component='span'
+                className={styles.error}
+              />
+            </div>
 
-              <div className={styles.fieldWrapper}>
-                <label htmlFor='password' className={styles.label}>
-                  Пароль*
-                </label>
+            <div className={styles.fieldWrapper}>
+              <label htmlFor='password' className={styles.label}>
+                Пароль*
+              </label>
 
-                <Field
-                  id='password'
-                  name='password'
-                  type='password'
-                  placeholder='********'
-                  className={`${styles.input} ${
-                    touched.password && errors.password ? styles.inputError : ''
-                  }`}
-                />
+              <Field
+                id='password'
+                name='password'
+                type='password'
+                placeholder='********'
+                className={`${styles.input} ${
+                  touched.password && errors.password ? styles.inputError : ''
+                }`}
+              />
 
-                <ErrorMessage
-                  name='password'
-                  component='span'
-                  className={styles.error}
-                />
-              </div>
+              <ErrorMessage
+                name='password'
+                component='span'
+                className={styles.error}
+              />
+            </div>
 
-              <button
-                type='submit'
-                className={`${styles.button} pink`}
-                disabled={isPending}
-              >
-                Зареєструватись
-              </button>
-            </Form>
-          )}
-        </Formik>
+            <button
+              type='submit'
+              className={`${styles.button} pink`}
+              disabled={isPending}
+            >
+              Зареєструватись
+            </button>
+          </Form>
+        )}
+      </Formik>
 
-        <p className={styles.text}>
-          Вже маєте акаунт?{' '}
-          <Link href='/auth/login' className={styles.link}>
-            Увійти
-          </Link>
-        </p>
-      </div>
-
-      <Image
-        src='/images/storks.jpg'
-        width={720}
-        height={900}
-        alt='storks'
-        className={styles.image}
-        priority
-      />
+      <p className={styles.text}>
+        Вже маєте акаунт?{' '}
+        <Link href='/auth/login' className={styles.link}>
+          Увійти
+        </Link>
+      </p>
     </div>
   );
 }

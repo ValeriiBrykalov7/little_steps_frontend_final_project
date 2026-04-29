@@ -1,0 +1,53 @@
+.nav {
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+.list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.link:hover,
+.link:focus-visible {
+  text-decoration: none;
+  outline: none;
+}
+
+.current {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+
+  color: var(--color-neutral);
+}
+
+.arrow {
+  width: 7px;
+  height: 12px;
+  display: block;
+  flex: 0 0 24px;
+
+  stroke: var(--color-scheme-text);
+}
+
+/* Styles for desktop */
+@media only screen and (min-width: 1440px) {
+  .nav {
+    padding-left: 0px;
+  }
+}

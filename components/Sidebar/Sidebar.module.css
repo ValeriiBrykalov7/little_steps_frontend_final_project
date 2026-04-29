@@ -3,7 +3,17 @@
 }
 
 .logoContainer {
-  margin-left: 14px;
+  margin-left: 25px;
+}
+
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.nav {
+  flex: 1;
 }
 
 .backdrop {
@@ -29,12 +39,11 @@
   top: 64px;
   left: 0;
   z-index: 40;
-  width: min(312px, 86vw);
+  width: min(300px, 86vw);
   height: calc(100vh - 64px);
-  padding: 16px 0;
+  padding-top: 16px;
   overflow-y: auto;
   background: var(--color-white);
-  box-shadow: 12px 0 30px rgba(0, 0, 0, 0.14);
   transform: translateX(-100%);
   transition: transform 0.2s ease;
 }
@@ -46,9 +55,8 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  width: min(312px, 100%);
-  min-height: 680px;
+  gap: 0;
+  width: 100%;
   padding: 0 16px;
 }
 
@@ -64,7 +72,7 @@
   gap: 12px;
   width: 100%;
   padding: 8px;
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-scheme-text);
   transition:
     background 0.2s ease,
@@ -94,10 +102,36 @@
 
   .desktopSidebar {
     display: block;
+    position: relative;
+    z-index: 3;
     flex: 0 0 312px;
+    height: 100vh;
+    background: var(--color-white);
+    overflow: visible;
+  }
+
+  .desktopSidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 1px;
+    height: 100%;
+    background: var(--opacity-neutral-darkest-10);
+    pointer-events: none;
+  }
+
+  .desktopSidebar .sidebarInner {
+    height: 100%;
+    overflow-y: auto;
   }
 
   .list {
-    padding: 8px 16px 1111px;
+    padding: 8px 16px;
   }
+}
+.logoContainer {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }

@@ -4,6 +4,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import AuthBar from '@/components/AuthBar/AuthBar';
+import UserBar from '@/components/UserBar/UserBar';
 import Header from '@/components/Header/Header';
 import Logo from '@/components/Logo/Logo';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -26,15 +28,18 @@ const SidebarContent = ({
   showLogo = true,
 }: SidebarContentProps) => {
   const isAuth = useAuthStore((state) => state.isAuthenticated);
+  const isAuthChecked = useAuthStore((state) => state.isAuthChecked);
+  const user = useAuthStore((state) => state.user);
   const pathname = usePathname();
+  const isLoggedIn = isAuthChecked && isAuth && user;
 
   return (
-    <div>
+    <div className={css.sidebarInner}>
       {showLogo && <div className={css.logoContainer}><Logo /></div>}
-      <nav>
+      <nav className={css.nav}>
         <ul className={css.list}>
           {navItems.map((item) => {
-            const href = isAuth ? item.path : '/auth/login';
+            const href = !isAuthChecked || isAuth ? item.path : '/auth/login';
             const isActive = pathname === item.path;
 
             return (
@@ -55,6 +60,12 @@ const SidebarContent = ({
           })}
         </ul>
       </nav>
+
+      {!isAuthChecked ? null : isLoggedIn ? (
+        <UserBar onNavigate={onNavigate} />
+      ) : (
+        <AuthBar onNavigate={onNavigate} />
+      )}
     </div>
   );
 };
@@ -95,6 +106,7 @@ export default function Sidebar() {
       />
 
       <aside
+        id='app-mobile-sidebar'
         className={`${css.mobileSidebar} ${
           isMenuOpen ? css.mobileSidebarOpen : ''
         }`}

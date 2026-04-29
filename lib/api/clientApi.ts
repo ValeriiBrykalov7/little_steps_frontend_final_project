@@ -1,6 +1,7 @@
 import { User } from '@/types/user';
 import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
+import { DiaryEntry } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 
 export { nextServer };
@@ -45,9 +46,14 @@ export const register = async (body: RegisterRequest) => {
   return data;
 };
 
+export const logout = async () => {
+  await nextServer.post('/auth/logout');
+};
+
 //
-//weeks
+//Weeks
 //
+
 export const getDashboardInfo = async (isAuthenticated: boolean) => {
   const endpoint = isAuthenticated
     ? '/weeks/status/private'
@@ -97,6 +103,10 @@ export const updateTask = async (
 //
 //Diaries
 //
+export const getAllDiary = async (): Promise<DiaryEntry[]> => {
+  const { data } = await nextServer.get<DiaryEntry[]>('/allDiary');
+  return data;
+};
 
 //
 //User
