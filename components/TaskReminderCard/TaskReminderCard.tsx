@@ -140,8 +140,8 @@ export default function TasksReminderCard({
       ) : tasks.length === 0 ? (
         <div className={styles.tasksPlaceholder}>
           <div className={styles.noTasks}>
-            <h4>Наразі немає жодних завдань</h4>
-            <p>Створіть мерщій нове завдання!</p>
+            <h4 className={styles.textTitle}>Наразі немає жодних завдань</h4>
+            <p className={styles.texttasks}>Створіть мерщій нове завдання!</p>
           </div>
           <button
             type='button'

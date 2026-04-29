@@ -2,24 +2,19 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-
   width: 100%;
-  margin: 0 auto;
-
+  min-width: 335px;
   border-radius: 32px;
-
   background: var(--color-scheme-foreground);
-  margin-top: 16px;
 }
 
 .container_card {
-  padding: 0 20px;
+  margin: 24px 20px 0;
 }
 
 .cardTitle {
   font-weight: 700;
-
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.4;
   letter-spacing: 0.01em;
   font-family: var(--second-family);
@@ -28,8 +23,7 @@
 
 .cardText {
   margin: 0;
-
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   font-family: var(--font-family);
   font-weight: 400;
@@ -39,7 +33,11 @@
   .momTipCard {
     padding: 24px;
   }
+  .cardTitle {
+    font-size: 24px;
+  }
   .cardText {
+    font-size: 16px;
     width: 100%;
     flex-grow: 1;
   }
