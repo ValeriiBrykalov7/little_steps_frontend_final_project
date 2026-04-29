@@ -1,24 +1,29 @@
 'use client';
 
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { nextServer } from '@/lib/api/api';
-import type { StatusBlockProps } from '@/types/week';
+
 import css from './BabyTodayCard.module.css';
+import { Loader } from '../Loader/Loader';
 
-type CurrentWeekProps = Pick<StatusBlockProps, 'currentWeek'>;
+interface BabyData {
+  image: string;
+  analogy: string | null;
+  size: number;
+  weight: number;
+  activity: string;
+  description: string;
+}
 
-export const BabyTodayCard = ({ currentWeek }: CurrentWeekProps) => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['babyToday', currentWeek],
-    queryFn: async () => {
-      const res = await nextServer.get(`/weeks/baby/${currentWeek}`);
-      return res.data;
-    },
-  });
+interface DataBabyProps {
+  dataBaby: BabyData;
+}
 
-  if (isLoading) return <div>Завантаження...</div>;
-  if (isError || !data) return null;
+export const BabyTodayCard = ({ dataBaby }: DataBabyProps) => {
+  console.log(dataBaby);
+
+  if (!dataBaby) {
+    return <Loader />;
+  }
 
   return (
     <div className={css.card}>
@@ -27,8 +32,8 @@ export const BabyTodayCard = ({ currentWeek }: CurrentWeekProps) => {
         <div className={css['card-img-container']}>
           <Image
             className={css['card-img']}
-            src={data.image}
-            alt={data.analogy || 'Baby illustration'}
+            src={dataBaby.image}
+            alt={dataBaby.analogy || 'Baby illustration'}
             fill
             priority
             style={{ objectFit: 'cover' }}
@@ -39,19 +44,19 @@ export const BabyTodayCard = ({ currentWeek }: CurrentWeekProps) => {
         <div className={css['card-list']}>
           <p className={css['card-text']}>
             <strong className={css['card-text-strong']}>Розмір:</strong>{' '}
-            Приблизно {data.babySize} см
+            Приблизно {dataBaby.size} см
           </p>
           <p className={css['card-text']}>
             <strong className={css['card-text-strong']}>Вага:</strong> Близько{' '}
-            {data.babyWeight} грамів
+            {dataBaby.weight} грамів
           </p>
           <p className={css['card-text']}>
             <strong className={css['card-text-strong']}>Активність:</strong>{' '}
-            {data.babyActivity}
+            {dataBaby.activity}
           </p>
         </div>
       </div>
-      <p className={css['card-text']}>{data.babyDevelopment}</p>
+      <p className={css['card-text']}>{dataBaby.description}</p>
     </div>
   );
 };

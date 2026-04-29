@@ -19,6 +19,8 @@ export default function DashboardPage() {
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
+  console.log(data);
+
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
@@ -30,8 +32,8 @@ export default function DashboardPage() {
         currentWeek={data.currentWeek}
       />
       <div className='container'>
-        <BabyTodayCard currentWeek={data.currentWeek} />
-        <MomTipCard currentWeek={data.currentWeek} />
+        <BabyTodayCard dataBaby={data.baby} />
+        <MomTipCard currentTip={data.momDailyTips[0]} />
       </div>
     </>
   );
