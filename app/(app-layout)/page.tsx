@@ -46,7 +46,7 @@ export default function DashboardPage() {
                 router.push('/journey');
               }}
             />
-            {/*поки немає модалки, тому просто пушимо на сторінку щоденника, де вже буде кнопка для створення запису /*/}
+            {/*поки немає модалки, тому просто пушимо на сторінку подорожіу /*/}
             <FeelingCheckcard
               openAddDiaryEntryModal={() => {
                 router.push('/diary');
