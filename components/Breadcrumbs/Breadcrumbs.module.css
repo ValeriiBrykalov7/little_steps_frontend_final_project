@@ -1,4 +1,8 @@
-
+.nav{
+      padding-bottom: 16px;
+    padding-left: 32px;
+    padding-top: 24px;
+}
 .list {
   display: flex;
   align-items: center;
@@ -47,7 +51,7 @@
 /* Styles for desktop */
 @media only screen and (min-width: 1440px) {
   .nav {
-    padding-top: 24px;
+    padding-left: 0px;
   }
 }
 
