@@ -1,0 +1,121 @@
+.container {
+  width: 100%;
+}
+
+/* ---------- TABS ---------- */
+
+.tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 16px;
+}
+
+.tab {
+  padding-bottom: 8px;
+  font-size: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.tabActive {
+  border-bottom: 2px solid black;
+  color: black;
+  font-weight: 500;
+}
+
+/* ---------- GRID ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- CARD ---------- */
+
+.card {
+  padding: 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  background-color: #fff;
+}
+
+/* desktop fixed height */
+.cardFixed {
+  height: auto;
+  overflow-y: visible;
+}
+
+@media (min-width: 1024px) {
+  .cardFixed {
+    height: 200px;
+    overflow-y: auto;
+  }
+}
+
+/* baby big card */
+.cardBig {
+  height: auto;
+}
+
+@media (min-width: 1024px) {
+  .cardBig {
+    height: 400px;
+    overflow-y: auto;
+  }
+}
+
+/* ---------- IMAGE ---------- */
+
+.image {
+  width: 100%;
+  height: 192px;
+  object-fit: cover;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+
+/* ---------- TEXT ---------- */
+
+.text {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ---------- LIST ---------- */
+
+.list {
+  padding-left: 16px;
+}
+
+.listItem {
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+/* ---------- SECTION TITLE ---------- */
+
+.title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* ---------- LOADER WRAPPER ---------- */
+
+.loaderWrapper {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

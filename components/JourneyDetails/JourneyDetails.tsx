@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import css from './JourneyDetails.module.css';
@@ -56,8 +57,6 @@ export default function JourneyDetails({ weekNumber }: Props) {
 
   // 🔹 запит при зміні тижня або табу
   useEffect(() => {
-    setLoading(true);
-
     fetchJourneyData(weekNumber, activeTab).then((res) => {
       setData(res);
       setLoading(false);
@@ -69,7 +68,10 @@ export default function JourneyDetails({ weekNumber }: Props) {
       {/* Tabs */}
       <div className='flex gap-6 border-b mb-4'>
         <button
-          onClick={() => setActiveTab('baby')}
+          onClick={() => {
+            setActiveTab('baby');
+            setLoading(true);
+          }}
           className={`pb-2 ${
             activeTab === 'baby' ? 'border-b-2 border-black' : ''
           }`}
@@ -78,7 +80,10 @@ export default function JourneyDetails({ weekNumber }: Props) {
         </button>
 
         <button
-          onClick={() => setActiveTab('mother')}
+          onClick={() => {
+            setActiveTab('mother');
+            setLoading(true);
+          }}
           className={`pb-2 ${
             activeTab === 'mother' ? 'border-b-2 border-black' : ''
           }`}

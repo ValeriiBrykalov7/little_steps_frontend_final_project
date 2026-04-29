@@ -4,7 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
+import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 import { Loader } from '@/components/Loader/Loader';
+
 import css from './page.module.css';
 
 export default function DashboardPage() {
@@ -30,6 +32,7 @@ export default function DashboardPage() {
             daysToMeeting={data.daysToMeeting}
             currentWeek={data.currentWeek}
           />
+          <JourneyDetails weekNumber={data.currentWeek} />
         </div>
       </section>
     </>
