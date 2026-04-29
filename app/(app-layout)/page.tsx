@@ -5,6 +5,8 @@ import { getDashboardInfo } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import { Loader } from '@/components/Loader/Loader';
+import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
+import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
 
 export default function DashboardPage() {
@@ -30,6 +32,9 @@ export default function DashboardPage() {
             daysToMeeting={data.daysToMeeting}
             currentWeek={data.currentWeek}
           />
+
+          <BabyTodayCard dataBaby={data.baby} />
+          <MomTipCard currentTip={data.dailyAdvice} />
         </div>
       </section>
     </>
