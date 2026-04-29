@@ -6,7 +6,7 @@ export type StatusBlockProps = {
 
 const StatusBlock = ({ daysToMeeting, currentWeek }: StatusBlockProps) => {
   return (
-    <div className={`container ${css.status_block}`}>
+    <div className={` ${css.status_block}`}>
       <div className={css.status}>
         <h3 className={css.status_text_name}>Тиждень</h3>
         <h2 className={css.status_text}>{currentWeek}</h2>

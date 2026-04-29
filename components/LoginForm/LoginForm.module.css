@@ -95,7 +95,7 @@
   display: none;
 }
 
-p:last-child {
+.loginPrompt {
   margin-bottom: 0;
   display: flex;
   justify-content: center;
@@ -167,7 +167,7 @@ p:last-child {
   .input {
     height: 40px;
   }
-  p:last-child {
+  .loginPrompt {
     margin-bottom: 0;
     display: flex;
     justify-content: center;
