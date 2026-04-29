@@ -1,0 +1,63 @@
+.diaryListContainer{
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #fff4f6;
+    border-radius: 32px;
+}
+
+.diaryNavigation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.diaryNavigationTitle{
+    font-size: 18px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+}
+
+.diaryNavigationButton{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.diaryNavigationButtonText{
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.diaryNavigationButtonIcon{
+    display: flex;
+    align-items: center;
+}
+
+.diaryList{
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+@media screen and (min-width: 768px){
+
+}
+
+@media screen and (min-width: 1440px){
+    .diaryListContainer{
+        max-width: 389px;
+    }
+
+    .diaryNavigationTitle{
+        font-size: 20px;
+    }
+
+    .diaryNavigationButtonText{
+        font-size: 16px;
+    }
+}

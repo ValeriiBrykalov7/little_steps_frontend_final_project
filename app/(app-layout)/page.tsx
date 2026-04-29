@@ -54,7 +54,7 @@ export default function DashboardPage() {
               />
 
               <FeelingCheckcard
-                openAddDiaryEntryModal={() => {
+                openAddTaskModal={() => {
                   router.push('/diary');
                 }}
               />

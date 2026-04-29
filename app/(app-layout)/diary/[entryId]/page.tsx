@@ -1,17 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import DiaryEntryCard from '@/components/DiaryEntryCard/DiaryEntryCard';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { DiaryEntry } from '@/types/diary';
 import css from './page.module.css';
+import DiaryList from '@/components/DiaryList/DiaryList';
 
 const DiaryCurrentPage = () => {
-  const router = useRouter();
   const { isAuthenticated, isAuthChecked } = useAuthStore();
 
   const {
@@ -26,10 +24,6 @@ const DiaryCurrentPage = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  const handleClick = (card: DiaryEntry) => {
-    router.push(`/diary/${card._id}`);
-  };
-
   if (!isAuthChecked || (isAuthenticated && isLoading)) return <Loader />;
 
   return (
@@ -42,13 +36,7 @@ const DiaryCurrentPage = () => {
         )}
 
         <ul className={css.diaryList}>
-          {diaries.map((card) => (
-            <DiaryEntryCard
-              key={card._id}
-              card={card}
-              onClick={() => handleClick(card)}
-            />
-          ))}
+          <DiaryList diaries={diaries} />
         </ul>
       </div>
     </section>
