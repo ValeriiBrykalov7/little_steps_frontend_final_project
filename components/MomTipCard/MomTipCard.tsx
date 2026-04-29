@@ -1,5 +1,3 @@
-'use client';
-
 import { Loader } from '../Loader/Loader';
 import css from './MomTipCard.module.css';
 
