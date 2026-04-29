@@ -1,6 +1,6 @@
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
-// import WeekSelector from '@/components/WeekSelector';
+import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
+import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
 
 type Props = {
   params: {
@@ -9,13 +9,13 @@ type Props = {
 };
 
 export default function JourneyPage({ params }: Props) {
-  const { weekNumber } = params;
+  const weekNumber = Number(params.weekNumber);
 
   return (
-    <div className=''>
+    <div className='journeyWeek'>
       <GreetingBlock />
-      <WeekSelector currentWeek={Number(weekNumber)} />
-      <JourneyDetails weekNumber={Number(weekNumber)} />
+      <WeekSelector currentWeek={weekNumber} />
+      <JourneyDetails weekNumber={weekNumber} />
     </div>
   );
 }
