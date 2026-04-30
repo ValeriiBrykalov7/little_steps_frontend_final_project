@@ -1,7 +1,8 @@
 .nav {
-  margin: 32px;
-  margin-top: 16px;
-  margin-bottom: 24px;
+  margin-right: 32px;
+  margin-left: 32px;
+  margin-top: 0px;
+  margin-bottom: 16px;
 }
 .list {
   display: flex;
@@ -41,6 +42,13 @@
   display: block;
   stroke: var(--color-scheme-text);
   padding: 6.17px;
+}
+
+@media only screen and (min-width: 768px) {
+  .nav {
+    margin-top: 0px;
+    margin-bottom: 16px;
+  }
 }
 
 /* Styles for desktop */
