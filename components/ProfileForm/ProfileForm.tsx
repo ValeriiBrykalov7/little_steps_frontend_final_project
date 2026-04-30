@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { Gender } from '@/types/user';
 import { useProfileStore } from '@/lib/store/useProfileStore';
+import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
 
 export const ProfileForm = () => {
   const queryClient = useQueryClient();
@@ -23,6 +24,7 @@ export const ProfileForm = () => {
   return (
     <div className='form-wrapper'>
       <form onSubmit={(e) => e.preventDefault()}>
+        <ProfileAvatar/>
         <div className='form-field'>
           <label htmlFor='name'>{"Ім'я"}</label>
           <input

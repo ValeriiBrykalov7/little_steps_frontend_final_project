@@ -114,3 +114,14 @@ export const getAllDiaries = async () => {
 //
 //User
 //
+
+export const updateAvatar = async ( file:File) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
+  const response = await nextServer.put<{ avatarUrl: string }>('/users/me/avatar', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+}
