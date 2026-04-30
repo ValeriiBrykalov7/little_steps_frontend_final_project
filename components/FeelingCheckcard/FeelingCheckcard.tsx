@@ -4,11 +4,11 @@ import { useAuthStore } from '@/lib/store/authStore';
 import styles from './FeelingCheckcard.module.css';
 
 type FeelingCheckcardProps = {
-  openAddDiaryEntryModal: () => void;
+  openAddTaskModal: () => void;
 };
 
 export default function FeelingCheckcard({
-  openAddDiaryEntryModal,
+  openAddTaskModal,
 }: FeelingCheckcardProps) {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
@@ -17,7 +17,7 @@ export default function FeelingCheckcard({
     if (!isAuthenticated) {
       router.push('/auth/register');
     } else {
-      openAddDiaryEntryModal();
+      openAddTaskModal();
     }
   };
 

@@ -1,0 +1,91 @@
+.diaryListItem {
+  width: 303px;
+}
+
+.diaryButton {
+  display: block;
+  width: 100%;
+  padding: 16px;
+
+  border-radius: 16px;
+  background-color: var(--color-pastel-pink);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255, 203, 211, 0.55);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.diaryButton:hover,
+.diaryButton:focus-visible {
+  border-color: #ffcbd3;
+  background-color: var(--color-pastel-pink-light);
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(204, 162, 168, 0.38);
+}
+
+.diaryButton:active {
+  transform: translateY(0);
+  border-color: var(--color-pastel-pink-darkest);
+  background-color: var(--color-pastel-pink-dark);
+  box-shadow: 0 4px 12px rgba(204, 162, 168, 0.28);
+}
+
+.headerCard {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.dateInfo {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.emotionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.emotionListItem {
+  border-radius: 100px;
+  padding: 2px 12px;
+  background-color: var(--color-pastel-pink-lighter);
+  font-size: 14px;
+}
+
+@media only screen and (min-width: 768px) {
+  .diaryListItem {
+    width: 672px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .diaryListItem {
+    width: 357px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .dateInfo {
+    font-size: 14px;
+  }
+
+  .emotionListItem {
+    font-size: 16px;
+  }
+}

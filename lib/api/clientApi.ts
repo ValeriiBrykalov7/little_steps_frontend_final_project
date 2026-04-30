@@ -103,9 +103,12 @@ export const updateTask = async (
 //
 //Diaries
 //
-export const getAllDiary = async (): Promise<DiaryEntry[]> => {
-  const { data } = await nextServer.get<DiaryEntry[]>('/allDiary');
-  return data;
+
+export const getAllDiaries = async () => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<DiaryEntry[]>('/diaries/allDiary');
+    return data;
+  });
 };
 
 //

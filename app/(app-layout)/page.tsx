@@ -12,9 +12,13 @@ import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
 import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+
   const router = useRouter();
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
@@ -46,12 +50,12 @@ export default function DashboardPage() {
             <div className={css.dashboard_task_diary}>
               <TasksReminderCard
                 openAddTaskModal={() => {
-                  router.push('/journey');
+                  setIsAddTaskModalOpen(true);
                 }}
               />
-              {/*поки немає модалки, тому просто пушимо на сторінку подорожіу /*/}
+
               <FeelingCheckcard
-                openAddDiaryEntryModal={() => {
+                openAddTaskModal={() => {
                   router.push('/diary');
                 }}
               />
@@ -60,6 +64,10 @@ export default function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {isAddTaskModalOpen && (
+        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />
+      )}
     </>
   );
 }
