@@ -4,9 +4,13 @@
 
 .tabsList {
   display: flex;
-  gap: 24px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  max-width: 462px;
+  min-height: 40px;
+  margin: 0 auto 16px;
+  padding: 4px;
+  background: var(--color-pastel-pink-lightest);
+  border-radius: 100px;
 }
 
 .tabButton {
@@ -14,39 +18,43 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0 8px;
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 16px;
   margin: 0;
   background: transparent;
   border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
+  border-radius: 100px;
   box-shadow: none;
   cursor: pointer;
-  color: #6b7280;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: 500;
-  line-height: 1.5;
+  color: var(--color-scheme-text);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
   transform: none;
   transition:
+    background-color 0.2s ease,
     color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.tabButton:hover,
-.tabButton:focus-visible {
-  color: black;
-}
-
-.tabButton:focus-visible {
-  outline: 2px solid var(--color-scheme-accent);
-  outline-offset: 4px;
+    box-shadow 0.2s ease;
 }
 
 .tabButtonActive {
-  border-bottom-color: black;
-  color: black;
+  background: var(--color-pastel-pink-light);
+  color: var(--color-scheme-text);
   font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .tabsList {
+    min-height: 44px;
+  }
+
+  .tabButton {
+    min-height: 36px;
+    font-size: 14px;
+  }
 }
 
 .loaderWrapper {

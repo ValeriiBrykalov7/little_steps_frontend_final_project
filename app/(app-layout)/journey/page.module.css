@@ -3,6 +3,11 @@
   overflow-x: hidden;
 }
 
+.weekSelectorSlot {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
 @media only screen and (min-width: 1440px) {
   .journey {
     overflow-x: visible;

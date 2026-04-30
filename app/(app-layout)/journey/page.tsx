@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
-import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
 import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
+import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './page.module.css';
@@ -32,10 +32,10 @@ export default function JourneyPage() {
       <section className={css.journey}>
         <div className='container'>
           <GreetingBlock />
-          <WeekSelector currentWeek={data.currentWeek} />
-          <TasksReminderCard
-            openAddTaskModal={() => setIsAddTaskModalOpen(true)}
-          />
+          <div className={css.weekSelectorSlot}>
+            <WeekSelector currentWeek={data.currentWeek} />
+          </div>
+          <JourneyDetails weekNumber={data.currentWeek} />
         </div>
       </section>
 
