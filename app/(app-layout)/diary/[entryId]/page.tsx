@@ -1,16 +1,20 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { DiaryEntry } from '@/types/diary';
 import css from './page.module.css';
+import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
 import DiaryList from '@/components/DiaryList/DiaryList';
 
 const DiaryCurrentPage = () => {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
+  const params = useParams<{ entryId: string }>();
+  const entryId = params?.entryId;
 
   const {
     data: diaries = [],
@@ -26,6 +30,8 @@ const DiaryCurrentPage = () => {
 
   if (!isAuthChecked || (isAuthenticated && isLoading)) return <Loader />;
 
+  const currentEntry = diaries.find((entry) => entry._id === entryId);
+
   return (
     <section className={css.diary}>
       <GreetingBlock />
@@ -34,10 +40,20 @@ const DiaryCurrentPage = () => {
         {!isError && diaries.length === 0 && (
           <p>Наразі записи у щоденнику відсутні</p>
         )}
+        {!isError && diaries.length > 0 && !currentEntry && <p>Запис не знайдено</p>}
 
-        <ul className={css.diaryList}>
-          <DiaryList diaries={diaries} />
-        </ul>
+        {!isError && diaries.length > 0 && currentEntry && (
+          <div className={css.content}>
+            <div className={css.desktopList}>
+              <DiaryList diaries={diaries} />
+            </div>
+            <DiaryEntryDetails
+              entry={currentEntry}
+              onEdit={() => {}}
+              onDelete={() => {}}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

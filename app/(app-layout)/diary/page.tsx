@@ -1,6 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
@@ -11,6 +13,7 @@ import DiaryList from '@/components/DiaryList/DiaryList';
 
 const DiaryListPage = () => {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
+  const router = useRouter();
 
   const {
     data: diaries = [],
@@ -23,6 +26,13 @@ const DiaryListPage = () => {
     enabled: isAuthChecked && isAuthenticated,
     staleTime: 1000 * 60 * 5,
   });
+
+  useEffect(() => {
+    if (isError || diaries.length === 0) return;
+    if (!window.matchMedia('(min-width: 1440px)').matches) return;
+
+    router.replace(`/diary/${diaries[0]._id}`);
+  }, [diaries, isError, router]);
 
   if (!isAuthChecked || (isAuthenticated && isLoading)) return <Loader />;
 
