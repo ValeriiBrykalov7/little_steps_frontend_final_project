@@ -114,3 +114,10 @@ export const getAllDiaries = async () => {
 //
 //User
 //
+
+export const updateProfile = async (data: Partial<User>) => {
+  return requestWithAuthRefresh(async () => {
+    const { data: responseData } = await nextServer.patch('/api/user/me', data);
+    return responseData;
+  });
+};

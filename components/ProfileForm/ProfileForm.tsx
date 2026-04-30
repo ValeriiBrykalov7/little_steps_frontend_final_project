@@ -1,24 +1,35 @@
 'use client';
-
+import * as yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { Gender } from '@/types/user';
 import { useProfileStore } from '@/lib/store/useProfileStore';
+import { updateProfile } from '@/lib/api/clientApi';
+import { yupToFormErrors } from 'formik';
+import { profileSchema } from '@/lib/validation/FormShema';
 
 export const ProfileForm = () => {
   const queryClient = useQueryClient();
   const { formData, updateForm, resetProfile } = useProfileStore();
 
   const { mutate: saveProfile, isPending } = useMutation({
-    mutationFn: async (data: typeof formData) => {
-      const response = await axios.patch('/api/user/me', data);
-      return response.data;
-    },
+    mutationFn: updateProfile,
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['currentUser'], updatedUser);
       // alert
     },
   });
+
+  const handleSave = async () => {
+    try {
+      await profileSchema.validate(formData, { abortEarly: false });
+
+      saveProfile(formData);
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        alert(err.inner[0].message);
+      }
+    }
+  };
 
   return (
     <div className='form-wrapper'>
@@ -76,7 +87,7 @@ export const ProfileForm = () => {
           <button
             type='button'
             className='btn-save'
-            onClick={() => saveProfile(formData)}
+            onClick={handleSave}
             disabled={isPending}
           >
             {isPending ? 'Збереження...' : 'Зберегти зміни'}
