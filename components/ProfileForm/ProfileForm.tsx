@@ -6,7 +6,6 @@ import { useProfileStore } from '@/lib/store/useProfileStore';
 import { updateProfile } from '@/lib/api/clientApi';
 import { profileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
-import { Loader } from '../Loader/Loader';
 
 const getCleanData = (data: Partial<User>): Partial<User> => {
   const cleanData: Partial<User> = {};
@@ -102,7 +101,7 @@ export const ProfileForm = () => {
           />
         </div>
 
-        <div className='btn-cncl'>
+        <div className='btn-cnlc'>
           <button type='button' className='btn-cancel' onClick={resetProfile}>
             Відмінити зміни
           </button>
@@ -113,7 +112,7 @@ export const ProfileForm = () => {
             onClick={() => saveProfile(formData)}
             disabled={isPending}
           >
-            {isPending} ? <Loader />
+            {isPending ? 'Збереження...' : 'Зберегти зміни'}
           </button>
         </div>
       </form>
