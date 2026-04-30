@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { getAllTasks, updateTask } from '@/lib/api/clientApi';
-import Image from 'next/image';
 import styles from './TaskReminderCard.module.css';
 import { Task } from '@/types/task';
 import { Loader } from '../Loader/Loader';

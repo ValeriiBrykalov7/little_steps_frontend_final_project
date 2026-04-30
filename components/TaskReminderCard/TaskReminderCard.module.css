@@ -228,7 +228,12 @@
   .taskText {
     font-size: 14px;
   }
-
+  .textTitle {
+    font-size: 16px;
+  }
+  .texttasks {
+    font-size: 16px;
+  }
   .taskTextDone {
     font-size: 16px;
   }
@@ -240,5 +245,6 @@
   .createTaskButton {
     width: 191px;
     height: 46px;
+    font-size: 16px;
   }
 }

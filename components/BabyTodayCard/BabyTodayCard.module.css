@@ -115,20 +115,18 @@
 
 @media only screen and (min-width: 1440px) {
   .card {
-    justify-content: flex-start;
-    padding: 24px;
-    max-width: 642px;
-    margin-bottom: 16px;
-    gap: 0;
+    width: 642px;
+    margin: 0;
   }
-
+  .container_card {
+    margin: 0;
+    margin-top: 32px;
+  }
   .cardTitle {
     font-weight: 700;
     font-size: 24px;
-
     line-height: 1.4;
     letter-spacing: 0.01em;
-    margin-bottom: 16px;
   }
 
   .cardTextStrong {
@@ -137,10 +135,6 @@
 
   .cardText {
     font-size: 16px;
-  }
-
-  .container_card {
-    padding: 0 32px 0 0;
   }
 
   .cardSubcontainer {

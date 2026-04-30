@@ -24,4 +24,7 @@
   .greeting_text {
     font-size: 32px;
   }
+  .greeting_block {
+    margin: 0;
+  }
 }

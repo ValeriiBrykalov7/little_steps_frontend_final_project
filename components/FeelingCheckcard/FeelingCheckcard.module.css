@@ -89,10 +89,16 @@
   .card h3 {
     font-size: 24px;
   }
-
+  .noDiaryTitle {
+    font-size: 16px;
+  }
+  .noDiaryText {
+    font-size: 16px;
+  }
   .createDiaryButton {
     width: 250px;
     height: 46px;
+    font-size: 16px;
   }
 
   .noDiary {
