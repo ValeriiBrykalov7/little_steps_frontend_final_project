@@ -24,10 +24,10 @@ export default function FeelingCheckcard({
   return (
     <div className={styles.card}>
       <div className={styles.content}>
-        <h3>Як ви себе почуваєте?</h3>
+        <h3 className={styles.contentText}>Як ви себе почуваєте?</h3>
         <div className={styles.noDiary}>
-          <h4>Рекомендація на сьогодні:</h4>
-          <p>Занотуйте незвичні відчуття у тілі.</p>
+          <h4 className={styles.noDiaryTitle}>Рекомендація на сьогодні:</h4>
+          <p className={styles.noDiaryText}>Занотуйте незвичні відчуття у тілі.</p>
         </div>
       </div>
       <button

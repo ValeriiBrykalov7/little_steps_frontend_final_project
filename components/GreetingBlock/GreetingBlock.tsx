@@ -8,7 +8,9 @@ const GreetingBlock = () => {
     <div className={`container ${css.greeting_block}`}>
       {' '}
       {isAuthenticated ? (
-        <p className={css.greeting_text}>Доброго ранку, {user?.username}! </p>
+         <p className={css.greeting_text}>
+        Доброго ранку, {user?.username ? (user.username.charAt(0).toUpperCase() + user.username.slice(1).toLowerCase()) : 'Гість'}!
+      </p>
       ) : (
         <p className={css.greeting_text}>Доброго ранку, гість!</p>
       )}
