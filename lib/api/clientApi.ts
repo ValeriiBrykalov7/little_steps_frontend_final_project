@@ -3,6 +3,8 @@ import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
 import { DiaryEntry } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
+import type { Baby } from '@/types/baby';
+import type { Mom } from '@/types/mom';
 
 export { nextServer };
 
@@ -68,6 +70,16 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
     const response = await nextServer.get(endpoint);
     return response.data;
   });
+};
+
+export const getBabyWeekInfo = async (weekNumber: number) => {
+  const { data } = await nextServer.get<Baby>(`/weeks/baby/${weekNumber}`);
+  return data;
+};
+
+export const getMomWeekInfo = async (weekNumber: number) => {
+  const { data } = await nextServer.get<Mom>(`/weeks/mom/${weekNumber}`);
+  return data;
 };
 
 //

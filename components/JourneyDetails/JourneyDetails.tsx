@@ -1,142 +1,162 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import styles from './JourneyDetails.module.css';
+import Image from 'next/image';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getBabyWeekInfo, getMomWeekInfo } from '@/lib/api/clientApi';
+import type { Baby } from '@/types/baby';
+import type { Mom } from '@/types/mom';
 import { Loader } from '@/components/Loader/Loader';
-// import TasksReminderCard from '@/components/TasksReminderCard/TasksReminderCard';
-
-// -------- TYPES --------
-type JourneyData = {
-  baby: {
-    image: string;
-    textBlocks: string[];
-  };
-  mother: {
-    feelings: string;
-    tips: string[];
-  };
-  tasks: string[];
-};
+import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
+import styles from './JourneyDetails.module.css';
 
 type Props = {
   weekNumber: number;
 };
 
-async function fetchJourneyData(weekNumber: number): Promise<JourneyData> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        baby: {
-          image: '/baby.png',
-          textBlocks: [
-            `Тиждень ${weekNumber}: малюк активно росте`,
-            'Формуються органи та системи',
-            'Збільшується рухова активність',
-          ],
-        },
-        mother: {
-          feelings: 'Можлива втома, перепади настрою, підвищена чутливість',
-          tips: [
-            'Більше відпочивайте',
-            'Пийте достатньо води',
-            'Уникайте стресу',
-            'Уникайте стресу',
-          ],
-        },
-        tasks: ['Візит до лікаря', 'Здати аналізи'],
-      });
-    }, 1000);
-  });
-}
+type ActiveTab = 'baby' | 'mother';
 
-// -------- COMPONENT --------
+const STALE_TIME = 1000 * 60 * 5;
+
 export default function JourneyDetails({ weekNumber }: Props) {
-  const [activeTab, setActiveTab] = useState<'baby' | 'mother'>('baby');
-  const [data, setData] = useState<JourneyData | null>(null);
-  const loading = data === null;
+  const [activeTab, setActiveTab] = useState<ActiveTab>('baby');
 
-  useEffect(() => {
-    let isMounted = true;
+  const babyQuery = useQuery<Baby>({
+    queryKey: ['journeyDetails', 'baby', weekNumber],
+    queryFn: () => getBabyWeekInfo(weekNumber),
+    enabled: activeTab === 'baby',
+    staleTime: STALE_TIME,
+  });
 
-    fetchJourneyData(weekNumber).then((res) => {
-      if (isMounted) {
-        setData(res);
-      }
-    });
+  const momQuery = useQuery<Mom>({
+    queryKey: ['journeyDetails', 'mom', weekNumber],
+    queryFn: () => getMomWeekInfo(weekNumber),
+    enabled: activeTab === 'mother',
+    staleTime: STALE_TIME,
+  });
 
-    return () => {
-      isMounted = false;
-    };
-  }, [weekNumber, activeTab]);
+  const isLoading =
+    activeTab === 'baby'
+      ? babyQuery.isLoading || babyQuery.isFetching
+      : momQuery.isLoading || momQuery.isFetching;
+
+  const hasError = activeTab === 'baby' ? babyQuery.isError : momQuery.isError;
+
+  const renderBabyTab = () => {
+    const baby = babyQuery.data;
+
+    if (!baby) return null;
+
+    const babyTextBlocks = [
+      baby.babyDevelopment,
+      `Розмір: приблизно ${baby.babySize} см`,
+      `Вага: близько ${baby.babyWeight} г`,
+      `Активність: ${baby.babyActivity}`,
+      baby.interestingFact,
+    ].filter(Boolean);
+
+    return (
+      <div className={styles.babyCard}>
+        {baby.image && (
+          <Image
+            className={styles.babyImage}
+            src={baby.image}
+            alt={
+              baby.analogy ||
+              `Ілюстрація розвитку малюка на ${weekNumber} тижні`
+            }
+            width={640}
+            height={360}
+            priority
+          />
+        )}
+
+        <div className={styles.babyTextList}>
+          {babyTextBlocks.map((text) => (
+            <p key={text}>{text}</p>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderMotherTab = () => {
+    const mom = momQuery.data;
+
+    if (!mom) return null;
+
+    return (
+      <div className={styles.motherGrid}>
+        <div className={styles.motherContent}>
+          <div className={styles.infoCard}>
+            <h3 className={styles.infoCardTitle}>Як ви можете почуватись</h3>
+            <p>{mom.feelings.sensationDescr}</p>
+
+            {mom.feelings.states.length > 0 && (
+              <ul className={styles.statesList}>
+                {mom.feelings.states.map((state) => (
+                  <li className={styles.tipsItem} key={state}>
+                    {state}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className={styles.infoCard}>
+            <h3 className={styles.infoCardTitle}>Поради для вашого комфорту</h3>
+            <ul className={styles.tipsList}>
+              {mom.comfortTips.map(({ category, tip }) => (
+                <li className={styles.tipsItem} key={`${category}-${tip}`}>
+                  <strong>{category}: </strong>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className={styles.tasksColumn}>
+          <TasksReminderCard />
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className={styles.container}>
-      {/* -------- Tabs -------- */}
-      <div className={styles.tabs}>
+    <div className={styles.journeyDetails}>
+      <div className={styles.tabsList}>
         <button
+          type='button'
           onClick={() => setActiveTab('baby')}
-          className={`${styles.tab} ${
-            activeTab === 'baby' ? styles.active : ''
+          className={`${styles.tabButton} ${
+            activeTab === 'baby' ? styles.tabButtonActive : ''
           }`}
         >
           Розвиток малюка
         </button>
 
         <button
+          type='button'
           onClick={() => setActiveTab('mother')}
-          className={`${styles.tab} ${
-            activeTab === 'mother' ? styles.active : ''
+          className={`${styles.tabButton} ${
+            activeTab === 'mother' ? styles.tabButtonActive : ''
           }`}
         >
           Тіло мами
         </button>
       </div>
 
-      {/* -------- Loader / Content -------- */}
-      {loading ? (
-        <div className={styles.loader}>
+      {isLoading ? (
+        <div className={styles.loaderWrapper}>
           <Loader />
         </div>
+      ) : hasError ? (
+        <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
+      ) : activeTab === 'baby' ? (
+        renderBabyTab()
       ) : (
-        data && (
-          <>
-            {/* ---------- BABY ---------- */}
-            {activeTab === 'baby' && (
-              <div className={styles.cardBig} style={{ position: 'relative' }}>
-                <div className={styles.textWrapper}>
-                  {data.baby.textBlocks.map((text, i) => (
-                    <p key={i}>{text}</p>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* ---------- MOTHER ---------- */}
-            {activeTab === 'mother' && (
-              <div className={styles.grid}>
-                <div className={styles.leftColumn}>
-                  <div className={styles.card}>
-                    <h3>Як ви можете почуватись</h3>
-                    <p>{data.mother.feelings}</p>
-                  </div>
-
-                  <div className={styles.card}>
-                    <h3>Поради для вашого комфорту</h3>
-                    <ul>
-                      {data.mother.tips.map((tip, i) => (
-                        <li key={i}>{tip}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className={styles.rightColumn}>
-                  {/* <TasksReminderCard tasks={data.tasks} /> */}
-                </div>
-              </div>
-            )}
-          </>
-        )
+        renderMotherTab()
       )}
     </div>
   );
