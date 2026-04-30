@@ -7,9 +7,11 @@ import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
 import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
-import { getDashboardInfo } from '@/lib/api/clientApi';
+import { getDashboardInfo, createTask } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './page.module.css';
+import type { CreateTaskRequest } from '@/types/task';
+import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
 
 export default function JourneyPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -26,7 +28,9 @@ export default function JourneyPage() {
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
-
+  const handleCreateTask = async (task: CreateTaskRequest) => {
+        await createTask(task);
+  };
   return (
     <>
       <section className={css.journey}>
@@ -40,7 +44,9 @@ export default function JourneyPage() {
       </section>
 
       {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />
+          <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
+            <AddTaskForm onSubmit={handleCreateTask} onClose={() => setIsAddTaskModalOpen(false)} />
+          </AddTaskModal>
       )}
     </>
   );

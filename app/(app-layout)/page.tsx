@@ -34,8 +34,9 @@ export default function DashboardPage() {
   if (!data) return <div>No data found.</div>;
 
   const handleCreateTask = async (task: CreateTaskRequest) => {
-  await createTask(task);
-};
+      await createTask(task);
+  };
+  
   return (
     <>
       <section className={css.dashboard}>
