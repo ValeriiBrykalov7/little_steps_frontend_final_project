@@ -1,35 +1,50 @@
 'use client';
-import * as yup from 'yup';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Gender } from '@/types/user';
+import { Gender, User } from '@/types/user';
 import { useProfileStore } from '@/lib/store/useProfileStore';
 import { updateProfile } from '@/lib/api/clientApi';
-import { yupToFormErrors } from 'formik';
 import { profileSchema } from '@/lib/validation/FormShema';
+
+const getCleanData = (data: Partial<User>): Partial<User> => {
+  const cleanData: Partial<User> = {};
+
+  if (data.username?.trim()) cleanData.username = data.username.trim();
+  if (data.email?.trim()) cleanData.email = data.email.trim();
+  if (data.gender && data.gender !== 'null')
+    cleanData.gender = data.gender as Gender;
+  if (data.dueDate) cleanData.dueDate = data.dueDate;
+
+  return cleanData;
+};
 
 export const ProfileForm = () => {
   const queryClient = useQueryClient();
   const { formData, updateForm, resetProfile } = useProfileStore();
 
-  const { mutate: saveProfile, isPending } = useMutation({
-    mutationFn: updateProfile,
+  const { mutate: saveProfile, isPending } = useMutation<
+    User,
+    Error,
+    Partial<User>
+  >({
+    mutationFn: async (data: Partial<User>) => {
+      const payload = getCleanData(data);
+
+      if (Object.keys(payload).length > 0) {
+        await profileSchema.validate(payload, { abortEarly: false });
+      } else {
+        alert('Ви не ввели жодних даних');
+        return Promise.reject('Empty');
+      }
+
+      return updateProfile(payload);
+    },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['currentUser'], updatedUser);
-      // alert
+      resetProfile();
+      alert('Дані успішно змінено!');
     },
   });
-
-  const handleSave = async () => {
-    try {
-      await profileSchema.validate(formData, { abortEarly: false });
-
-      saveProfile(formData);
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        alert(err.inner[0].message);
-      }
-    }
-  };
 
   return (
     <div className='form-wrapper'>
@@ -39,8 +54,8 @@ export const ProfileForm = () => {
           <input
             id='name'
             type='text'
-            value={formData.name}
-            onChange={(e) => updateForm({ name: e.target.value })}
+            value={formData.username}
+            onChange={(e) => updateForm({ username: e.target.value })}
             placeholder="Введіть ім'я"
           />
         </div>
@@ -87,7 +102,7 @@ export const ProfileForm = () => {
           <button
             type='button'
             className='btn-save'
-            onClick={handleSave}
+            onClick={() => saveProfile(formData)}
             disabled={isPending}
           >
             {isPending ? 'Збереження...' : 'Зберегти зміни'}

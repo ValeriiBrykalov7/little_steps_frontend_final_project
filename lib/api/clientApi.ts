@@ -117,7 +117,7 @@ export const getAllDiaries = async () => {
 
 export const updateProfile = async (data: Partial<User>) => {
   return requestWithAuthRefresh(async () => {
-    const { data: responseData } = await nextServer.patch('/api/user/me', data);
+    const { data: responseData } = await nextServer.patch('/users/me', data);
     return responseData;
   });
 };
