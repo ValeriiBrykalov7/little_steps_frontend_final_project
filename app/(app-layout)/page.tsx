@@ -1,7 +1,7 @@
 'use client';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useQuery } from '@tanstack/react-query';
-import { getDashboardInfo } from '@/lib/api/clientApi';
+import { getDashboardInfo, createTask  } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
@@ -10,9 +10,11 @@ import { Loader } from '@/components/Loader/Loader';
 import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
 import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
+import type { CreateTaskRequest } from '@/types/task';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
+import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
@@ -30,6 +32,10 @@ export default function DashboardPage() {
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
+
+  const handleCreateTask = async (task: CreateTaskRequest) => {
+  await createTask(task);
+};
   return (
     <>
       <section className={css.dashboard}>
@@ -65,7 +71,9 @@ export default function DashboardPage() {
       </section>
 
       {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />
+        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
+          <AddTaskForm onSubmit={handleCreateTask} onClose={() => setIsAddTaskModalOpen(false)} />
+        </AddTaskModal>
       )}
     </>
   );
