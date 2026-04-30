@@ -5,6 +5,8 @@ import { Gender, User } from '@/types/user';
 import { useProfileStore } from '@/lib/store/useProfileStore';
 import { updateProfile } from '@/lib/api/clientApi';
 import { profileSchema } from '@/lib/validation/FormShema';
+import { useAuthStore } from '@/lib/store/authStore';
+import { Loader } from '../Loader/Loader';
 
 const getCleanData = (data: Partial<User>): Partial<User> => {
   const cleanData: Partial<User> = {};
@@ -21,6 +23,8 @@ const getCleanData = (data: Partial<User>): Partial<User> => {
 export const ProfileForm = () => {
   const queryClient = useQueryClient();
   const { formData, updateForm, resetProfile } = useProfileStore();
+
+  const setUser = useAuthStore((state) => state.setUser);
 
   const { mutate: saveProfile, isPending } = useMutation<
     User,
@@ -41,6 +45,10 @@ export const ProfileForm = () => {
     },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['currentUser'], updatedUser);
+      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+
+      setUser(updatedUser);
+
       resetProfile();
       alert('Дані успішно змінено!');
     },
@@ -94,7 +102,7 @@ export const ProfileForm = () => {
           />
         </div>
 
-        <div className='form-btn'>
+        <div className='btn-cncl'>
           <button type='button' className='btn-cancel' onClick={resetProfile}>
             Відмінити зміни
           </button>
@@ -105,7 +113,7 @@ export const ProfileForm = () => {
             onClick={() => saveProfile(formData)}
             disabled={isPending}
           >
-            {isPending ? 'Збереження...' : 'Зберегти зміни'}
+            {isPending} ? <Loader />
           </button>
         </div>
       </form>
