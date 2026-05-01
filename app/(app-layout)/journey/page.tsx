@@ -6,16 +6,12 @@ import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
-<<<<<<< HEAD
-import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
-import { getDashboardInfo } from '@/lib/api/clientApi';
-=======
 import { getDashboardInfo, createTask } from '@/lib/api/clientApi';
->>>>>>> d5f7727eab9720911432c75bf0efa8108fd2a763
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './page.module.css';
 import type { CreateTaskRequest } from '@/types/task';
 import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
+import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 
 export default function JourneyPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();

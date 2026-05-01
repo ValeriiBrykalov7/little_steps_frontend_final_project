@@ -29,10 +29,6 @@
   box-shadow: none;
   cursor: pointer;
   color: var(--color-scheme-text);
-  font-family: var(--font-family);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.4;
   transform: none;
   transition:
     background-color 0.2s ease,
@@ -65,33 +61,90 @@
 }
 
 .babyCard {
-  background: #fdf2f4;
-  border-radius: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  width: 100%;
+  background: var(--color-pastel-pink-lighter);
+  border-radius: 24px;
   padding: 20px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
-@media (min-width: 1024px) {
-  .babyCard {
-    height: 400px;
-    overflow-y: auto;
-  }
+.babyVisualColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.babyImageFrame {
+  width: 100%;
+  aspect-ratio: 420 / 345;
+  overflow: hidden;
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 20px;
+  background: var(--color-oasis-lightest);
 }
 
 .babyImage {
   width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 12px;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.babyCaption {
+  font-size: 14px;
+  color: var(--color-scheme-text);
+}
+
+.babyContentColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
 }
 
 .babyTextList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+}
+
+.factCard {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 10px;
+  background: var(--color-pastel-pink-light);
+}
+
+.factTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.factIcon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: var(--color-scheme-text);
+}
+
+.factTitle {
+  margin: 0;
+}
+
+.factText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-scheme-text);
 }
 
 .motherGrid {
@@ -101,8 +154,25 @@
 }
 
 @media (min-width: 1024px) {
+  .babyCard {
+    grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 32px;
+    padding: 22px;
+  }
+
   .babyImage {
-    height: 260px;
+    height: 100%;
+  }
+
+  .babyTextList,
+  .factText {
+    font-size: 16px;
+  }
+
+  .babyCaption,
+  .factTitle {
+    font-size: 16px;
   }
 
   .motherGrid {

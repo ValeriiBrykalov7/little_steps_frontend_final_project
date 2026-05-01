@@ -18,6 +18,14 @@ type ActiveTab = 'baby' | 'mother';
 
 const STALE_TIME = 1000 * 60 * 5;
 
+const splitTextBlocks = (text?: string) =>
+  text
+    ? text
+        .split(/\n+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+
 export default function JourneyDetails({ weekNumber }: Props) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('baby');
 
@@ -47,34 +55,69 @@ export default function JourneyDetails({ weekNumber }: Props) {
 
     if (!baby) return null;
 
-    const babyTextBlocks = [
-      baby.babyDevelopment,
-      `Розмір: приблизно ${baby.babySize} см`,
-      `Вага: близько ${baby.babyWeight} г`,
-      `Активність: ${baby.babyActivity}`,
-      baby.interestingFact,
-    ].filter(Boolean);
+    const babyDevelopmentBlocks = splitTextBlocks(baby.babyDevelopment);
+    const interestingFactBlocks = splitTextBlocks(baby.interestingFact);
 
     return (
       <div className={styles.babyCard}>
-        {baby.image && (
-          <Image
-            className={styles.babyImage}
-            src={baby.image}
-            alt={
-              baby.analogy ||
-              `Ілюстрація розвитку малюка на ${weekNumber} тижні`
-            }
-            width={640}
-            height={360}
-            priority
-          />
-        )}
+        <div className={styles.babyVisualColumn}>
+          {baby.image && (
+            <div className={styles.babyImageFrame}>
+              <Image
+                className={styles.babyImage}
+                src={baby.image}
+                alt={
+                  baby.analogy ||
+                  `Ілюстрація розвитку малюка на ${weekNumber} тижні`
+                }
+                width={640}
+                height={360}
+                priority
+              />
+            </div>
+          )}
 
-        <div className={styles.babyTextList}>
-          {babyTextBlocks.map((text) => (
-            <p key={text}>{text}</p>
-          ))}
+          {baby.analogy && (
+            <p className={styles.babyCaption}>
+              Ваш малюк зараз розміром з {baby.analogy}
+            </p>
+          )}
+        </div>
+
+        <div className={styles.babyContentColumn}>
+          <div className={styles.babyTextList}>
+            {babyDevelopmentBlocks.map((text, index) => (
+              <p key={`${text}-${index}`}>{text}</p>
+            ))}
+          </div>
+
+          {interestingFactBlocks.length > 0 && (
+            <div className={styles.factCard}>
+              <div className={styles.factTitleRow}>
+                <svg
+                  className={styles.factIcon}
+                  viewBox='0 0 24 24'
+                  aria-hidden='true'
+                >
+                  <path
+                    d='M12 2.5l1.55 5.23 4.95-2.31-2.31 4.95L21.5 12l-5.31 1.63 2.31 4.95-4.95-2.31L12 21.5l-1.55-5.23-4.95 2.31 2.31-4.95L2.5 12l5.31-1.63L5.5 5.42l4.95 2.31L12 2.5z'
+                    fill='none'
+                    stroke='currentColor'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='1.8'
+                  />
+                </svg>
+                <h3 className={styles.factTitle}>Цікавий факт тижня</h3>
+              </div>
+
+              <div className={styles.factText}>
+                {interestingFactBlocks.map((text, index) => (
+                  <p key={`${text}-${index}`}>{text}</p>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
