@@ -122,9 +122,9 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
 //User
 //
 
-export const updateUser = async (formData: FormData) => {
+export const updateUser = async (payload: Partial<User>): Promise<User> => {
   return requestWithAuthRefresh(async () => {
-    const { data } = await nextServer.patch<User>('/users/me', formData);
+    const { data } = await nextServer.patch<User>('/users/me', payload);
     return data;
   });
 };

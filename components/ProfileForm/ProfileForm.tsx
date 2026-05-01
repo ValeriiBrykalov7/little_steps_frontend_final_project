@@ -6,6 +6,7 @@ import { profileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
 import { updateUser } from '@/lib/api/clientApi';
 import { User } from '@/types/user';
+import dayjs from 'dayjs';
 
 type ProfileFormValues = Partial<User>;
 
@@ -16,7 +17,7 @@ export const ProfileForm = () => {
 
   const { mutate: saveProfile, isPending } = useMutation({
     mutationFn: (values: ProfileFormValues) => {
-      const formData = new FormData();
+      const payload: Partial<User> = {};
 
       (Object.keys(values) as Array<keyof ProfileFormValues>).forEach((key) => {
         const newValue = values[key];
@@ -29,16 +30,19 @@ export const ProfileForm = () => {
           newValue !== undefined &&
           newValue !== null
         ) {
-          formData.append(key, String(newValue));
+          if (key === 'dueDate' && typeof newValue === 'string') {
+            payload[key] = dayjs(newValue).toISOString();
+          } else {
+            (payload[key] as typeof newValue) = newValue;
+          }
         }
       });
 
-      const hasData = Array.from(formData.keys()).length > 0;
-      if (!hasData) {
-        return Promise.reject(new Error('Ви не змінили жодних даних'));
+      if (Object.keys(payload).length === 0) {
+        return Promise.reject(new Error('Змін не виявлено'));
       }
 
-      return updateUser(formData);
+      return updateUser(payload);
     },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['currentUser'], updatedUser);
