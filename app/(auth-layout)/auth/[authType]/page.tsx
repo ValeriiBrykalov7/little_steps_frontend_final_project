@@ -1,6 +1,5 @@
 'use client';
 import LoginForm from '@/components/LoginForm/LoginForm';
-import styles from './page.module.css';
 import { notFound, useParams } from 'next/navigation';
 import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
 

@@ -21,6 +21,12 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface UpdateUserRequest {
+  photo: File | null;
+  gender?: string;
+  dueDate?: string | null;
+}
+
 //
 // Auth
 //
@@ -115,3 +121,10 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
 //
 //User
 //
+
+export const updateUser = async (formData: FormData) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.patch<User>('/users/me', formData);
+    return data;
+  });
+};
