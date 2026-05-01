@@ -58,6 +58,11 @@ export default function JourneyDetails({ weekNumber }: Props) {
     const babyDevelopmentBlocks = splitTextBlocks(baby.babyDevelopment);
     const interestingFactBlocks = splitTextBlocks(baby.interestingFact);
 
+    const babyAnalogy = baby.analogy?.trim();
+    const babyCaption = babyAnalogy
+      ? `Ваш малюк зараз розміром з ${babyAnalogy}`
+      : 'Ваш малюк зараз ще на дуже ранньому етапі розвитку';
+
     return (
       <div className={styles.babyCard}>
         <div className={styles.babyVisualColumn}>
@@ -77,11 +82,7 @@ export default function JourneyDetails({ weekNumber }: Props) {
             </div>
           )}
 
-          {baby.analogy && (
-            <p className={styles.babyCaption}>
-              Ваш малюк зараз розміром з {baby.analogy}
-            </p>
-          )}
+          <p className={styles.babyCaption}>{babyCaption}</p>
         </div>
 
         <div className={styles.babyContentColumn}>
@@ -94,19 +95,8 @@ export default function JourneyDetails({ weekNumber }: Props) {
           {interestingFactBlocks.length > 0 && (
             <div className={styles.factCard}>
               <div className={styles.factTitleRow}>
-                <svg
-                  className={styles.factIcon}
-                  viewBox='0 0 24 24'
-                  aria-hidden='true'
-                >
-                  <path
-                    d='M12 2.5l1.55 5.23 4.95-2.31-2.31 4.95L21.5 12l-5.31 1.63 2.31 4.95-4.95-2.31L12 21.5l-1.55-5.23-4.95 2.31 2.31-4.95L2.5 12l5.31-1.63L5.5 5.42l4.95 2.31L12 2.5z'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='1.8'
-                  />
+                <svg className={styles.factIcon}>
+                  <use href='/sprite.svg#star-shine'></use>
                 </svg>
                 <h3 className={styles.factTitle}>Цікавий факт тижня</h3>
               </div>
