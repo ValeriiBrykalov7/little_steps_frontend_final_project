@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { login } from '@/lib/api/clientApi';
+import GoogleAuthButton from '../GoogleAuthButton/GoogleAuthButton';
 
 interface FormValues {
   email: string;
@@ -106,8 +107,8 @@ export default function LoginForm() {
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Завантаження...' : 'Увійти'}
-                </button>
-
+                </button>           
+                  <GoogleAuthButton />
                 <p className={styles.loginPrompt}>
                   Немає аккаунту?{' '}
                   <Link href='/auth/register' className={styles.loginLink}>
