@@ -1,121 +1,130 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Gender, User } from '@/types/user';
-import { useProfileStore } from '@/lib/store/useProfileStore';
-import { updateProfile } from '@/lib/api/clientApi';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { profileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
+import { updateUser } from '@/lib/api/clientApi';
+import { User } from '@/types/user';
 
-const getCleanData = (data: Partial<User>): Partial<User> => {
-  const cleanData: Partial<User> = {};
-
-  if (data.username?.trim()) cleanData.username = data.username.trim();
-  if (data.email?.trim()) cleanData.email = data.email.trim();
-  if (data.gender && data.gender !== 'null')
-    cleanData.gender = data.gender as Gender;
-  if (data.dueDate) cleanData.dueDate = data.dueDate;
-
-  return cleanData;
-};
+type ProfileFormValues = Partial<User>;
 
 export const ProfileForm = () => {
   const queryClient = useQueryClient();
-  const { formData, updateForm, resetProfile } = useProfileStore();
-
+  const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
-  const { mutate: saveProfile, isPending } = useMutation<
-    User,
-    Error,
-    Partial<User>
-  >({
-    mutationFn: async (data: Partial<User>) => {
-      const payload = getCleanData(data);
+  const { mutate: saveProfile, isPending } = useMutation({
+    mutationFn: (values: ProfileFormValues) => {
+      const formData = new FormData();
 
-      if (Object.keys(payload).length > 0) {
-        await profileSchema.validate(payload, { abortEarly: false });
-      } else {
-        alert('Ви не ввели жодних даних');
-        return Promise.reject('Empty');
+      (Object.keys(values) as Array<keyof ProfileFormValues>).forEach((key) => {
+        const newValue = values[key];
+        const initialValue = user?.[key];
+
+        if (
+          newValue !== initialValue &&
+          newValue !== '' &&
+          newValue !== 'null' &&
+          newValue !== undefined &&
+          newValue !== null
+        ) {
+          formData.append(key, String(newValue));
+        }
+      });
+
+      const hasData = Array.from(formData.keys()).length > 0;
+      if (!hasData) {
+        return Promise.reject(new Error('Ви не змінили жодних даних'));
       }
 
-      return updateProfile(payload);
+      return updateUser(formData);
     },
     onSuccess: (updatedUser) => {
       queryClient.setQueryData(['currentUser'], updatedUser);
-      queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-
       setUser(updatedUser);
-
-      resetProfile();
       alert('Дані успішно змінено!');
+    },
+    onError: () => {
+      alert('Помилка при оновленні профілю');
     },
   });
 
+  const initialValues = {
+    username: user?.username || '',
+    email: user?.email || '',
+    gender: user?.gender || 'null',
+    dueDate: user?.dueDate || '',
+  };
+
   return (
-    <div className='form-wrapper'>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className='form-field'>
-          <label htmlFor='name'>{"Ім'я"}</label>
-          <input
-            id='name'
-            type='text'
-            value={formData.username}
-            onChange={(e) => updateForm({ username: e.target.value })}
-            placeholder="Введіть ім'я"
-          />
-        </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={profileSchema}
+      enableReinitialize
+      onSubmit={(values) => saveProfile(values)}
+    >
+      {({ dirty, handleReset }) => (
+        <Form className='form-wrapper'>
+          <div className='form-field'>
+            <label htmlFor='username'>{"Ім'я"}</label>
+            <Field name='username' id='username' placeholder="Введіть ім'я" />
+            <ErrorMessage
+              name='username'
+              component='div'
+              className='error-message'
+            />
+          </div>
 
-        <div className='form-field'>
-          <label htmlFor='email'>Пошта</label>
-          <input
-            id='email'
-            type='email'
-            value={formData.email}
-            onChange={(e) => updateForm({ email: e.target.value })}
-            placeholder='example@mail.com'
-          />
-        </div>
+          <div className='form-field'>
+            <label htmlFor='email'>Пошта</label>
+            <Field
+              name='email'
+              id='email'
+              type='email'
+              placeholder='example@mail.com'
+            />
+            <ErrorMessage
+              name='email'
+              component='div'
+              className='error-message'
+            />
+          </div>
 
-        <div className='form-field'>
-          <label htmlFor='gender'>Стать дитини</label>
-          <select
-            id='gender'
-            value={formData.gender}
-            onChange={(e) => updateForm({ gender: e.target.value as Gender })}
-          >
-            <option value='null'>Оберіть стать</option>
-            <option value='boy'>Хлопчик</option>
-            <option value='girl'>Дівчинка</option>
-          </select>
-        </div>
+          <div className='form-field'>
+            <label htmlFor='gender'>Стать дитини</label>
+            <Field as='select' name='gender' id='gender'>
+              <option value='null'>Оберіть стать</option>
+              <option value='boy'>Хлопчик</option>
+              <option value='girl'>Дівчинка</option>
+            </Field>
+          </div>
 
-        <div className='form-field'>
-          <label htmlFor='dueDate'>Планова дата пологів</label>
-          <input
-            id='dueDate'
-            type='date'
-            value={formData.dueDate || ''}
-            onChange={(e) => updateForm({ dueDate: e.target.value })}
-          />
-        </div>
+          <div className='form-field'>
+            <label htmlFor='dueDate'>Планова дата пологів</label>
+            <Field name='dueDate' id='dueDate' type='date' />
+          </div>
 
-        <div className='btn-cnlc'>
-          <button type='button' className='btn-cancel' onClick={resetProfile}>
-            Відмінити зміни
-          </button>
+          <div className='btn-cnlc'>
+            <button
+              type='button'
+              className='btn-cancel'
+              onClick={handleReset}
+              disabled={!dirty || isPending}
+            >
+              Відмінити зміни
+            </button>
 
-          <button
-            type='button'
-            className='btn-save'
-            onClick={() => saveProfile(formData)}
-            disabled={isPending}
-          >
-            {isPending ? 'Збереження...' : 'Зберегти зміни'}
-          </button>
-        </div>
-      </form>
-    </div>
+            <button
+              type='submit'
+              className='btn-save'
+              disabled={isPending || !dirty}
+            >
+              {isPending ? 'Збереження...' : 'Зберегти зміни'}
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };

@@ -1,0 +1,79 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  width: 335px;
+}
+
+.selectsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+.dateWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dateInput {
+  width: 100%;
+  height: 40px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+}
+
+.button {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #000;
+}
+
+.error {
+  position: absolute;
+  bottom: -20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #c60000;
+}
+
+.inputError {
+  border: 1px solid #c60000;
+}
+
+@media (min-width: 768px) {
+  .form {
+    width: 480px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .label,
+  .button {
+    font-size: 16px;
+  }
+}

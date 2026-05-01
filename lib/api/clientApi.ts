@@ -1,7 +1,7 @@
 import { User } from '@/types/user';
 import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
-import { DiaryEntry } from '@/types/diary';
+import type { GetAllDiariesResponse } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 
 export { nextServer };
@@ -19,6 +19,12 @@ export interface RegisterRequest {
   username: string;
   email: string;
   password: string;
+}
+
+export interface UpdateUserRequest {
+  photo: File | null;
+  gender?: string;
+  dueDate?: string | null;
 }
 
 //
@@ -104,9 +110,10 @@ export const updateTask = async (
 //Diaries
 //
 
-export const getAllDiaries = async () => {
+export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
   return requestWithAuthRefresh(async () => {
-    const { data } = await nextServer.get<DiaryEntry[]>('/diaries/allDiary');
+    const { data } =
+      await nextServer.get<GetAllDiariesResponse>('/diaries/allDiary');
     return data;
   });
 };
@@ -115,9 +122,9 @@ export const getAllDiaries = async () => {
 //User
 //
 
-export const updateProfile = async (data: Partial<User>) => {
+export const updateUser = async (formData: FormData) => {
   return requestWithAuthRefresh(async () => {
-    const { data: responseData } = await nextServer.patch('/users/me', data);
-    return responseData;
+    const { data } = await nextServer.patch<User>('/users/me', formData);
+    return data;
   });
 };
