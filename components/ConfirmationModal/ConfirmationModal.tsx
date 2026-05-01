@@ -1,7 +1,7 @@
 //app/components/Sidebar/ConfirmationModal.tsx
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore, type MouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import css from './ConfirmationModal.module.css';
 
@@ -9,9 +9,16 @@ type Props = {
   title: string;
   confirmButtonText: string;
   cancelButtonText: string;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onCancel: () => void;
 };
+
+const useIsClient = () =>
+  useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
 export const ConfirmationModal = ({
   title,
@@ -20,7 +27,7 @@ export const ConfirmationModal = ({
   onConfirm,
   onCancel,
 }: Props) => {
-  const modalRoot = document.getElementById('modal-root') as HTMLElement;
+  const isClient = useIsClient();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,9 +43,13 @@ export const ConfirmationModal = ({
     };
   }, [onCancel]);
 
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) onCancel();
   };
+
+  if (!isClient) return null;
+
+  const modalRoot = document.getElementById('modal-root') ?? document.body;
 
   return createPortal(
     <div
@@ -49,7 +60,7 @@ export const ConfirmationModal = ({
     >
       <div className={css.TaskModal}>
         <button type='button' className={css.btnboxclose} onClick={onCancel}>
-          <svg className={css.closebtn} width='32' height='32'>
+          <svg className={css.closebtn}>
             <use href='/sprite.svg#icon-close'></use>
           </svg>
         </button>
@@ -57,11 +68,11 @@ export const ConfirmationModal = ({
         <p className={css.textfortask}>{title}</p>
 
         <div className={css.actions}>
-          <button className='pink' onClick={onCancel}>
+          <button type='button' className='pink' onClick={onCancel}>
             {cancelButtonText}
           </button>
 
-          <button className='gray' onClick={onConfirm}>
+          <button type='button' className='gray' onClick={onConfirm}>
             {confirmButtonText}
           </button>
         </div>

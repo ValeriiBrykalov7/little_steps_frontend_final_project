@@ -24,8 +24,6 @@
   .dashboard_content {
     display: flex;
     align-items: flex-start;
-    gap: 32px;
-    margin-top: 16px;
   }
 
   .dashboard_greeting_status {
