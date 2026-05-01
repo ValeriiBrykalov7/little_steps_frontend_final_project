@@ -4,10 +4,13 @@ import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
+import type { User } from '@/types/user';
 import styles from './GoogleAuthButton.module.css';
 
 export default function GoogleAuthButton() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
 
   return (
     <div className={styles.googleButtonWrapper}>
@@ -29,13 +32,14 @@ export default function GoogleAuthButton() {
             }
 
             try {
-              await axios.post(
+              const response = await axios.post<User>(
                 `${process.env.NEXT_PUBLIC_GOOGLE_AUTH_BACK}/api/auth/google`,
                 { credential },
                 { withCredentials: true },
               );
 
               toast.success('Успішна автентифікація через Google');
+              setUser(response.data);
               router.push('/');
             } catch (error) {
               console.log(error);
