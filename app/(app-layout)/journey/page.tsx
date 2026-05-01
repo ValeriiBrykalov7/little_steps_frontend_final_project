@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
@@ -13,7 +11,6 @@ import css from './page.module.css';
 
 export default function JourneyPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
@@ -28,20 +25,14 @@ export default function JourneyPage() {
   if (!data) return <div>No data found.</div>;
 
   return (
-    <>
-      <section className={css.journey}>
-        <div className='container'>
-          <GreetingBlock />
-          <div className={css.weekSelectorSlot}>
-            <WeekSelector currentWeek={data.currentWeek} />
-          </div>
-          <JourneyDetails weekNumber={data.currentWeek} />
+    <section className={css.journey}>
+      <div className='container'>
+        <GreetingBlock />
+        <div className={css.weekSelectorSlot}>
+          <WeekSelector currentWeek={data.currentWeek} />
         </div>
-      </section>
-
-      {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />
-      )}
-    </>
+        <JourneyDetails weekNumber={data.currentWeek} />
+      </div>
+    </section>
   );
 }

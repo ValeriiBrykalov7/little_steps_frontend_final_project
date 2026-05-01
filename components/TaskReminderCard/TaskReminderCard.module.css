@@ -1,7 +1,7 @@
 /* Tasks Reminder Card */
 .tasksReminderCard {
   width: 100%;
-  max-width: 335px;
+  width: 335px;
   margin: 0 auto;
   min-height: 209px;
   border-radius: 32px;
@@ -41,20 +41,49 @@
   border: none;
   border-radius: 50%;
   background: transparent;
+  color: var(--color-scheme-text);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .addTaskButton:hover,
 .addTaskButton:focus-visible {
   background: var(--color-scheme-foreground-alt);
+  box-shadow: 0 6px 16px rgba(255, 203, 211, 0.55);
+}
+
+.addTaskButton:focus-visible {
+  outline: 2px solid var(--color-pastel-pink-dark);
+  outline-offset: 3px;
 }
 
 .addTaskButton:active {
   background: var(--color-scheme-accent);
+  box-shadow: 0 2px 8px rgba(255, 203, 211, 0.5);
+  transform: scale(0.94);
+}
+
+.addTaskIcon {
+  display: block;
+  fill: currentColor;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.addTaskButton:hover .addTaskIcon,
+.addTaskButton:focus-visible .addTaskIcon {
+  transform: rotate(90deg) scale(1.08);
+}
+
+.addTaskButton:active .addTaskIcon {
+  transform: rotate(90deg) scale(0.96);
 }
 
 .tasksGroupTitle {
@@ -80,7 +109,6 @@
 
 .taskDate {
   grid-column: 2;
-  /* margin: 0; */
   font-weight: 400;
   font-size: 12px;
   line-height: 1.6;
@@ -103,11 +131,14 @@
   height: 18px;
   border-radius: 4px;
   background: #e6dede;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   position: relative;
   cursor: pointer;
   transform: translateY(1px);
+  transition: background-color 0.2s ease;
 }
 
 .taskCheckbox:checked + .customCheckbox {
@@ -117,13 +148,14 @@
 .taskCheckbox:checked + .customCheckbox::after {
   content: '';
   position: absolute;
-  top: 4px;
-  left: 6px;
-  width: 4px;
-  height: 8px;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 9px;
   border: solid #fff;
   border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  transform: translate(-50%, -58%) rotate(45deg);
+  transform-origin: center;
 }
 
 .taskText {
@@ -133,7 +165,7 @@
 }
 
 .taskTextDone {
-  font-size: 14px;
+  font-size: 12px;
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   text-decoration-color: #111;
@@ -143,7 +175,7 @@
 .tasksPlaceholder {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
 }
 
@@ -176,7 +208,7 @@
   cursor: pointer;
   font-family: var(--font-family);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 160%;
   color: var(--color-scheme-text);
 }
@@ -190,10 +222,21 @@
   line-height: 150%;
   color: var(--color-scheme-text);
 }
-.noTasks h4 {
+
+.textTitle {
   font-family: var(--font-family);
   font-weight: 700;
+  font-size: 14px;
   line-height: 160%;
+  color: var(--color-scheme-text);
+}
+.texttasks {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+
+  line-height: 150%;
+  color: var(--color-scheme-text);
 }
 
 @media (min-width: 768px) {
@@ -217,9 +260,18 @@
   .taskText {
     font-size: 14px;
   }
+  .textTitle {
+    font-size: 16px;
+  }
+  .texttasks {
+    font-size: 16px;
+  }
+  .taskText {
+    font-size: 14px;
+  }
 
   .taskTextDone {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .noTasks {
@@ -229,5 +281,6 @@
   .createTaskButton {
     width: 191px;
     height: 46px;
+    font-size: 16px;
   }
 }

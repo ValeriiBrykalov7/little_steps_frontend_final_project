@@ -1,13 +1,22 @@
 'use client';
 
-import { useEffect, useSyncExternalStore } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type MouseEvent,
+  type ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 import css from './AddTaskModal.module.css';
 
-interface ModalProps {
+type ModalProps = {
   onClose: () => void;
-  children?: React.ReactNode;
-}
+  children?: ReactNode | ((props: { close: () => void }) => ReactNode);
+};
+
+const MODAL_ANIMATION_MS = 220;
 
 const useIsClient = () =>
   useSyncExternalStore(
@@ -18,10 +27,23 @@ const useIsClient = () =>
 
 export const AddTaskModal = ({ onClose, children }: ModalProps) => {
   const isClient = useIsClient();
+  const [isClosing, setIsClosing] = useState(false);
+
+  const closeWithAnimation = useCallback(() => {
+    setIsClosing(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClosing) return;
+
+    const timerId = setTimeout(onClose, MODAL_ANIMATION_MS);
+
+    return () => clearTimeout(timerId);
+  }, [isClosing, onClose]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') closeWithAnimation();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -31,10 +53,10 @@ export const AddTaskModal = ({ onClose, children }: ModalProps) => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [onClose]);
+  }, [closeWithAnimation]);
 
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) onClose();
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) closeWithAnimation();
   };
 
   if (!isClient) return null;
@@ -43,19 +65,25 @@ export const AddTaskModal = ({ onClose, children }: ModalProps) => {
 
   return createPortal(
     <div
-      className={css.backdrop}
+      className={`${css.backdrop} ${isClosing ? css.backdropClosing : ''}`}
       role='dialog'
       aria-modal='true'
       onClick={handleBackdropClick}
     >
-      <div className={css.TaskModal}>
-        <button type='button' className={css.btnboxclose} onClick={onClose}>
+      <div className={`${css.TaskModal} ${isClosing ? css.modalClosing : ''}`}>
+        <button
+          type='button'
+          className={css.btnboxclose}
+          onClick={closeWithAnimation}
+        >
           <svg className={css.closebtn} width='32' height='32'>
             <use href='/sprite.svg#icon-close'></use>
           </svg>
         </button>
         <p className={css.textfortask}>Нове завдання</p>
-        {children}
+        {typeof children === 'function'
+          ? children({ close: closeWithAnimation })
+          : children}
       </div>
     </div>,
     modalRoot,
