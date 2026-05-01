@@ -1,7 +1,12 @@
-//app/components/Sidebar/ConfirmationModal.tsx
 'use client';
 
-import { useEffect, useSyncExternalStore, type MouseEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type MouseEvent,
+} from 'react';
 import { createPortal } from 'react-dom';
 import css from './ConfirmationModal.module.css';
 
@@ -13,12 +18,16 @@ type Props = {
   onCancel: () => void;
 };
 
+const MODAL_ANIMATION_MS = 220;
+
 const useIsClient = () =>
   useSyncExternalStore(
     () => () => {},
     () => true,
     () => false,
   );
+
+type ClosingAction = 'cancel' | 'confirm' | null;
 
 export const ConfirmationModal = ({
   title,
@@ -28,10 +37,34 @@ export const ConfirmationModal = ({
   onCancel,
 }: Props) => {
   const isClient = useIsClient();
+  const [closingAction, setClosingAction] = useState<ClosingAction>(null);
+
+  const closeWithAnimation = useCallback(() => {
+    setClosingAction('cancel');
+  }, []);
+
+  const confirmWithAnimation = useCallback(() => {
+    setClosingAction('confirm');
+  }, []);
+
+  useEffect(() => {
+    if (!closingAction) return;
+
+    const timerId = setTimeout(() => {
+      if (closingAction === 'confirm') {
+        void onConfirm();
+        return;
+      }
+
+      onCancel();
+    }, MODAL_ANIMATION_MS);
+
+    return () => clearTimeout(timerId);
+  }, [closingAction, onCancel, onConfirm]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onCancel();
+      if (event.key === 'Escape') closeWithAnimation();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -41,10 +74,10 @@ export const ConfirmationModal = ({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [onCancel]);
+  }, [closeWithAnimation]);
 
   const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) onCancel();
+    if (event.target === event.currentTarget) closeWithAnimation();
   };
 
   if (!isClient) return null;
@@ -53,13 +86,19 @@ export const ConfirmationModal = ({
 
   return createPortal(
     <div
-      className={css.backdrop}
+      className={`${css.backdrop} ${closingAction ? css.backdropClosing : ''}`}
       role='dialog'
       aria-modal='true'
       onClick={handleBackdropClick}
     >
-      <div className={css.TaskModal}>
-        <button type='button' className={css.btnboxclose} onClick={onCancel}>
+      <div
+        className={`${css.TaskModal} ${closingAction ? css.modalClosing : ''}`}
+      >
+        <button
+          type='button'
+          className={css.btnboxclose}
+          onClick={closeWithAnimation}
+        >
           <svg className={css.closebtn}>
             <use href='/sprite.svg#icon-close'></use>
           </svg>
@@ -68,11 +107,11 @@ export const ConfirmationModal = ({
         <p className={css.textfortask}>{title}</p>
 
         <div className={css.actions}>
-          <button type='button' className='pink' onClick={onCancel}>
+          <button type='button' className='pink' onClick={closeWithAnimation}>
             {cancelButtonText}
           </button>
 
-          <button type='button' className='gray' onClick={onConfirm}>
+          <button type='button' className='gray' onClick={confirmWithAnimation}>
             {confirmButtonText}
           </button>
         </div>
