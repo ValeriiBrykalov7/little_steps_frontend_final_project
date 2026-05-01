@@ -10,12 +10,16 @@ export async function PATCH(request: Request) {
     const incomingFormData = await request.formData();
     const formData = new FormData();
 
+    const username = incomingFormData.get('username');
+    const email = incomingFormData.get('email');
     const gender = incomingFormData.get('gender');
     const dueDate = incomingFormData.get('dueDate');
     const photo = incomingFormData.get('photo');
 
-    if (gender) formData.append('gender', String(gender));
-    if (dueDate) formData.append('dueDate', String(dueDate));
+    if (username !== null) formData.append('username', String(username));
+    if (email !== null) formData.append('email', String(email));
+    if (gender !== null) formData.append('gender', String(gender));
+    if (dueDate !== null) formData.append('dueDate', String(dueDate));
     if (photo instanceof File) {
       formData.append('photo', photo);
     }
