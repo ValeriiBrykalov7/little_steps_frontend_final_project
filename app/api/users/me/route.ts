@@ -23,7 +23,6 @@ export async function PATCH(request: Request) {
     if (photo instanceof File) {
       formData.append('photo', photo);
     }
-
     const res = await api.patch('/users/me', formData, {
       headers: {
         Cookie: cookieStore.toString(),
