@@ -145,9 +145,7 @@ export default function RegistrationForm() {
             >
               Зареєструватись
             </button>
-            <div className={styles.googleBlock}>
               <GoogleAuthButton />
-            </div>
           </Form>
         )}
       </Formik>
