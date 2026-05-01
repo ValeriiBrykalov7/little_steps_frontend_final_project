@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
@@ -16,6 +16,7 @@ import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
 export default function JourneyPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
@@ -25,11 +26,20 @@ export default function JourneyPage() {
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
+  const createTaskMutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['tasks', isAuthenticated],
+      });
+    },
+  });
+
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
   const handleCreateTask = async (task: CreateTaskRequest) => {
-        await createTask(task);
+    await createTaskMutation.mutateAsync(task);
   };
   return (
     <>
@@ -44,9 +54,11 @@ export default function JourneyPage() {
       </section>
 
       {isAddTaskModalOpen && (
-          <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
-            <AddTaskForm onSubmit={handleCreateTask} onClose={() => setIsAddTaskModalOpen(false)} />
-          </AddTaskModal>
+        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
+          {({ close }) => (
+            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
+          )}
+        </AddTaskModal>
       )}
     </>
   );

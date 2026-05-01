@@ -1,57 +1,93 @@
 .AddTaskForm {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+}
+
+.fieldWrapper {
+  position: relative;
 }
 
 .AddTaskFormLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 400;
   font-size: 14px;
-  margin-bottom: 4px;
+  line-height: 1.6;
+  color: var(--color-scheme-text);
 }
 
 .AddTaskFormInput {
   width: 100%;
-  height: 40px;
-
-  border: none;
-  border-radius: 12px;
-
-  padding: 0 12px;
-
-  background: var(--opacity-neutral-darkest-5);
-
-  font-size: 14px;
+  height: 37px;
 }
 
-.AddTaskFormInput:focus {
-  outline: none;
-  background: var(--opacity-neutral-darkest-5);
+.AddTaskFormInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inputError {
+  border: 2px solid var(--color-red);
+  animation: shake 0.3s ease-in-out;
+}
+
+.inputError::placeholder {
+  color: var(--color-red);
 }
 
 .AddTaskFormError {
-  font-size: 10px;
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
   color: var(--color-red);
 }
 
 .AddTaskFormButton {
-  margin-top: 10px;
-
-  height: 44px;
-
+  margin: 0 auto;
+  width: 268px;
+  height: 42px;
   border: none;
-  border-radius: 22px;
-
-  background: var(--color-scheme-foreground-alt);
-  color: #000;
-
-  font-size: 14px;
-  font-weight: 500;
-
   cursor: pointer;
-
-  transition: 0.2s;
 }
 
-.AddTaskFormButton:hover {
-  background: var(--color-scheme-background);
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-4px);
+  }
+
+  40% {
+    transform: translateX(4px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .AddTaskFormInput {
+    height: 40px;
+  }
+
+  .AddTaskFormButton {
+    height: 46px;
+  }
 }

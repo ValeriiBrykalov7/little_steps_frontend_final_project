@@ -1,7 +1,7 @@
 import { User } from '@/types/user';
 import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
-import { DiaryEntry } from '@/types/diary';
+import type { GetAllDiariesResponse } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 
 export { nextServer };
@@ -104,9 +104,10 @@ export const updateTask = async (
 //Diaries
 //
 
-export const getAllDiaries = async () => {
+export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
   return requestWithAuthRefresh(async () => {
-    const { data } = await nextServer.get<DiaryEntry[]>('/diaries/allDiary');
+    const { data } =
+      await nextServer.get<GetAllDiariesResponse>('/diaries/allDiary');
     return data;
   });
 };
