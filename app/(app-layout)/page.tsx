@@ -1,8 +1,8 @@
 'use client';
 
 import { useAuthStore } from '@/lib/store/authStore';
-import { useQuery } from '@tanstack/react-query';
-import { getDashboardInfo } from '@/lib/api/clientApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getDashboardInfo, createTask } from '@/lib/api/clientApi';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import StatusBlock from '@/components/StatusBlock/StatusBlock';
 import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
@@ -11,13 +11,16 @@ import { Loader } from '@/components/Loader/Loader';
 import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
 import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
 import css from './page.module.css';
+import type { CreateTaskRequest } from '@/types/task';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
+import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
 
 export default function DashboardPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const router = useRouter();
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
@@ -28,9 +31,27 @@ export default function DashboardPage() {
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
+  const createTaskMutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['tasks', isAuthenticated],
+      });
+    },
+  });
+
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
+
+  const handleCreateTask = async (task: CreateTaskRequest) => {
+    // mutateAsync повертає проміс, тому AddTaskForm може зробити await onSubmit
+    // Якщо запит успішний то форма скине поля і закриє модалку
+    // Якщо запит фіговий то код у AddTaskForm перейде в catch і модалка залишиться відкритою
+
+    await createTaskMutation.mutateAsync(task);
+  };
+
   return (
     <>
       <section className={css.dashboard}>
@@ -66,7 +87,11 @@ export default function DashboardPage() {
       </section>
 
       {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)} />
+        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
+          {({ close }) => (
+            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
+          )}
+        </AddTaskModal>
       )}
     </>
   );

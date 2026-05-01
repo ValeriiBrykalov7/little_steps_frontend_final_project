@@ -4,7 +4,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { getAllTasks, updateTask } from '@/lib/api/clientApi';
-import Image from 'next/image';
 import styles from './TaskReminderCard.module.css';
 import { Task } from '@/types/task';
 import { Loader } from '../Loader/Loader';
@@ -125,13 +124,9 @@ export default function TasksReminderCard({
           className={styles.addTaskButton}
           onClick={handleAddTask}
         >
-          <Image
-            src='/images/add.svg'
-            alt=''
-            width={24}
-            height={24}
-            className={styles.addTaskIcon}
-          />
+          <svg className={styles.addTaskIcon} width="24" height="24" aria-hidden='true'>
+    <use href='/sprite.svg#icon-create'></use>
+  </svg>
         </button>
       </div>
 
@@ -140,8 +135,8 @@ export default function TasksReminderCard({
       ) : tasks.length === 0 ? (
         <div className={styles.tasksPlaceholder}>
           <div className={styles.noTasks}>
-            <h4>Наразі немає жодних завдань</h4>
-            <p>Створіть мерщій нове завдання!</p>
+            <h4 className={styles.textTitle}>Наразі немає жодних завдань</h4>
+            <p className={styles.texttasks}>Створіть мерщій нове завдання!</p>
           </div>
           <button
             type='button'

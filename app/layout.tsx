@@ -62,6 +62,7 @@ export default function RootLayout({
             </AuthProvider>
           </TanStackProvider>
         }
+        <div id='modal-root' />
       </body>
     </html>
   );

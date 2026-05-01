@@ -11,6 +11,7 @@ export interface Task {
 export type CreateTaskRequest = {
   name: string;
   date: string;
+  isDone: boolean;
 };
 
 export type UpdateTaskRequest = Partial<
