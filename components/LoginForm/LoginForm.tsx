@@ -110,8 +110,7 @@ export default function LoginForm() {
                   {isSubmitting ? 'Завантаження...' : 'Увійти'}
                 </button>           
                   <GoogleAuthButton />
-                  {isSubmitting ? <Loader variant='button' /> : 'Увійти'}
-                </button>
+
 
                 <p className={styles.loginPrompt}>
                   Немає аккаунту?{' '}
