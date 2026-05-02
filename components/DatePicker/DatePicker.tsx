@@ -5,13 +5,15 @@ import ReactDatePicker from 'react-datepicker';
 import { FormValues } from '../OnboardingForm/OnboardingForm';
 import styles from './DatePicker.module.css';
 import { useState } from 'react';
+import clsx from 'clsx';
 
 interface DatePickerProps {
   minDate?: Date;
   maxDate?: Date;
+  className?: string;
 }
 
-export function DatePicker({ minDate, maxDate }: DatePickerProps) {
+export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
   const { values, setFieldValue, setFieldTouched } =
     useFormikContext<FormValues>();
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
@@ -19,7 +21,6 @@ export function DatePicker({ minDate, maxDate }: DatePickerProps) {
   return (
     <div className={styles.dateWrapper}>
       <ReactDatePicker
-        onKeyDown={(e) => e.preventDefault()}
         wrapperClassName={styles.datePickerWrapper}
         selected={values.dueDate}
         onChange={(date: Date | null) => {
@@ -30,7 +31,7 @@ export function DatePicker({ minDate, maxDate }: DatePickerProps) {
         maxDate={maxDate}
         dateFormat='yyyy-MM-dd'
         placeholderText='Оберіть дату'
-        className={styles.dateInput}
+        className={clsx(styles.dateInput, className)}
         showPopperArrow={false}
         popperPlacement='bottom-start'
         renderDayContents={(day, date) => (

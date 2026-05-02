@@ -118,7 +118,11 @@ export default function OnboardingForm() {
                 Планова дата пологів
               </label>
 
-              <DatePicker minDate={min} maxDate={max} />
+              <DatePicker
+                minDate={min}
+                maxDate={max}
+                className={styles.datePickerInput}
+              />
 
               {touched.dueDate && errors.dueDate && (
                 <span className={styles.error}>{errors.dueDate}</span>
