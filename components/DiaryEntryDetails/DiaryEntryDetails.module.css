@@ -98,7 +98,7 @@
 
 @media only screen and (min-width: 768px) {
   .card {
-    width: 100%; 
+    width: 100%;
     max-width: none;
     min-height: 765px;
     gap: 8px;

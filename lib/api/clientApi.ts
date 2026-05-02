@@ -118,6 +118,12 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
   });
 };
 
+export const deleteDiary = async (entryId: string) => {
+  return requestWithAuthRefresh(async () => {
+    await nextServer.delete(`/diaries/deleteDairy/${entryId}`);
+  });
+};
+
 //
 //User
 //

@@ -21,6 +21,7 @@ const formatDiaryDate = (value: string) =>
 
 const DiaryEntryDetails = ({ entry, onEdit, onDelete }: DiaryEntryDetailsProps) => {
   const formattedDate = formatDiaryDate(entry.createdAt);
+  const emotions = entry.emotions ?? [];
 
   return (
     <article className={css.card}>
@@ -56,9 +57,9 @@ const DiaryEntryDetails = ({ entry, onEdit, onDelete }: DiaryEntryDetailsProps) 
 
       <p className={css.description}>{entry.description}</p>
 
-      {entry.emotions.length > 0 && (
+      {emotions.length > 0 && (
         <ul className={css.emotionList}>
-          {entry.emotions.map((emotion) => (
+          {emotions.map((emotion) => (
             <li key={emotion._id} className={css.emotionItem}>
               {emotion.title}
             </li>
