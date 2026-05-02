@@ -122,7 +122,6 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
 //User
 //
 
-<<<<<<< HEAD
 export const updateAvatar = async ( file:File) => {
   const formData = new FormData();
   formData.append('avatar', file);
@@ -133,11 +132,9 @@ export const updateAvatar = async ( file:File) => {
   });
   return response.data;
 }
-=======
 export const updateUser = async (formData: FormData) => {
   return requestWithAuthRefresh(async () => {
     const { data } = await nextServer.patch<User>('/users/me', formData);
     return data;
   });
 };
->>>>>>> c116ea347e8f665fb38dcdd2ad2aa9ead20cf0f4
