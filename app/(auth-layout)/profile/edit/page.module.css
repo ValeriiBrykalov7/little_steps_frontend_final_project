@@ -1,0 +1,33 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-bottom: 32px;
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: #000;
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    max-width: 480px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    width: 720px;
+  }
+  .title {
+    font-size: 48px;
+  }
+}

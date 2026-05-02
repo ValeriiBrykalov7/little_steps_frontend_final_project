@@ -65,6 +65,7 @@ export default function RootLayout({
             </TanStackProvider>
             </GoogleProvider>
         }
+        <div id='modal-root' />
       </body>
     </html>
   );

@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { login } from '@/lib/api/clientApi';
 import GoogleAuthButton from '../GoogleAuthButton/GoogleAuthButton';
+import { Loader } from '../Loader/Loader';
 
 interface FormValues {
   email: string;
@@ -109,6 +110,9 @@ export default function LoginForm() {
                   {isSubmitting ? 'Завантаження...' : 'Увійти'}
                 </button>           
                   <GoogleAuthButton />
+                  {isSubmitting ? <Loader variant='button' /> : 'Увійти'}
+                </button>
+
                 <p className={styles.loginPrompt}>
                   Немає аккаунту?{' '}
                   <Link href='/auth/register' className={styles.loginLink}>

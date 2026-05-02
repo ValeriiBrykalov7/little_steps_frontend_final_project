@@ -10,6 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/lib/store/authStore';
 import GoogleAuthButton from '../GoogleAuthButton/GoogleAuthButton';
+import { Loader } from '../Loader/Loader';
 
 interface RegistrationFormValues {
   username: string;
@@ -143,7 +144,7 @@ export default function RegistrationForm() {
               className={`${styles.button} pink`}
               disabled={isPending}
             >
-              Зареєструватись
+              {isPending ? <Loader variant='button' /> : 'Зареєструватись'}
             </button>
               <GoogleAuthButton />
           </Form>

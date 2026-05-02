@@ -15,6 +15,7 @@
 @media only screen and (min-width: 768px) {
   .greeting_block {
     justify-content: flex-start;
+    margin: 0 32px;
   }
 }
 
@@ -22,5 +23,8 @@
 @media only screen and (min-width: 1440px) {
   .greeting_text {
     font-size: 32px;
+  }
+  .greeting_block {
+    margin: 0;
   }
 }
