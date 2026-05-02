@@ -40,8 +40,10 @@ export const checkSession = async (forceRefresh = false) => {
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer.get<User>('/users/current');
-  return data;
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<User>('/users/current');
+    return data;
+  });
 };
 
 export const login = async (payload: LoginRequest) => {
@@ -55,7 +57,9 @@ export const register = async (body: RegisterRequest) => {
 };
 
 export const logout = async () => {
-  await nextServer.post('/auth/logout');
+  return requestWithAuthRefresh(async () => {
+    await nextServer.post('/auth/logout');
+  });
 };
 
 //
@@ -79,13 +83,17 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
 };
 
 export const getBabyWeekInfo = async (weekNumber: number) => {
-  const { data } = await nextServer.get<Baby>(`/weeks/baby/${weekNumber}`);
-  return data;
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<Baby>(`/weeks/baby/${weekNumber}`);
+    return data;
+  });
 };
 
 export const getMomWeekInfo = async (weekNumber: number) => {
-  const { data } = await nextServer.get<Mom>(`/weeks/mom/${weekNumber}`);
-  return data;
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<Mom>(`/weeks/mom/${weekNumber}`);
+    return data;
+  });
 };
 
 //

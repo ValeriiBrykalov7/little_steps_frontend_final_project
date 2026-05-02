@@ -2,10 +2,18 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getBabyWeekInfo, getMomWeekInfo } from '@/lib/api/clientApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  createTask,
+  getBabyWeekInfo,
+  getMomWeekInfo,
+} from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 import type { Baby } from '@/types/baby';
 import type { Mom } from '@/types/mom';
+import type { CreateTaskRequest } from '@/types/task';
+import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
+import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import { Loader } from '@/components/Loader/Loader';
 import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
 import styles from './JourneyDetails.module.css';
@@ -16,7 +24,6 @@ type Props = {
 
 type ActiveTab = 'baby' | 'mother';
 
-const STALE_TIME = 1000 * 60 * 5;
 const COMFORT_TIP_ICON_IDS = ['icon-cutlery', 'icon-weight', 'icon-sofa'];
 
 const splitTextBlocks = (text?: string) =>
@@ -29,19 +36,22 @@ const splitTextBlocks = (text?: string) =>
 
 export default function JourneyDetails({ weekNumber }: Props) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('baby');
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+  const { isAuthenticated } = useAuthStore();
+  const queryClient = useQueryClient();
 
   const babyQuery = useQuery<Baby>({
     queryKey: ['journeyDetails', 'baby', weekNumber],
     queryFn: () => getBabyWeekInfo(weekNumber),
     enabled: activeTab === 'baby',
-    staleTime: STALE_TIME,
+    staleTime: 1000 * 60 * 5,
   });
 
   const momQuery = useQuery<Mom>({
     queryKey: ['journeyDetails', 'mom', weekNumber],
     queryFn: () => getMomWeekInfo(weekNumber),
     enabled: activeTab === 'mother',
-    staleTime: STALE_TIME,
+    staleTime: 1000 * 60 * 5,
   });
 
   const isLoading =
@@ -50,6 +60,19 @@ export default function JourneyDetails({ weekNumber }: Props) {
       : momQuery.isLoading || momQuery.isFetching;
 
   const hasError = activeTab === 'baby' ? babyQuery.isError : momQuery.isError;
+
+  const createTaskMutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['tasks', isAuthenticated],
+      });
+    },
+  });
+
+  const handleCreateTask = async (task: CreateTaskRequest) => {
+    await createTaskMutation.mutateAsync(task);
+  };
 
   const renderBabyTab = () => {
     const baby = babyQuery.data;
@@ -176,47 +199,59 @@ export default function JourneyDetails({ weekNumber }: Props) {
         </div>
 
         <div className={styles.tasksColumn}>
-          <TasksReminderCard />
+          <TasksReminderCard
+            openAddTaskModal={() => setIsAddTaskModalOpen(true)}
+          />
         </div>
       </div>
     );
   };
 
   return (
-    <div className={styles.journeyDetails}>
-      <div className={styles.tabsList}>
-        <button
-          type='button'
-          onClick={() => setActiveTab('baby')}
-          className={`${styles.tabButton} ${
-            activeTab === 'baby' ? styles.tabButtonActive : ''
-          }`}
-        >
-          Розвиток малюка
-        </button>
+    <>
+      <div className={styles.journeyDetails}>
+        <div className={styles.tabsList}>
+          <button
+            type='button'
+            onClick={() => setActiveTab('baby')}
+            className={`${styles.tabButton} ${
+              activeTab === 'baby' ? styles.tabButtonActive : ''
+            }`}
+          >
+            Розвиток малюка
+          </button>
 
-        <button
-          type='button'
-          onClick={() => setActiveTab('mother')}
-          className={`${styles.tabButton} ${
-            activeTab === 'mother' ? styles.tabButtonActive : ''
-          }`}
-        >
-          Тіло мами
-        </button>
+          <button
+            type='button'
+            onClick={() => setActiveTab('mother')}
+            className={`${styles.tabButton} ${
+              activeTab === 'mother' ? styles.tabButtonActive : ''
+            }`}
+          >
+            Тіло мами
+          </button>
+        </div>
+
+        {isLoading ? (
+          <div className={styles.loaderWrapper}>
+            <Loader />
+          </div>
+        ) : hasError ? (
+          <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
+        ) : activeTab === 'baby' ? (
+          renderBabyTab()
+        ) : (
+          renderMotherTab()
+        )}
       </div>
 
-      {isLoading ? (
-        <div className={styles.loaderWrapper}>
-          <Loader />
-        </div>
-      ) : hasError ? (
-        <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
-      ) : activeTab === 'baby' ? (
-        renderBabyTab()
-      ) : (
-        renderMotherTab()
+      {isAddTaskModalOpen && (
+        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
+          {({ close }) => (
+            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
+          )}
+        </AddTaskModal>
       )}
-    </div>
+    </>
   );
 }

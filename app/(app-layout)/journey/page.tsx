@@ -1,22 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
-import { getDashboardInfo, createTask } from '@/lib/api/clientApi';
+import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
+import { getDashboardInfo } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './page.module.css';
-import type { CreateTaskRequest } from '@/types/task';
-import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
-import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
 
 export default function JourneyPage() {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const queryClient = useQueryClient();
+  const params = useParams<{ weekNumber: string }>();
+  const selectedWeek = Number(params.weekNumber);
 
   // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
   const { data, isLoading } = useQuery({
@@ -26,40 +23,22 @@ export default function JourneyPage() {
     staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
   });
 
-  const createTaskMutation = useMutation({
-    mutationFn: createTask,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tasks', isAuthenticated],
-      });
-    },
-  });
-
   if (!isAuthChecked || isLoading) return <Loader />;
 
   if (!data) return <div>No data found.</div>;
-  const handleCreateTask = async (task: CreateTaskRequest) => {
-    await createTaskMutation.mutateAsync(task);
-  };
-  return (
-    <>
-      <section className={css.journey}>
-        <div className='container'>
-          <GreetingBlock />
-          <div className={css.weekSelectorSlot}>
-            <WeekSelector currentWeek={data.currentWeek} />
-          </div>
-          <JourneyDetails weekNumber={data.currentWeek} />
-        </div>
-      </section>
 
-      {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
-          {({ close }) => (
-            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
-          )}
-        </AddTaskModal>
-      )}
-    </>
+  return (
+    <section className={css.journeyWeek}>
+      <div className='container'>
+        <GreetingBlock />
+        <div className={css.weekSelectorSlot}>
+          <WeekSelector
+            currentWeek={data.currentWeek}
+            selectedWeek={selectedWeek}
+          />
+        </div>
+        <JourneyDetails weekNumber={data.currentWeek} />
+      </div>
+    </section>
   );
 }
