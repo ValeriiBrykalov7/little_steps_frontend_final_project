@@ -57,9 +57,7 @@ export const register = async (body: RegisterRequest) => {
 };
 
 export const logout = async () => {
-  return requestWithAuthRefresh(async () => {
-    await nextServer.post('/auth/logout');
-  });
+  await nextServer.post('/auth/logout');
 };
 
 //
