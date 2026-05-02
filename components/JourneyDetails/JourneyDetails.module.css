@@ -1,0 +1,378 @@
+.journeyDetails {
+  width: 100%;
+}
+
+.tabsList {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  max-width: 462px;
+  min-height: 40px;
+  margin: 0 auto 16px;
+  padding: 4px;
+  overflow: hidden;
+  background: var(--color-pastel-pink-lightest);
+  border-radius: 100px;
+}
+
+.tabsList::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  z-index: 0;
+  width: calc((100% - 8px) / 2);
+  border-radius: 100px;
+  background: var(--color-pastel-pink-light);
+  box-shadow: rgba(255, 157, 175, 0.22) 0 3px 10px;
+  transform: translateX(0);
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.2s ease;
+  pointer-events: none;
+}
+
+.tabsListMother::before {
+  transform: translateX(100%);
+}
+
+.tabButton {
+  appearance: none;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 16px;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 100px;
+  box-shadow: none;
+  cursor: pointer;
+  color: var(--color-scheme-text);
+  transform: none;
+  transition:
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.18s ease;
+}
+
+.tabButtonActive {
+  background: transparent;
+  color: var(--color-scheme-text);
+  font-weight: 500;
+}
+
+.tabButton:hover,
+.tabButton:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(255, 157, 175, 0.28);
+}
+
+.tabButton:active {
+  transform: scale(0.98);
+}
+
+.loaderWrapper {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentFade {
+  animation: contentFadeIn 0.22s ease both;
+  display: flex;
+  justify-content: center;
+}
+
+.babyCard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  width: 335px;
+  background: var(--color-pastel-pink-lighter);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+.babyVisualColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.babyImageFrame {
+  width: 100%;
+  aspect-ratio: 420 / 345;
+  overflow: hidden;
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 20px;
+  background: var(--color-oasis-lightest);
+}
+
+.babyImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.babyCaption {
+  font-size: 14px;
+  color: var(--color-scheme-text);
+}
+
+.babyContentColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 0;
+}
+
+.babyTextList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+}
+
+.factCard {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--color-pastel-pink-light);
+}
+
+.factTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.journeyIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.journeyIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.factTitle {
+  font-family: var(--font-family);
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-scheme-text);
+}
+
+.factText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-scheme-text);
+}
+
+.motherGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 24px;
+  column-gap: 24px;
+  justify-items: center;
+}
+
+.motherContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 311px;
+  margin: 0 auto;
+}
+
+.tasksColumn {
+  height: fit-content;
+  width: 311px;
+}
+
+.motherFeelingCard,
+.comfortCard {
+  width: 100%;
+  background: var(--color-pastel-pink-lighter);
+  padding: 24px;
+  border-radius: 32px;
+}
+
+.motherFeelingCard {
+  min-height: 192px;
+}
+
+.comfortCard {
+  min-height: 318px;
+}
+
+.infoCardTitle {
+  margin: 0 0 12px;
+  font-family: var(--second-family);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.statesChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.stateChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: var(--opacity-neutral-darkest-5);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.motherFeelingText {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.comfortTipsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comfortTipItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.comfortTipHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comfortTipCategory {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.comfortTipText {
+  margin: 0;
+  padding-left: 32px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.errorText {
+  padding: 20px;
+  color: var(--color-red);
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .tabsList {
+    min-height: 44px;
+    max-width: 704px;
+  }
+
+  .tabButton {
+    min-height: 36px;
+    font-size: 14px;
+  }
+
+  .babyCard,
+  .motherContent,
+  .tasksColumn {
+    width: 704px;
+  }
+
+  .infoCardTitle {
+    font-size: 24px;
+  }
+
+  .motherFeelingText,
+  .comfortTipText {
+    font-size: 16px;
+  }
+
+  .comfortTipCategory {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .babyCard {
+    grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
+    align-items: stretch;
+    width: 1064px;
+    gap: 32px;
+    padding: 22px;
+  }
+
+  .babyImage {
+    height: 100%;
+  }
+
+  .babyTextList,
+  .factText {
+    font-size: 16px;
+  }
+
+  .babyCaption,
+  .factTitle {
+    font-size: 16px;
+  }
+
+  .motherContent {
+    width: 650px;
+  }
+
+  .motherGrid {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 24px;
+    width: 1064px;
+    margin-bottom: 24px;
+  }
+}

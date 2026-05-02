@@ -1,7 +1,13 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  FIRST_WEEK,
+  LAST_WEEK,
+  getActiveWeek,
+  optimizeWeek,
+} from '@/lib/helper/week';
 import css from './WeekSelector.module.css';
 
 type Props = {
@@ -9,25 +15,15 @@ type Props = {
   selectedWeek?: number;
 };
 
-const FIRST_WEEK = 1;
-const LAST_WEEK = 40;
-
-const clampWeek = (week: number) => {
-  if (!Number.isFinite(week)) return FIRST_WEEK;
-  return Math.min(Math.max(week, FIRST_WEEK), LAST_WEEK);
-};
-
-export const WeekSelector = ({ currentWeek, selectedWeek }: Props) => {
+export const WeekSelector = ({
+  currentWeek: currentWeekFromServer,
+  selectedWeek,
+}: Props) => {
   const router = useRouter();
   const weekRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
-  const availableWeek = useMemo(() => clampWeek(currentWeek), [currentWeek]);
-  const selectedWeekFromProps = useMemo(
-    () => Math.min(clampWeek(selectedWeek ?? availableWeek), availableWeek),
-    [availableWeek, selectedWeek],
-  );
-
-  const activeWeek = selectedWeekFromProps;
+  const currentWeek = optimizeWeek(currentWeekFromServer);
+  const activeWeek = getActiveWeek(currentWeekFromServer, selectedWeek);
 
   useLayoutEffect(() => {
     weekRefs.current[activeWeek]?.scrollIntoView({
@@ -48,7 +44,7 @@ export const WeekSelector = ({ currentWeek, selectedWeek }: Props) => {
       <div className={css.weekSelector}>
         {Array.from({ length: LAST_WEEK }, (_, index) => {
           const week = index + 1;
-          const isFuture = week > availableWeek;
+          const isFuture = week > currentWeek;
           const isActive = week === activeWeek && !isFuture;
 
           return (
