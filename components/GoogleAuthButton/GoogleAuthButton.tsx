@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { User } from '@/types/user';
 import styles from './GoogleAuthButton.module.css';
+import { googleAuth } from '@/lib/api/clientApi';
 
 export default function GoogleAuthButton() {
   const router = useRouter();
@@ -14,16 +15,16 @@ export default function GoogleAuthButton() {
 
   return (
     <div className={styles.googleButtonWrapper}>
-          <button type='button' className={`${styles.button} gray`}>
-               <svg  width='18' height='18' aria-hidden='true'>
-    <use href='/sprite.svg#icon-google'></use>
-  </svg>
+      <button type='button' className={`${styles.button} gray`}>
+        <svg width='18' height='18' aria-hidden='true'>
+          <use href='/sprite.svg#icon-google'></use>
+        </svg>
         Увійти через Google
       </button>
 
       <div className={styles.hiddenGoogleButton}>
         <GoogleLogin
-          onSuccess={async credentialResponse => {
+          onSuccess={async (credentialResponse) => {
             const credential = credentialResponse.credential;
 
             if (!credential) {
@@ -32,18 +33,27 @@ export default function GoogleAuthButton() {
             }
 
             try {
-              const response = await axios.post<User>(
-                `${process.env.NEXT_PUBLIC_GOOGLE_AUTH_BACK}/api/auth/google`,
-                { credential },
-                { withCredentials: true },
-              );
+              const user = await googleAuth(credential);
+
+              setUser(user);
 
               toast.success('Успішна автентифікація через Google');
-              setUser(response.data);
+        
               router.push('/');
             } catch (error) {
-              console.log(error);
-              toast.error('Помилка автентифікації через Google');
+  if (axios.isAxiosError(error)) {
+    console.log('GOOGLE AUTH STATUS:', error.response?.status);
+    console.log('GOOGLE AUTH DATA:', error.response?.data);
+    console.log('GOOGLE AUTH URL:', error.config?.url);
+
+    toast.error(
+      error.response?.data?.message || 'Помилка автентифікації через Google',
+    );
+    return;
+  }
+
+  console.log('UNKNOWN GOOGLE AUTH ERROR:', error);
+  toast.error('Невідома помилка');
             }
           }}
           onError={() => {
@@ -51,6 +61,6 @@ export default function GoogleAuthButton() {
           }}
         />
       </div>
-        </div>
-        );
+    </div>
+  );
 }
