@@ -1,7 +1,7 @@
 /* Tasks Reminder Card */
 .tasksReminderCard {
   width: 100%;
-  width: 335px;
+  width: 311px;
   margin: 0 auto;
   min-height: 209px;
   border-radius: 32px;
@@ -249,7 +249,6 @@
 @media (min-width: 1440px) {
   .tasksReminderCard {
     max-width: 390px;
-    min-height: 499px;
     margin: 0;
   }
 

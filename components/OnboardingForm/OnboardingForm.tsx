@@ -10,7 +10,6 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { useAuthStore } from '@/lib/store/authStore';
-import 'react-datepicker/dist/react-datepicker.css';
 import { DatePicker } from '../DatePicker/DatePicker';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';

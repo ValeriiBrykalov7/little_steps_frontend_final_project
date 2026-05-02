@@ -2,10 +2,12 @@
 
 import { useFormikContext } from 'formik';
 import ReactDatePicker from 'react-datepicker';
-import { FormValues } from '../OnboardingForm/OnboardingForm';
 import styles from './DatePicker.module.css';
-import { useState } from 'react';
 import clsx from 'clsx';
+
+type DatePickerFormValues = {
+  dueDate: Date | null;
+};
 
 interface DatePickerProps {
   minDate?: Date;
@@ -15,8 +17,7 @@ interface DatePickerProps {
 
 export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
   const { values, setFieldValue, setFieldTouched } =
-    useFormikContext<FormValues>();
-  const [hoverDate, setHoverDate] = useState<Date | null>(null);
+    useFormikContext<DatePickerFormValues>();
 
   return (
     <div className={styles.dateWrapper}>
@@ -34,21 +35,6 @@ export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
         className={clsx(styles.dateInput, className)}
         showPopperArrow={false}
         popperPlacement='bottom-start'
-        renderDayContents={(day, date) => (
-          <div
-            onMouseEnter={() => setHoverDate(date)}
-            onMouseLeave={() => setHoverDate(null)}
-          >
-            {day}
-          </div>
-        )}
-        value={
-          hoverDate
-            ? `${String(hoverDate.getDate()).padStart(2, '0')}.${String(
-                hoverDate.getMonth() + 1,
-              ).padStart(2, '0')}.${hoverDate.getFullYear()}`
-            : undefined
-        }
       />
     </div>
   );

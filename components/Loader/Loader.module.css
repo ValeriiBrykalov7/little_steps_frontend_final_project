@@ -12,6 +12,11 @@
   height: 100%;
 }
 
+.inlineLoaderWrapper {
+  min-height: auto;
+  height: 100%;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 80px;

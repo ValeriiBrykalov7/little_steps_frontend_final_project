@@ -1,14 +1,24 @@
+.dateWrapper {
+  width: 100%;
+}
+
 .datePickerWrapper {
   width: 100%;
 }
 
 .dateInput {
+  display: block;
+  width: 100%;
   padding: 8px 12px;
   cursor: pointer;
   font-size: 14px;
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.6);
   caret-color: transparent;
+}
+
+:global(.react-datepicker-popper) {
+  z-index: 1100;
 }
 
 :global(.react-datepicker) {

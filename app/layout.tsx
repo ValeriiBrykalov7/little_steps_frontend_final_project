@@ -1,5 +1,6 @@
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';

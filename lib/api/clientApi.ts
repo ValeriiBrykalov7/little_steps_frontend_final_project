@@ -3,6 +3,8 @@ import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
 import type { GetAllDiariesResponse } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
+import type { Baby } from '@/types/baby';
+import type { Mom } from '@/types/mom';
 
 export { nextServer };
 
@@ -38,8 +40,10 @@ export const checkSession = async (forceRefresh = false) => {
 };
 
 export const getMe = async () => {
-  const { data } = await nextServer.get<User>('/users/current');
-  return data;
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<User>('/users/current');
+    return data;
+  });
 };
 
 export const login = async (payload: LoginRequest) => {
@@ -73,6 +77,20 @@ export const getDashboardInfo = async (isAuthenticated: boolean) => {
   return requestWithAuthRefresh(async () => {
     const response = await nextServer.get(endpoint);
     return response.data;
+  });
+};
+
+export const getBabyWeekInfo = async (weekNumber: number) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<Baby>(`/weeks/baby/${weekNumber}`);
+    return data;
+  });
+};
+
+export const getMomWeekInfo = async (weekNumber: number) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.get<Mom>(`/weeks/mom/${weekNumber}`);
+    return data;
   });
 };
 
@@ -122,9 +140,9 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
 //User
 //
 
-export const updateUser = async (formData: FormData) => {
+export const updateUser = async (data: Partial<User> | FormData) => {
   return requestWithAuthRefresh(async () => {
-    const { data } = await nextServer.patch<User>('/users/me', formData);
-    return data;
+    const { data: responseData } = await nextServer.patch('users/me', data);
+    return responseData;
   });
 };
