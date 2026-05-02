@@ -17,6 +17,7 @@ type Props = {
 type ActiveTab = 'baby' | 'mother';
 
 const STALE_TIME = 1000 * 60 * 5;
+const COMFORT_TIP_ICON_IDS = ['icon-cutlery', 'icon-weight', 'icon-sofa'];
 
 const splitTextBlocks = (text?: string) =>
   text
@@ -95,9 +96,11 @@ export default function JourneyDetails({ weekNumber }: Props) {
           {interestingFactBlocks.length > 0 && (
             <div className={styles.factCard}>
               <div className={styles.factTitleRow}>
-                <svg className={styles.factIcon}>
-                  <use href='/sprite.svg#star-shine'></use>
-                </svg>
+                <span className={styles.journeyIconBox}>
+                  <svg className={styles.journeyIcon}>
+                    <use href='/sprite.svg#icon-star'></use>
+                  </svg>
+                </span>
                 <h3 className={styles.factTitle}>Цікавий факт тижня</h3>
               </div>
 
@@ -121,30 +124,53 @@ export default function JourneyDetails({ weekNumber }: Props) {
     return (
       <div className={styles.motherGrid}>
         <div className={styles.motherContent}>
-          <div className={styles.infoCard}>
+          <div className={styles.motherFeelingCard}>
             <h3 className={styles.infoCardTitle}>Як ви можете почуватись</h3>
-            <p>{mom.feelings.sensationDescr}</p>
 
             {mom.feelings.states.length > 0 && (
-              <ul className={styles.statesList}>
+              <ul className={styles.statesChips}>
                 {mom.feelings.states.map((state) => (
-                  <li className={styles.tipsItem} key={state}>
+                  <li className={styles.stateChip} key={state}>
                     {state}
                   </li>
                 ))}
               </ul>
             )}
+
+            <p className={styles.motherFeelingText}>
+              {mom.feelings.sensationDescr}
+            </p>
           </div>
 
-          <div className={styles.infoCard}>
+          <div className={styles.comfortCard}>
             <h3 className={styles.infoCardTitle}>Поради для вашого комфорту</h3>
-            <ul className={styles.tipsList}>
-              {mom.comfortTips.map(({ category, tip }) => (
-                <li className={styles.tipsItem} key={`${category}-${tip}`}>
-                  <strong>{category}: </strong>
-                  {tip}
-                </li>
-              ))}
+            <ul className={styles.comfortTipsList}>
+              {mom.comfortTips.map(({ category, tip }, index) => {
+                const iconId =
+                  COMFORT_TIP_ICON_IDS[index % COMFORT_TIP_ICON_IDS.length];
+
+                return (
+                  <li
+                    className={styles.comfortTipItem}
+                    key={`${category}-${tip}`}
+                  >
+                    <div className={styles.comfortTipHeader}>
+                      <span
+                        className={styles.journeyIconBox}
+                        aria-hidden='true'
+                      >
+                        <svg className={styles.journeyIcon}>
+                          <use href={`/sprite.svg#${iconId}`}></use>
+                        </svg>
+                      </span>
+                      <strong className={styles.comfortTipCategory}>
+                        {category}
+                      </strong>
+                    </div>
+                    <p className={styles.comfortTipText}>{tip}</p>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
