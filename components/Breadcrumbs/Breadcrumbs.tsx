@@ -15,7 +15,7 @@ const HIDE_ON_PATHS = new Set(['/profile/edit']);
 const diaryEntryLabel = 'Запис';
 
 const Arrow = () => (
-  <svg className={styles.arrow} width='7' height='12' aria-hidden='true'>
+  <svg className={styles.arrow} width="24" height="24" aria-hidden='true'>
     <use href='/sprite.svg#icon-arrow-right'></use>
   </svg>
 );
@@ -49,7 +49,7 @@ const Breadcrumbs = () => {
   };
 
   return (
-    <nav aria-label='Breadcrumb' className={`container ${styles.nav}`}>
+    <nav aria-label='Breadcrumb' className={`${styles.nav}`}>
       <ol className={styles.list}>
         <li className={styles.item}>
           <Link href='/' className={styles.link}>

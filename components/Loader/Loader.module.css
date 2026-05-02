@@ -7,6 +7,11 @@
   justify-content: center;
 }
 
+.buttonLoaderWrapper {
+  min-height: auto;
+  height: 100%;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 80px;
@@ -30,6 +35,24 @@
   background-repeat: no-repeat;
   animation: l5 2s infinite;
 }
+
+.buttonLoader {
+  width: 48px;
+  height: 24px;
+}
+
+.buttonLoader:before {
+  background:
+    radial-gradient(farthest-side, #ffd738 80%, #0000) left 70% top 20%/9px
+      9px,
+    radial-gradient(farthest-side, #020308 92%, #0000) left 65% bottom 19%/7px
+      7px,
+    radial-gradient(farthest-side, #ecfefe 92%, #0000) left 70% bottom 20%/9px
+      9px,
+    linear-gradient(#9eddfe 50%, #020308 0);
+  background-repeat: no-repeat;
+}
+
 @keyframes l5 {
   0%,
   20% {

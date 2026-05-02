@@ -7,7 +7,7 @@ import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
-import type { DiaryEntry } from '@/types/diary';
+import type { GetAllDiariesResponse } from '@/types/diary';
 import css from './page.module.css';
 import DiaryList from '@/components/DiaryList/DiaryList';
 
@@ -16,16 +16,18 @@ const DiaryListPage = () => {
   const router = useRouter();
 
   const {
-    data: diaries = [],
+    data: diaryData,
     isLoading,
     isError,
     error,
-  } = useQuery<DiaryEntry[]>({
+  } = useQuery<GetAllDiariesResponse>({
     queryKey: ['diaries', isAuthenticated],
     queryFn: getAllDiaries,
     enabled: isAuthChecked && isAuthenticated,
     staleTime: 1000 * 60 * 5,
   });
+
+  const diaries = diaryData?.diary ?? [];
 
   useEffect(() => {
     if (isError || diaries.length === 0) return;

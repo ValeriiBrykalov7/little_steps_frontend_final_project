@@ -1,19 +1,25 @@
 'use client';
 
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, usePathname } from 'next/navigation';
 import styles from './ImageAuth.module.css';
 import Image from 'next/image';
 
 export default function ImageAuth() {
   const { authType } = useParams();
+  const pathname = usePathname();
+
   let imageSrc = '';
+  let alt = '';
 
   if (authType === 'login') {
     imageSrc = '/images/nest.jpg';
+    alt = 'Nest';
   } else if (authType === 'register') {
     imageSrc = '/images/storks.jpg';
-  } else if (authType === 'profile/edit') {
+    alt = 'Storks';
+  } else if (pathname === '/profile/edit') {
     imageSrc = '/images/plant.jpg';
+    alt = 'Plant';
   } else {
     notFound();
   }
@@ -24,7 +30,7 @@ export default function ImageAuth() {
       className={styles.image}
       width={720}
       height={900}
-      alt={authType}
+      alt={alt}
       priority
     />
   );
