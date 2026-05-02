@@ -42,17 +42,6 @@
   font-weight: 500;
 }
 
-@media (min-width: 768px) {
-  .tabsList {
-    min-height: 44px;
-  }
-
-  .tabButton {
-    min-height: 36px;
-    font-size: 14px;
-  }
-}
-
 .loaderWrapper {
   height: 300px;
   display: flex;
@@ -160,35 +149,6 @@
   justify-items: center;
 }
 
-@media (min-width: 1024px) {
-  .babyCard {
-    grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
-    align-items: stretch;
-    gap: 32px;
-    padding: 22px;
-  }
-
-  .babyImage {
-    height: 100%;
-  }
-
-  .babyTextList,
-  .factText {
-    font-size: 16px;
-  }
-
-  .babyCaption,
-  .factTitle {
-    font-size: 16px;
-  }
-
-  .motherGrid {
-    grid-template-columns: minmax(0, 642px) minmax(320px, 390px);
-    align-items: start;
-    column-gap: 24px;
-  }
-}
-
 .motherContent {
   display: flex;
   flex-direction: column;
@@ -294,7 +254,22 @@
   color: var(--color-red);
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
+  .tabsList {
+    min-height: 44px;
+  }
+
+  .tabButton {
+    min-height: 36px;
+    font-size: 14px;
+  }
+
+  .babyCard,
+  .motherContent,
+  .tasksColumn {
+    width: 704px;
+  }
+
   .infoCardTitle {
     font-size: 24px;
   }
@@ -306,5 +281,40 @@
 
   .comfortTipCategory {
     font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .babyCard {
+    grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
+    align-items: stretch;
+    width: 1064px;
+    gap: 32px;
+    padding: 22px;
+  }
+
+  .babyImage {
+    height: 100%;
+  }
+
+  .babyTextList,
+  .factText {
+    font-size: 16px;
+  }
+
+  .babyCaption,
+  .factTitle {
+    font-size: 16px;
+  }
+
+  .motherContent {
+    width: 650px;
+  }
+
+  .motherGrid {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 24px;
+    width: 1064px;
   }
 }
