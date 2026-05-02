@@ -5,6 +5,6 @@
 
 @media only screen and (min-width: 1440px) {
   .journeyWeek {
-    overflow-x: visible;
+    overflow-x: hidden;
   }
 }

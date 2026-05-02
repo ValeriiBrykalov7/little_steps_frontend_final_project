@@ -210,7 +210,11 @@ export default function JourneyDetails({ weekNumber }: Props) {
   return (
     <>
       <div className={styles.journeyDetails}>
-        <div className={styles.tabsList}>
+        <div
+          className={`${styles.tabsList} ${
+            activeTab === 'mother' ? styles.tabsListMother : ''
+          }`}
+        >
           <button
             type='button'
             onClick={() => setActiveTab('baby')}
@@ -232,17 +236,22 @@ export default function JourneyDetails({ weekNumber }: Props) {
           </button>
         </div>
 
-        {isLoading ? (
-          <div className={styles.loaderWrapper}>
-            <Loader />
-          </div>
-        ) : hasError ? (
-          <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
-        ) : activeTab === 'baby' ? (
-          renderBabyTab()
-        ) : (
-          renderMotherTab()
-        )}
+        <div
+          key={`${activeTab}-${weekNumber}`}
+          className={styles.contentFade}
+        >
+          {isLoading ? (
+            <div className={styles.loaderWrapper}>
+              <Loader />
+            </div>
+          ) : hasError ? (
+            <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
+          ) : activeTab === 'baby' ? (
+            renderBabyTab()
+          ) : (
+            renderMotherTab()
+          )}
+        </div>
       </div>
 
       {isAddTaskModalOpen && (

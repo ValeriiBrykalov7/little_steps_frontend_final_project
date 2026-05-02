@@ -3,18 +3,45 @@
 }
 
 .tabsList {
+  position: relative;
+  isolation: isolate;
   display: flex;
   width: 100%;
   max-width: 462px;
   min-height: 40px;
   margin: 0 auto 16px;
   padding: 4px;
+  overflow: hidden;
   background: var(--color-pastel-pink-lightest);
   border-radius: 100px;
 }
 
+.tabsList::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  z-index: 0;
+  width: calc((100% - 8px) / 2);
+  border-radius: 100px;
+  background: var(--color-pastel-pink-light);
+  box-shadow: rgba(255, 157, 175, 0.22) 0 3px 10px;
+  transform: translateX(0);
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.2s ease;
+  pointer-events: none;
+}
+
+.tabsListMother::before {
+  transform: translateX(100%);
+}
+
 .tabButton {
   appearance: none;
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -31,21 +58,36 @@
   color: var(--color-scheme-text);
   transform: none;
   transition:
-    background-color 0.2s ease,
     color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    transform 0.18s ease;
 }
 
 .tabButtonActive {
-  background: var(--color-pastel-pink-light);
+  background: transparent;
   color: var(--color-scheme-text);
   font-weight: 500;
+}
+
+.tabButton:hover,
+.tabButton:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(255, 157, 175, 0.28);
+}
+
+.tabButton:active {
+  transform: scale(0.98);
 }
 
 .loaderWrapper {
   height: 300px;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.contentFade {
+  animation: contentFadeIn 0.22s ease both;
+  display: flex;
   justify-content: center;
 }
 
@@ -116,6 +158,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
+  align-items: center;
 }
 
 .journeyIconBox {
@@ -131,7 +174,10 @@
 }
 
 .factTitle {
+  font-family: var(--font-family);
   margin: 0;
+  font-weight: 700;
+  color: var(--color-scheme-text);
 }
 
 .factText {
@@ -204,8 +250,8 @@
   padding: 6px 12px;
   border-radius: 100px;
   background: var(--opacity-neutral-darkest-5);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 1.5;
 }
 
@@ -254,9 +300,20 @@
   color: var(--color-red);
 }
 
+@keyframes contentFadeIn {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .tabsList {
     min-height: 44px;
+    max-width: 704px;
   }
 
   .tabButton {
@@ -316,5 +373,6 @@
     grid-auto-flow: column;
     column-gap: 24px;
     width: 1064px;
+    margin-bottom: 24px;
   }
 }
