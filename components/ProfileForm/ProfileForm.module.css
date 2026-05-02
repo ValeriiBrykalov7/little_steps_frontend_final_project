@@ -1,0 +1,166 @@
+.formContainer {
+  padding: 0 20px;
+}
+
+.formFildContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 16px;
+}
+.fildContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formFild {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.formFild label {
+  font-weight: 400;
+  font-size: 14px;
+
+  line-height: 1.5;
+  color: var(--color-scheme-text);
+}
+
+.input,
+.select {
+  border: 2px solid var(--opacity-transparent);
+  border-radius: 12px;
+  padding: 8px 12px;
+  background: var(--opacity-neutral-darkest-5);
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.input {
+  height: 37px;
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.inputError {
+  border: 2px solid var(--color-red);
+  animation: shake 0.3s ease-in-out;
+}
+
+.inputError::placeholder {
+  color: var(--color-red);
+}
+
+.error {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-red);
+}
+
+.select:focus-visible {
+  outline: none;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--color-scheme-accent);
+}
+
+.inputError:focus-visible {
+  border-color: var(--color-red);
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.select[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  fill: none;
+  stroke: currentColor;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-4px);
+  }
+
+  40% {
+    transform: translateX(4px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .formContainer {
+    padding: 0 32px;
+    width: 768px;
+  }
+
+  .btnContainer {
+    justify-content: flex-end;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .formContainer {
+    width: 644px;
+    justify-content: flex-start;
+  }
+
+  .formFild label {
+    font-weight: 400;
+    font-size: 16px;
+
+    line-height: 1.5;
+    color: var(--color-scheme-text);
+  }
+
+  .input {
+    height: 40px;
+  }
+}

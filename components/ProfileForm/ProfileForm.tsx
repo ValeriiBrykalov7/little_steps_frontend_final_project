@@ -1,31 +1,18 @@
 'use client';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Formik, Form, Field } from 'formik';
-import { Gender, User } from '@/types/user';
+import { useMutation } from '@tanstack/react-query';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { User } from '@/types/user';
 import { updateUser } from '@/lib/api/clientApi';
 import { profileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
+import css from './ProfileForm.module.css';
+import toast from 'react-hot-toast';
+import Icon from '../Icon/Icon';
 
 export const ProfileForm = () => {
-  const queryClient = useQueryClient();
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
-
-  const { mutate: saveProfile, isPending } = useMutation<User, Error, FormData>(
-    {
-      mutationFn: (formData) => updateUser(formData),
-      onSuccess: (updatedUser) => {
-        queryClient.setQueryData(['currentUser'], updatedUser);
-        queryClient.invalidateQueries({ queryKey: ['currentUser'] });
-        setUser(updatedUser);
-        alert('Дані успішно змінено!');
-      },
-      onError: (error) => {
-        alert(`Помилка: ${error.message}`);
-      },
-    },
-  );
 
   const initialValues = {
     username: user?.username || '',
@@ -36,73 +23,153 @@ export const ProfileForm = () => {
       : '',
   };
 
+  const { mutate: saveProfile, isPending } = useMutation<User, Error, FormData>(
+    {
+      mutationFn: (formData) => updateUser(formData),
+      onSuccess: (updatedUser) => {
+        setUser(updatedUser);
+        toast.success('Дані успішно змінено!');
+      },
+      onError: (error) => {
+        toast.error(`Помилка: ${error.message}`);
+      },
+    },
+  );
+
   return (
-    <div className='form-wrapper'>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={profileSchema}
-        enableReinitialize
-        onSubmit={(values) => {
-          const formData = new FormData();
+    <div className='container'>
+      <div className={css.formContainer}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={profileSchema}
+          enableReinitialize
+          onSubmit={(values) => {
+            const formData = new FormData();
 
-          if (values.username.trim())
-            formData.append('username', values.username.trim());
-          if (values.email.trim())
-            formData.append('email', values.email.trim());
-          if (values.gender !== 'null')
+            if (values.username.trim())
+              formData.append('username', values.username.trim());
+            if (values.email.trim())
+              formData.append('email', values.email.trim());
             formData.append('gender', values.gender);
-          if (values.dueDate) formData.append('dueDate', values.dueDate);
+            if (values.dueDate) formData.append('dueDate', values.dueDate);
 
-          saveProfile(formData);
-        }}
-      >
-        {({ resetForm }) => (
-          <Form>
-            <div className='form-field'>
-              <label htmlFor='username'>{"Ім'я"}</label>
-              <Field name='username' id='username' placeholder="Введіть ім'я" />
-            </div>
+            saveProfile(formData);
+          }}
+        >
+          {({ resetForm, errors, touched }) => (
+            <Form className={css.formFildContainer}>
+              <div className={css.fildContainer}>
+                <div className={css.formFild}>
+                  <label htmlFor='username' className={css.label}>
+                    {"Ім'я"}
+                  </label>
+                  <Field
+                    name='username'
+                    id='username'
+                    placeholder="Введіть ім'я"
+                    className={`${css.input} ${
+                      touched.username && errors.username ? css.inputError : ''
+                    }`}
+                  />
+                  <ErrorMessage
+                    name='username'
+                    component='span'
+                    className={css.error}
+                  />
+                </div>
 
-            <div className='form-field'>
-              <label htmlFor='email'>Пошта</label>
-              <Field
-                name='email'
-                id='email'
-                type='email'
-                placeholder='example@mail.com'
-              />
-            </div>
+                <div className={css.formFild}>
+                  <label htmlFor='email' className={css.label}>
+                    Пошта
+                  </label>
+                  <Field
+                    name='email'
+                    id='email'
+                    type='email'
+                    placeholder='example@mail.com'
+                    className={`${css.input} ${
+                      touched.email && errors.email ? css.inputError : ''
+                    }`}
+                  />
+                  <ErrorMessage
+                    name='email'
+                    component='span'
+                    className={css.error}
+                  />
+                </div>
 
-            <div className='form-field'>
-              <label htmlFor='gender'>Стать дитини</label>
-              <Field as='select' name='gender' id='gender'>
-                <option value='null'>Оберіть стать</option>
-                <option value='boy'>Хлопчик</option>
-                <option value='girl'>Дівчинка</option>
-              </Field>
-            </div>
+                <div className={css.formFild}>
+                  <label htmlFor='gender' className={css.label}>
+                    Стать дитини
+                  </label>
+                  <div className={css.inputWrapper}>
+                    <Field
+                      as='select'
+                      name='gender'
+                      id='gender'
+                      className={`${css.select} ${
+                        touched.gender && errors.gender ? css.inputError : ''
+                      }`}
+                    >
+                      <option value='null'>Ще не знаю</option>
+                      <option value='boy'>Хлопчик</option>
+                      <option value='girl'>Дівчинка</option>
+                    </Field>
+                    <Icon
+                      name='icon-keyboard_arrow_down'
+                      size={18}
+                      className={css.selectIcon}
+                    />
+                  </div>
+                  <ErrorMessage
+                    name='gender'
+                    component='span'
+                    className={css.error}
+                  />
+                </div>
 
-            <div className='form-field'>
-              <label htmlFor='dueDate'>Планова дата пологів</label>
-              <Field name='dueDate' id='dueDate' type='date' />
-            </div>
+                <div className={css.formFild}>
+                  <label htmlFor='dueDate'>Планова дата пологів</label>
+                  <div className={css.inputWrapper}>
+                    <Field
+                      name='dueDate'
+                      id='dueDate'
+                      type='date'
+                      className={`${css.select} ${
+                        touched.dueDate && errors.dueDate ? css.inputError : ''
+                      }`}
+                    />
+                    <Icon
+                      name='icon-keyboard_arrow_down'
+                      size={18}
+                      className={css.selectIcon}
+                    />
+                  </div>
+                  <ErrorMessage
+                    name='dueDate'
+                    component='span'
+                    className={css.error}
+                  />
+                </div>
+              </div>
 
-            <div className='btn-cncl'>
-              <button
-                type='button'
-                className='btn-cancel'
-                onClick={() => resetForm()}
-              >
-                Відмінити зміни
-              </button>
+              <div className={css.btnContainer}>
+                <button
+                  type='button'
+                  className='gray'
+                  onClick={() => resetForm()}
+                >
+                  Відмінити зміни
+                </button>
 
-              <button type='submit' className='btn-save' disabled={isPending}>
-                {isPending ? 'Збереження...' : 'Зберегти зміни'}
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+                <button type='submit' className='pink' disabled={isPending}>
+                  {isPending ? 'Збереження...' : 'Зберегти зміни'}
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
