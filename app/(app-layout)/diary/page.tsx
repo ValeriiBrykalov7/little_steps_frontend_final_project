@@ -5,7 +5,7 @@ import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
-import type { DiaryEntry } from '@/types/diary';
+import type { GetAllDiariesResponse } from '@/types/diary';
 import css from './page.module.css';
 import DiaryList from '@/components/DiaryList/DiaryList';
 
@@ -13,11 +13,11 @@ const DiaryListPage = () => {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
 
   const {
-    data: diaries = [],
+    data: diaryData,
     isLoading,
     isError,
     error,
-  } = useQuery<DiaryEntry[]>({
+  } = useQuery<GetAllDiariesResponse>({
     queryKey: ['diaries', isAuthenticated],
     queryFn: getAllDiaries,
     enabled: isAuthChecked && isAuthenticated,
@@ -25,6 +25,8 @@ const DiaryListPage = () => {
   });
 
   if (!isAuthChecked || (isAuthenticated && isLoading)) return <Loader />;
+
+  const diaries = diaryData?.diary ?? [];
 
   return (
     <section className={css.diary}>

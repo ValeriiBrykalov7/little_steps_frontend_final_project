@@ -45,7 +45,7 @@ export const BabyTodayCard = ({ dataBaby }: DataBabyProps) => {
               Приблизно {dataBaby.size} см
             </p>
             <p className={css.cardText}>
-              <strong className={css.cardTextStrong}>Вага:</strong> Близько{' '}
+              <strong className={css['card-text-strong']}>Вага:</strong> Близько{' '}
               {dataBaby.weight} грамів
             </p>
             <p className={css.cardText}>
