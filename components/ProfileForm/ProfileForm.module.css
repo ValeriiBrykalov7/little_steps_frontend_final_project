@@ -91,4 +91,12 @@
     width: 644px;
     justify-content: flex-start;
   }
+
+  .formFild label {
+    font-weight: 400;
+    font-size: 16px;
+
+    line-height: 1.5;
+    color: var(--color-scheme-text);
+  }
 }
