@@ -1,20 +1,24 @@
 'use client';
 
 import { useFormikContext } from 'formik';
-import DatePicker from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker';
 import { FormValues } from '../OnboardingForm/OnboardingForm';
-import styles from './DueDatePicker.module.css';
+import styles from './DatePicker.module.css';
 import { useState } from 'react';
-import { max, min } from '@/lib/helper/date';
 
-export function DueDatePicker() {
+interface DatePickerProps {
+  minDate?: Date;
+  maxDate?: Date;
+}
+
+export function DatePicker({ minDate, maxDate }: DatePickerProps) {
   const { values, setFieldValue, setFieldTouched } =
     useFormikContext<FormValues>();
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
 
   return (
     <div className={styles.dateWrapper}>
-      <DatePicker
+      <ReactDatePicker
         onKeyDown={(e) => e.preventDefault()}
         wrapperClassName={styles.datePickerWrapper}
         selected={values.dueDate}
@@ -22,8 +26,8 @@ export function DueDatePicker() {
           setFieldValue('dueDate', date);
           setFieldTouched('dueDate', true);
         }}
-        minDate={min}
-        maxDate={max}
+        minDate={minDate}
+        maxDate={maxDate}
         dateFormat='yyyy-MM-dd'
         placeholderText='Оберіть дату'
         className={styles.dateInput}
