@@ -14,6 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { DueDatePicker } from '../DueDatePicker/DueDatePicker';
 import { max, min } from '@/lib/helper/date';
 import toast from 'react-hot-toast';
+import { Loader } from '../Loader/Loader';
 
 export type GenderOption = {
   value: Gender;
@@ -128,7 +129,7 @@ export default function OnboardingForm() {
             className={`${styles.button} pink`}
             disabled={isPending}
           >
-            Зберегти
+            {isPending ? <Loader variant='button' /> : 'Зберегти'}
           </button>
         </Form>
       )}

@@ -14,14 +14,14 @@ export async function PATCH(request: Request) {
     const email = incomingFormData.get('email');
     const gender = incomingFormData.get('gender');
     const dueDate = incomingFormData.get('dueDate');
-    const photo = incomingFormData.get('photo');
+    const avatar = incomingFormData.get('photo');
 
     if (username !== null) formData.append('username', String(username));
     if (email !== null) formData.append('email', String(email));
     if (gender !== null) formData.append('gender', String(gender));
     if (dueDate !== null) formData.append('dueDate', String(dueDate));
-    if (photo instanceof File) {
-      formData.append('photo', photo);
+    if (avatar instanceof File) {
+      formData.append('avatar', avatar);
     }
     const res = await api.patch('/users/me', formData, {
       headers: {

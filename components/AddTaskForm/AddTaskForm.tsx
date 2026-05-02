@@ -118,7 +118,7 @@ export default function AddTaskForm({ onSubmit, onClose }: AddTaskFormProps) {
             disabled={isSubmitting}
             className={`${css.AddTaskFormButton} pink`}
           >
-            {isSubmitting ? <Loader /> : 'Зберегти'}
+            {isSubmitting ? <Loader variant='button' /> : 'Зберегти'}
           </button>
         </Form>
       )}
