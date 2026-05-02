@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { login } from '@/lib/api/clientApi';
+import { Loader } from '../Loader/Loader';
 
 interface FormValues {
   email: string;
@@ -105,7 +106,7 @@ export default function LoginForm() {
                   className={`${styles.button} pink`}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Завантаження...' : 'Увійти'}
+                  {isSubmitting ? <Loader variant='button' /> : 'Увійти'}
                 </button>
 
                 <p className={styles.loginPrompt}>
