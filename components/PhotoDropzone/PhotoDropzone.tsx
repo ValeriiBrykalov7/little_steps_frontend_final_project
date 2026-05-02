@@ -7,6 +7,7 @@ import styles from './PhotoDropzone.module.css';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import '../../css/base.css';
+import clsx from 'clsx';
 
 export default function PhotoDropzone() {
   const { setFieldValue, setFieldTouched } = useFormikContext<FormValues>();
@@ -44,7 +45,9 @@ export default function PhotoDropzone() {
     <div className={styles.wrapper}>
       <div
         {...getRootProps()}
-        className={`${styles.circle} ${isDragActive ? styles.active : ''}`}
+        className={clsx(styles.circle, {
+          [styles.active]: isDragActive,
+        })}
       >
         <input {...getInputProps()} />
 

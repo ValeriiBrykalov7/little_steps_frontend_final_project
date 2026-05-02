@@ -52,8 +52,6 @@
   margin: 0 auto;
   width: 268px;
   height: 42px;
-  border: none;
-  cursor: pointer;
 }
 
 @keyframes shake {

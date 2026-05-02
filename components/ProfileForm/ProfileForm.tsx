@@ -4,31 +4,34 @@ import { useMutation } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Gender, User } from '@/types/user';
 import { updateUser } from '@/lib/api/clientApi';
-import { profileSchema } from '@/lib/validation/FormShema';
+import { createProfileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './ProfileForm.module.css';
 import toast from 'react-hot-toast';
 import Icon from '../Icon/Icon';
 import { Loader } from '../Loader/Loader';
+import { DatePicker } from '../DatePicker/DatePicker';
+import dayjs from 'dayjs';
+import { getDateRange } from '@/lib/helper/date';
 
 type ProfileFormValues = {
   username: string;
   email: string;
   gender: Gender;
-  dueDate: string;
+  dueDate: Date | null;
 };
 
 export const ProfileForm = () => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
+  const { min, max } = getDateRange({ minOffset: 7 });
+  const validationSchema = createProfileSchema(min, max);
 
   const initialValues: ProfileFormValues = {
     username: user?.username || '',
     email: user?.email || '',
     gender: user?.gender || 'null',
-    dueDate: user?.dueDate
-      ? new Date(user.dueDate).toISOString().split('T')[0]
-      : '',
+    dueDate: user?.dueDate ? new Date(user.dueDate) : null,
   };
 
   const { mutate: saveProfile, isPending } = useMutation<User, Error, FormData>(
@@ -58,7 +61,7 @@ export const ProfileForm = () => {
     formData.append('gender', values.gender);
 
     if (values.dueDate) {
-      formData.append('dueDate', values.dueDate);
+      formData.append('dueDate', dayjs(values.dueDate).format('YYYY-MM-DD'));
     }
 
     saveProfile(formData);
@@ -69,7 +72,7 @@ export const ProfileForm = () => {
       <div className={css.formContainer}>
         <Formik
           initialValues={initialValues}
-          validationSchema={profileSchema}
+          validationSchema={validationSchema}
           enableReinitialize
           onSubmit={handleSubmit}
         >
@@ -146,24 +149,14 @@ export const ProfileForm = () => {
                 </div>
 
                 <div className={css.field}>
-                  <label htmlFor='dueDate' className={css.label}>
-                    Планова дата пологів
-                  </label>
-                  <div className={css.inputWrapper}>
-                    <Field
-                      name='dueDate'
-                      id='dueDate'
-                      type='date'
-                      className={`${css.select} ${
-                        touched.dueDate && errors.dueDate ? css.inputError : ''
-                      }`}
-                    />
-                    <Icon
-                      name='icon-keyboard_arrow_down'
-                      size={18}
-                      className={css.selectIcon}
-                    />
-                  </div>
+                  <label className={css.label}>Планова дата пологів</label>
+                  <DatePicker
+                    minDate={min}
+                    maxDate={max}
+                    className={`${css.select} ${
+                      touched.dueDate && errors.dueDate ? css.inputError : ''
+                    }`}
+                  />
                   <ErrorMessage
                     name='dueDate'
                     component='span'

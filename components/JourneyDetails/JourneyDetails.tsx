@@ -242,7 +242,7 @@ export default function JourneyDetails({ weekNumber }: Props) {
         >
           {isLoading ? (
             <div className={styles.loaderWrapper}>
-              <Loader />
+              <Loader variant='inline' />
             </div>
           ) : hasError ? (
             <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
