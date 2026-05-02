@@ -12,7 +12,7 @@ export default function PhotoDropzone() {
   const { setFieldValue, setFieldTouched } = useFormikContext<FormValues>();
   const [preview, setPreview] = useState<string | null>(null);
 
-  const { getRootProps, getInputProps, open } = useDropzone({
+  const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop: (files) => {
       const file = files[0];
       if (!file) return;
@@ -42,7 +42,10 @@ export default function PhotoDropzone() {
 
   return (
     <div className={styles.wrapper}>
-      <div {...getRootProps()} className={styles.circle}>
+      <div
+        {...getRootProps()}
+        className={`${styles.circle} ${isDragActive ? styles.active : ''}`}
+      >
         <input {...getInputProps()} />
 
         <Image

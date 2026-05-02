@@ -1,9 +1,21 @@
 import css from './Loader.module.css';
 
-export const Loader = () => {
+type LoaderProps = {
+  variant?: 'page' | 'button';
+};
+
+export const Loader = ({ variant = 'page' }: LoaderProps) => {
+  const isButtonLoader = variant === 'button';
+
   return (
-    <div className={css.loaderWrapper}>
-      <div className={css.loader}></div>
+    <div
+      className={`${css.loaderWrapper} ${
+        isButtonLoader ? css.buttonLoaderWrapper : ''
+      }`}
+    >
+      <div
+        className={`${css.loader} ${isButtonLoader ? css.buttonLoader : ''}`}
+      ></div>
     </div>
   );
 };
