@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import css from './ConfirmationModal.module.css';
+import { Loader } from '../Loader/Loader';
 
 type Props = {
   title: string;
@@ -38,24 +39,30 @@ export const ConfirmationModal = ({
 }: Props) => {
   const isClient = useIsClient();
   const [closingAction, setClosingAction] = useState<ClosingAction>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const closeWithAnimation = useCallback(() => {
-    setClosingAction('cancel');
-  }, []);
+    if (isConfirming) return;
 
-  const confirmWithAnimation = useCallback(() => {
-    setClosingAction('confirm');
-  }, []);
+    setClosingAction('cancel');
+  }, [isConfirming]);
+
+  const handleConfirm = useCallback(async () => {
+    if (isConfirming) return;
+
+    setIsConfirming(true);
+
+    try {
+      await onConfirm();
+    } catch {
+      setIsConfirming(false);
+    }
+  }, [isConfirming, onConfirm]);
 
   useEffect(() => {
     if (!closingAction) return;
 
     const timerId = setTimeout(() => {
-      if (closingAction === 'confirm') {
-        void onConfirm();
-        return;
-      }
-
       onCancel();
     }, MODAL_ANIMATION_MS);
 
@@ -98,6 +105,7 @@ export const ConfirmationModal = ({
           type='button'
           className={css.btnboxclose}
           onClick={closeWithAnimation}
+          disabled={isConfirming}
         >
           <svg className={css.closebtn}>
             <use href='/sprite.svg#icon-close'></use>
@@ -107,12 +115,22 @@ export const ConfirmationModal = ({
         <p className={css.textfortask}>{title}</p>
 
         <div className={css.actions}>
-          <button type='button' className='pink' onClick={closeWithAnimation}>
+          <button
+            type='button'
+            className='pink'
+            onClick={closeWithAnimation}
+            disabled={isConfirming}
+          >
             {cancelButtonText}
           </button>
 
-          <button type='button' className='gray' onClick={confirmWithAnimation}>
-            {confirmButtonText}
+          <button
+            type='button'
+            className='gray'
+            onClick={handleConfirm}
+            disabled={isConfirming}
+          >
+            {isConfirming ? <Loader variant='button' /> : confirmButtonText}
           </button>
         </div>
       </div>

@@ -19,17 +19,24 @@ export default function UserBar({ onNavigate }: UserBarProps) {
     (state) => state.clearIsAuthenticated,
   );
   const [isConfirmationModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
   if (!user) return null;
 
   const handleLogout = async () => {
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+
     try {
       await logout();
+    } catch {
+      // Local logout should still complete even if the server session is already gone.
     } finally {
-      clearIsAuthenticated();
       onNavigate?.();
-      router.push('/auth/login');
+      router.replace('/auth/login');
+      clearIsAuthenticated();
     }
   };
 

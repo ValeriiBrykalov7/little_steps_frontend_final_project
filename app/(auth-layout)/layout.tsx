@@ -3,6 +3,17 @@ import '../../css/container.css';
 import styles from './layout.module.css';
 import ImageAuth from '@/components/ImageAuth/ImageAuth';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Лелека',
+    template: '%s | Лелека',
+  },
+  description:
+    'Лелека — додаток для майбутніх мам. Відстежуйте вагітність, отримуйте персоналізовані поради та керуйте важливими завданнями.',
+};
+
 export default function AuthLayout({
   children,
 }: {

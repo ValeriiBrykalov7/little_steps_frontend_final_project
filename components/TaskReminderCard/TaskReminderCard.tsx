@@ -131,7 +131,7 @@ export default function TasksReminderCard({
       </div>
 
       {isLoading ? (
-        <Loader />
+        <Loader variant='inline' />
       ) : tasks.length === 0 ? (
         <div className={styles.tasksPlaceholder}>
           <div className={styles.noTasks}>

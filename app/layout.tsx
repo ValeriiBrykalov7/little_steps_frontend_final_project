@@ -1,5 +1,6 @@
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
@@ -20,24 +21,21 @@ const comfortaa = Comfortaa({
 });
 
 export const metadata: Metadata = {
-  title: 'Leleka',
+  title: 'Лелека',
   description:
-    'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
-  icons: {
-    icon: '/stork.png',
-  },
+    'Лелека - додаток для майбутніх мам. Відстежуйте свою вагітність, отримуйте персоналізовані поради та керуйте важливими завданнями.',
   openGraph: {
-    title: 'Leleka',
+    title: 'Лелека',
     description:
-      'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
+      'Лелека - додаток для майбутніх мам. Відстежуйте свою вагітність, отримуйте персоналізовані поради та керуйте важливими завданнями.',
     url: 'https://little-steps-kappa.vercel.app/',
-    siteName: 'Leleka',
+    siteName: 'Лелека',
     images: [
       {
-        url: '',
+        url: '/images/meta-card.jpg',
         width: 1200,
         height: 630,
-        alt: 'Leleka app',
+        alt: 'Лелека - додаток для майбутніх мам',
       },
     ],
   },
