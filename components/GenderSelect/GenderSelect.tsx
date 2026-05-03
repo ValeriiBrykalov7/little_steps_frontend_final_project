@@ -104,9 +104,9 @@ export default function GenderSelect() {
   return (
     <Select<GenderOption, false>
       options={options}
-      value={values.gender}
+      value={options.find((o) => o.value === values.gender) ?? null}
       onChange={(option) => {
-        setFieldValue('gender', option);
+        setFieldValue('gender', option?.value ?? null);
         setFieldTouched('gender', true, false);
       }}
       placeholder='Оберіть стать'

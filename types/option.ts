@@ -6,5 +6,5 @@ export interface BaseOption<T>{
     label: string;
 }
 
-export type GenderOption = BaseOption<Gender | 'null'>;
+export type GenderOption = BaseOption<Gender>;
 export type EmotionOption = BaseOption<Emotion>;
