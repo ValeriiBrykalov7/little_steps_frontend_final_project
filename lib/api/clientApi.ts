@@ -140,6 +140,25 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
 //User
 //
 
+export const updateAvatar = async (file: File) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
+
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.put<{
+      url: string | null;
+    }>('/users/me/avatar', formData);
+
+    const avatar = data.url;
+
+    if (!avatar) {
+      throw new Error('Не вдалося оновити аватар');
+    }
+
+    return avatar;
+  });
+};
+
 export const updateUser = async (data: Partial<User> | FormData) => {
   return requestWithAuthRefresh(async () => {
     const { data: responseData } = await nextServer.patch('users/me', data);

@@ -13,6 +13,7 @@ import { Loader } from '../Loader/Loader';
 import { DatePicker } from '../DatePicker/DatePicker';
 import dayjs from 'dayjs';
 import { getDateRange } from '@/lib/helper/date';
+import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
 
 type ProfileFormValues = {
   username: string;
@@ -70,6 +71,7 @@ export const ProfileForm = () => {
   return (
     <div className='container'>
       <div className={css.formContainer}>
+        <ProfileAvatar />
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
