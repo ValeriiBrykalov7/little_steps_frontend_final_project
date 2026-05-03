@@ -52,7 +52,7 @@
 .selectMenuList {
   height: 220px;
   overflow-y: auto;
-  font-size: 600;
+  font-weight: 600;
   line-height: 1.6;
 
   display: flex;
@@ -61,7 +61,40 @@
   padding: 8px 0px 0px 0px;
 
   scrollbar-width: thin;
-  scrollbar-color: #e8697a #f4f4f4;
+  scrollbar-color: var(--color-scheme-accent) #f4f4f4;
+}
+
+.selectMenuList::-webkit-scrollbar {
+  width: 10px;
+}
+
+.selectMenuList::-webkit-scrollbar-track {
+  background: var(--opacity-neutral-darkest-20);
+}
+
+.selectMenuList::-webkit-scrollbar-thumb {
+  background: var(--color-scheme-accent);
+  border-radius: 4px;
+}
+
+.dropdownTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag {
+  background: #f4f4f4;
+  border-radius: 20px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--color-scheme-text);;
+  white-space: nowrap;
+  background: var(--opacity-neutral-darkest-5);
 }
 
 .textarea {
@@ -110,5 +143,9 @@
 
   .submitButton {
     font-size: 16px;
+  }
+
+  .tag{
+    font-size: 14px;
   }
 }

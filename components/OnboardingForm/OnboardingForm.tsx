@@ -12,7 +12,6 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { DatePicker } from '../DatePicker/DatePicker';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';
-import { GenderOption } from '@/types/option';
 import { getDateRange } from '@/lib/helper/date';
 import { Gender } from '@/types/user';
 
