@@ -15,11 +15,7 @@ import { DueDatePicker } from '../DueDatePicker/DueDatePicker';
 import { max, min } from '@/lib/helper/date';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';
-
-export type GenderOption = {
-  value: Gender;
-  label: string;
-};
+import { GenderOption } from '@/types/option';
 
 export interface FormValues {
   photo: File | null;

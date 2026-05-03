@@ -1,8 +1,8 @@
 import Select, { StylesConfig } from 'react-select';
 import { useFormikContext } from 'formik';
-import { FormValues, GenderOption } from '../OnboardingForm/OnboardingForm';
+import { FormValues } from '../OnboardingForm/OnboardingForm';
 import CustomDropdownIndicator from '../CustomDropdownIndicator/CustomDropdownIndicator';
-
+import { GenderOption } from '@/types/option';
 const options: GenderOption[] = [
   { value: 'boy', label: 'Хлопчик' },
   { value: 'girl', label: 'Дівчинка' },
@@ -101,7 +101,7 @@ export default function GenderSelect() {
   };
 
   return (
-    <Select
+    <Select<GenderOption, false>
       options={options}
       value={values.gender}
       onChange={(option) => {
