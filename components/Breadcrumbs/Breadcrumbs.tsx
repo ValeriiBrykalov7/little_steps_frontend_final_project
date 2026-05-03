@@ -2,6 +2,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getAllDiaries } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
+import type { GetAllDiariesResponse } from '@/types/diary';
 import styles from './Breadcrumbs.module.css';
 
 const routeLabels: Record<string, string> = {
@@ -22,6 +26,7 @@ const Arrow = () => (
 
 const Breadcrumbs = () => {
   const pathname = usePathname();
+  const { isAuthenticated, isAuthChecked } = useAuthStore();
 
   if (!pathname) return null;
   if (HIDE_ON_PATHS.has(pathname)) return null;
@@ -31,6 +36,18 @@ const Breadcrumbs = () => {
   const breadcrumbs = pathname === '/' ? ['my-day'] : pathSegments;
   const isDiaryDetailsPage =
     pathSegments[0] === 'diary' && Boolean(pathSegments[1]);
+  const diaryEntryId = isDiaryDetailsPage ? pathSegments[1] : undefined;
+
+  const { data: diaryData } = useQuery<GetAllDiariesResponse>({
+    queryKey: ['diaries', isAuthenticated],
+    queryFn: getAllDiaries,
+    enabled: isDiaryDetailsPage && isAuthChecked && isAuthenticated,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const diaryEntryTitle = diaryEntryId
+    ? diaryData?.diary?.find((entry) => entry._id === diaryEntryId)?.title
+    : undefined;
 
   const getHref = (segment: string, index: number) => {
     if (pathname === '/') return '/';
@@ -44,7 +61,7 @@ const Breadcrumbs = () => {
   };
 
   const getLabel = (segment: string, isLast: boolean) => {
-    if (isLast && isDiaryDetailsPage) return diaryEntryLabel;
+    if (isLast && isDiaryDetailsPage) return diaryEntryTitle || diaryEntryLabel;
     return routeLabels[segment] || segment;
   };
 

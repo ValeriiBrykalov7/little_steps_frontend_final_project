@@ -3,14 +3,26 @@
   overflow-x: hidden;
 }
 
-.diaryList {
+.content {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  gap: 24px;
 }
+
 
 @media only screen and (min-width: 1440px) {
   .diary {
     overflow-x: visible;
+  }
+
+  .content {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .desktopList {
+    display: block;
+    flex-shrink: 0;
   }
 }

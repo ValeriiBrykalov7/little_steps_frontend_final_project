@@ -5,16 +5,16 @@
   border-radius: 32px;
   padding: 24px;
   background: var(--color-scheme-foreground);
-  border: 1px solid var(--opacity-neutral-darkest-15);
+  border: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  box-sizing: border-box;
 }
 
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .titleRow,
@@ -27,9 +27,11 @@
 
 .title {
   margin: 0;
+  flex: 1;
+  overflow-wrap: break-word;
   font-family: var(--second-family);
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.4;
   letter-spacing: 0.01em;
   color: var(--color-scheme-text);
@@ -37,24 +39,28 @@
 
 .date {
   margin: 0;
+  flex: 1;
   font-family: var(--font-family);
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--color-scheme-text);
 }
 
 .iconButton {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
   border: none;
   border-radius: 100px;
-  padding: 4px;
+  padding: 8px;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .iconButton svg {
@@ -69,10 +75,11 @@
 .description {
   margin: 0;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
   font-family: var(--font-family);
   font-weight: 400;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--color-scheme-text);
 }
 
@@ -86,12 +93,15 @@
 }
 
 .emotionItem {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
   border-radius: 100px;
   padding: 4px 10px;
   background: var(--opacity-neutral-darkest-5);
   font-family: var(--font-family);
   font-weight: 400;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--color-scheme-text);
 }
@@ -100,25 +110,40 @@
   .card {
     width: 100%;
     max-width: none;
-    min-height: 765px;
-    gap: 8px;
     margin-inline: 0;
   }
 
   .header {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
+    width: 100%;
+    min-height: 40px;
+  }
+
+  .titleRow {
+    flex: 1 1 0;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .metaRow {
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
   }
 
   .title {
+    flex: 0 1 auto;
     font-size: 18px;
     line-height: 1.4;
   }
 
   .date {
+    flex: 0 1 auto;
     font-size: 14px;
     line-height: 1.35;
+    white-space: nowrap;
   }
 
   .iconButton {
@@ -133,15 +158,17 @@
   }
 
   .emotionList {
-    margin-top: 8px;
+    margin-top: 0;
   }
 
   .emotionItem {
-    font-size: 12px;
-    line-height: 1.35;
+    display: inline-flex;
+    align-items: center;
+    min-height: 27px;
     padding: 4px 10px;
   }
 }
+
 
 @media only screen and (min-width: 1440px) {
   .card {

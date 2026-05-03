@@ -1,13 +1,13 @@
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { ConfirmationModal } from '@/components/ConfirmationModal/ConfirmationModal';
-import { deleteDiary, getAllDiaries } from '@/lib/api/clientApi';
+import { getAllDiaries } from '@/lib/api/clientApi';
+import { useDiaryDeleteModal } from '@/lib/hooks/useDiaryDeleteModal';
 import { useAuthStore } from '@/lib/store/authStore';
 import type { GetAllDiariesResponse } from '@/types/diary';
 import css from './page.module.css';
@@ -17,11 +17,15 @@ import DiaryList from '@/components/DiaryList/DiaryList';
 const DiaryCurrentPage = () => {
   const { isAuthenticated, isAuthChecked } = useAuthStore();
   const params = useParams<{ entryId: string }>();
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const entryId = [params?.entryId].flat()[0] as string | undefined;
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const {
+    isDeleteConfirmOpen,
+    openDeleteConfirm,
+    closeDeleteConfirm,
+    confirmDelete,
+  } = useDiaryDeleteModal();
 
   const {
     data: diaryData,
@@ -35,17 +39,6 @@ const DiaryCurrentPage = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  const deleteDiaryMutation = useMutation({
-    mutationFn: deleteDiary,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['diaries'] });
-      toast.success('Запис видалено');
-      router.push('/diary');
-    },
-    onError: (err: Error) =>
-      toast.error(err.message || 'Не вдалося видалити запис'),
-  });
-
   if (!isAuthChecked || (isAuthenticated && isLoading)) return <Loader />;
 
   const diaries = diaryData?.diary ?? [];
@@ -54,8 +47,14 @@ const DiaryCurrentPage = () => {
     : undefined;
 
   return (
-    <section className={css.diary}>
-      <GreetingBlock />
+    <section
+      className={`${css.diary}${
+        currentEntry ? ` ${css.hideGreetingMobileTablet}` : ''
+      }`}
+    >
+      <div className={css.greeting}>
+        <GreetingBlock />
+      </div>
       <div className='container'>
         {isError && <p>An error occurred: {error.message}</p>}
         {!isError && diaries.length === 0 && (
@@ -68,22 +67,26 @@ const DiaryCurrentPage = () => {
             <div className={css.desktopList}>
               <DiaryList diaries={diaries} />
             </div>
-            <DiaryEntryDetails
-              entry={currentEntry}
-              onEdit={() => {}}
-              onDelete={() => setShowDeleteConfirm(true)}
-            />
+            <div className={css.details}>
+              <DiaryEntryDetails
+                entry={currentEntry}
+                onEdit={() => setIsEditModalOpen(true)}
+                onDelete={openDeleteConfirm}
+              />
+            </div>
           </div>
         )}
       </div>
 
-      {showDeleteConfirm && currentEntry && (
+      {isEditModalOpen && currentEntry && <p>Тут буде підключено модальне вікно.</p>}
+
+      {isDeleteConfirmOpen && currentEntry && (
         <ConfirmationModal
           title='Видалити цей запис з щоденника?'
           confirmButtonText='Видалити'
           cancelButtonText='Скасувати'
-          onConfirm={() => deleteDiaryMutation.mutate(currentEntry._id)}
-          onCancel={() => setShowDeleteConfirm(false)}
+          onConfirm={() => confirmDelete(currentEntry._id)}
+          onCancel={closeDeleteConfirm}
         />
       )}
     </section>
