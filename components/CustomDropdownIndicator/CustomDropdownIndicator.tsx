@@ -2,6 +2,7 @@ import { components, DropdownIndicatorProps } from 'react-select';
 import { BaseOption } from '@/types/option';
 import Icon from '../Icon/Icon';
 import styles from './CustomDropdownIndicator.module.css';
+import clsx from 'clsx';
 
 export default function CustomDropdownIndicator<
   T,
@@ -16,7 +17,9 @@ export default function CustomDropdownIndicator<
       <Icon
         name='select-arrow'
         size={24}
-        className={`${styles.arrow} ${menuIsOpen ? styles.open : ''}`}
+        className={clsx(styles.arrow, {
+          [styles.open]: menuIsOpen,
+        })}
       />
     </components.DropdownIndicator>
   );

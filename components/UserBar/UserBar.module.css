@@ -33,6 +33,8 @@
 .avatar {
   width: 40px;
   height: 40px;
+  min-width: 40px;
+  flex: 0 0 40px;
   border-radius: 50%;
   background: var(--color-pastel-pink-light);
   display: flex;
@@ -141,7 +143,7 @@
   }
 
   .userInfo {
-    width: 240px;
+    width: 236px;
     gap: 12px;
   }
 

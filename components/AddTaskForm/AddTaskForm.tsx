@@ -7,17 +7,25 @@ import toast from 'react-hot-toast';
 import type { CreateTaskRequest } from '@/types/task';
 import css from './AddTaskForm.module.css';
 import { Loader } from '../Loader/Loader';
+import { DatePicker } from '../DatePicker/DatePicker';
+import { getDateRange } from '@/lib/helper/date';
 
 type AddTaskFormProps = {
   onSubmit: (task: CreateTaskRequest) => Promise<void>;
   onClose: () => void;
 };
 
-const getCurrentDate = () => dayjs().format('YYYY-MM-DD');
+type AddTaskFormValues = {
+  name: string;
+  dueDate: Date | null;
+  isDone: boolean;
+};
 
-const getInitialValues = (): CreateTaskRequest => ({
+const formatDate = (date: Date) => dayjs(date).format('YYYY-MM-DD');
+
+const getInitialValues = (): AddTaskFormValues => ({
   name: '',
-  date: getCurrentDate(),
+  dueDate: getDateRange().min,
   isDone: false,
 });
 
@@ -28,27 +36,25 @@ const taskSchema = Yup.object({
     .max(96, 'Назва має містити максимум 96 символів')
     .required("Обов'язкове поле"),
 
-  date: Yup.string()
+  dueDate: Yup.date()
+    .nullable()
     .required("Обов'язкове поле")
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Формат дати має бути YYYY-MM-DD')
-    .test(
-      'min-date',
-      'Дата не може бути раніше сьогодні',
-      (value) => !value || value >= getCurrentDate(),
-    ),
+    .min(getDateRange().min, 'Дата не може бути раніше сьогодні'),
 
   isDone: Yup.boolean().default(false).required(),
 });
 
 export default function AddTaskForm({ onSubmit, onClose }: AddTaskFormProps) {
   const handleSubmit = async (
-    values: CreateTaskRequest,
-    { resetForm }: FormikHelpers<CreateTaskRequest>,
+    values: AddTaskFormValues,
+    { resetForm }: FormikHelpers<AddTaskFormValues>,
   ) => {
     try {
+      if (!values.dueDate) return;
+
       const newTask: CreateTaskRequest = {
         name: values.name.trim(),
-        date: values.date,
+        date: formatDate(values.dueDate),
         isDone: values.isDone ?? false,
       };
 
@@ -94,17 +100,14 @@ export default function AddTaskForm({ onSubmit, onClose }: AddTaskFormProps) {
           <div className={css.fieldWrapper}>
             <label className={css.AddTaskFormLabel}>
               Дата
-              <Field
-                type='date'
-                name='date'
-                min={getCurrentDate()}
-                disabled={isSubmitting}
+              <DatePicker
+                minDate={getDateRange().min}
                 className={`${css.AddTaskFormInput} ${
-                  errors.date && touched.date ? css.inputError : ''
+                  errors.dueDate && touched.dueDate ? css.inputError : ''
                 }`}
               />
               <ErrorMessage
-                name='date'
+                name='dueDate'
                 component='span'
                 className={css.AddTaskFormError}
               />

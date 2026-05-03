@@ -3,7 +3,7 @@ import { Gender } from '@/types/user';
 
 interface ProfileState {
   formData: {
-    name: string;
+    username: string;
     email: string;
     gender: Gender;
     dueDate: string | null;
@@ -14,7 +14,7 @@ interface ProfileState {
 }
 
 const initialState = {
-  name: '',
+  username: '',
   email: '',
   gender: 'null' as Gender,
   dueDate: null,

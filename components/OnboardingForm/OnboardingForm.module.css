@@ -52,6 +52,11 @@
   border: 1px solid #c60000;
 }
 
+.datePickerInput {
+  width: 100%;
+  height: 40px;
+}
+
 @media (min-width: 768px) {
   .form {
     width: 480px;
