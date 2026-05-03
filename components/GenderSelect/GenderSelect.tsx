@@ -3,6 +3,7 @@ import { useFormikContext } from 'formik';
 import { FormValues } from '../OnboardingForm/OnboardingForm';
 import CustomDropdownIndicator from '../CustomDropdownIndicator/CustomDropdownIndicator';
 import { GenderOption } from '@/types/option';
+import { Gender } from '@/types/user';
 const options: GenderOption[] = [
   { value: 'boy', label: 'Хлопчик' },
   { value: 'girl', label: 'Дівчинка' },
@@ -112,7 +113,7 @@ export default function GenderSelect() {
       styles={customStyles}
       isSearchable={false}
       components={{
-        DropdownIndicator: CustomDropdownIndicator,
+        DropdownIndicator: CustomDropdownIndicator<Gender, false>,
       }}
       instanceId='gender-select'
     />
