@@ -11,49 +11,114 @@ Little Steps — це веб-застосунок для підтримки ва
 
 ---
 
-📝 Функціональність 🔐 Авторизація та реєстрація • створення акаунту • вхід у
-систему • онбординг користувача 🏠 Dashboard (Мій день) • персоналізоване
-привітання • інформація про термін вагітності • поради для мами • список завдань
-• блок самопочуття 🧭 Подорож вагітності (Journey) • інтерактивний вибір тижня •
-інформація про розвиток дитини • рекомендації для мами 📖 Щоденник (Diary)
-•створення записів • редагування та видалення • перегляд історії 👤 Профіль
-користувача • редагування даних • завантаження аватара ✅ Робота із завданнями
-•створення, редагування, видалення • відмітка виконання 🔒 Захищені маршрути •
-доступ до функціоналу тільки для авторизованих користувачів 💬 Повідомлення та
-обробка помилок • toast-повідомлення • валідація форм
+📝 Функціональність 🔐 <br><br>
+
+**Авторизація та реєстрація** <br>
+• створення акаунту <br>
+• вхід у систему <br>
+• онбординг користувача <br><br>
+
+**🏠 Dashboard (Мій день)** <br>
+• персоналізоване привітання <br>
+• інформація про термін вагітності <br>
+• поради для мами <br>
+• список завдань <br>
+• блок самопочуття <br><br>
+
+**🧭 Подорож вагітності (Journey)** <br>
+• інтерактивний вибір тижня <br>
+• інформація про розвиток дитини <br>
+• рекомендації для мами <br><br>
+
+**📖 Щоденник (Diary)** <br>
+• створення записів <br>
+• редагування та видалення <br>
+• перегляд історії <br><br>
+
+**👤 Профіль користувача** <br>
+• редагування даних <br>
+• завантаження аватара <br><br>
+
+**✅ Робота із завданнями** <br>
+• створення, редагування, видалення <br>
+• відмітка виконання <br><br>
+
+**🔒 Захищені маршрути** <br>
+• доступ до функціоналу тільки для авторизованих користувачів <br><br>
+
+**💬 Повідомлення та обробка помилок** <br>
+• toast-повідомлення <br>
+• валідація форм <br>
 
 ---
 
-⚙️ Реалізація згідно ТЗ • ✅ Next.js 15 (App Router) • ✅ Публічні та приватні
-маршрути • ✅ Захист сторінок на рівні компонентів • ✅ CSS Modules (стилізація)
-• ✅ State management — Zustand • ✅ Data fetching — TanStack Query • ✅ Форми —
-Formik + Yup • ✅ Loader під час запитів • ✅ Обробка помилок (toast + UI
-повідомлення) • ✅ Адаптивність (mobile-first)
+⚙️ Реалізація згідно ТЗ <br><br>
+
+• ✅ Next.js 15 (App Router) <br>
+• ✅ Публічні та приватні маршрути <br>
+• ✅ Захист сторінок на рівні компонентів <br>
+• ✅ CSS Modules (стилізація) <br>
+• ✅ State management — Zustand <br>
+• ✅ Data fetching — TanStack Query <br>
+• ✅ Форми — Formik + Yup <br>
+• ✅ Loader під час запитів <br>
+• ✅ Обробка помилок (toast + UI повідомлення) <br>
+• ✅ Адаптивність (mobile-first) <br>
+---
+
+🛠️ Технології та інструменти <br><br>
+
+🌐 **Frontend** <br>
+• ⚛️ React / Next.js — побудова інтерфейсу <br>
+• 🎨 CSS / Styled Components / Modules — стилізація <br>
+• ⚡ JavaScript (ES6+) — логіка застосунку <br><br>
+
+⚙️ **Backend** <br>
+• 🔗 REST API (окремий репозиторій) <br>
+👉 Backend: 🔗 https://github.com/ValeriiBrykalov7/little_steps_final_project <br><br>
+
+📚 **Бібліотеки** <br>
+• 🌐 Axios — HTTP-запити <br>
+• 🔔 React Hot Toast / інші нотифікації — повідомлення <br>
+• 📊 State management (Context / Zustand / Redux) — керування станом <br>
+• 🧭 React Router / Next Router — маршрутизація <br>
 
 ---
 
-🛠️ Технології та інструменти 🌐 Frontend • ⚛️ React / Next.js — побудова
-інтерфейсу • 🎨 CSS / Styled Components / Modules — стилізація • ⚡ JavaScript
-(ES6+) — логіка застосунку ⚙️ Backend • 🔗 REST API (окремий репозиторій) 👉
-Backend: 🔗 https://github.com/ValeriiBrykalov7/little_steps_final_project 📚
-Бібліотеки • 🌐 Axios — HTTP-запити • 🔔 React Hot Toast / інші нотифікації —
-повідомлення • 📊 State management (Context / Zustand / Redux) — керування
-станом • 🧭 React Router / Next Router — маршрутизація
+📱 Адаптивність та доступність <br><br>
 
+📐 **Адаптивність** <br>
+Інтерфейс оптимізований під різні пристрої: <br>
+• 📏 Mobile: від 320px <br>
+• 📏 Tablet: від 768px <br>
+• 📏 Desktop: від 1440px <br><br>
+
+♿ **Доступність** <br>
+• семантична HTML-структура <br>
+• базова підтримка screen readers <br>
+• доступні інтерактивні елементи <br>
 ---
 
-📱 Адаптивність та доступність 📐 Адаптивність Інтерфейс оптимізований під різні
-пристрої: • 📏 Mobile: від 320px • 📏 Tablet: від 768px • 📏 Desktop: від 1440px
-♿ Доступність • семантична HTML-структура • базова підтримка screen readers •
-доступні інтерактивні елементи
+👩‍💻 **Команда** <br><br>
 
----
+🦸‍♂️ **Team Lead** — Valerii Brykalov <br>
+📋 **Scrum Master** — Tetiana Kolomeichuk <br><br>
 
-👩‍💻 Команда: • 🦸‍♂️ Team Lead — Valerii Brykalov • 📋 Scrum Master — Tetiana
-Kolomeichuk • 💻 Frontend Developers — • Valerii Brykalov • Tetiana Kolomeichuk
-• Ivanna Shchokalo • Hanna Muzychuk • Nebelskiy Max • Vitalii • Andriy
-Baranovich • Bogdan Ostapenko • Alinka • Andrii Storozhenko • Nazar Ismailov •
-Anna Anishchenko • Dima • Oleksandra Hotsyn
+💻 **Frontend Developers** <br>
+• Valerii Brykalov <br>
+• Tetiana Kolomeichuk <br>
+• Ivanna Shchokalo <br>
+• Hanna Muzychuk <br>
+• Nebelskiy Max <br>
+• Vitalii <br>
+• Andriy Baranovich <br>
+• Bogdan Ostapenko <br>
+• Alinka <br>
+• Andrii Storozhenko <br>
+• Nazar Ismailov <br>
+• Anna Anishchenko <br>
+• Dima <br>
+• Oleksandra Hotsyn <br>
 
 **\*\*\*\***\*\***\*\*\*\***\_\_\_\_**\*\*\*\***\*\***\*\*\*\*** ⚙️ Environment
 Variables Створіть файл .env.local: NEXT_PUBLIC_API_URL=your_backend_url
