@@ -16,3 +16,11 @@ export type GetAllDiariesResponse = {
   allEmotions: Emotion[];
 };
 
+export type CreateDiaryRequest = {
+  title: string;
+  description: string;
+  emotions: string[];
+};
+
+export type UpdateDiaryRequest = Partial<CreateDiaryRequest>;
+

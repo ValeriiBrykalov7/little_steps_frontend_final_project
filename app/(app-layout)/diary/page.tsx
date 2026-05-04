@@ -8,8 +8,12 @@ import { useAuthStore } from '@/lib/store/authStore';
 import type { GetAllDiariesResponse } from '@/types/diary';
 import css from './page.module.css';
 import DiaryList from '@/components/DiaryList/DiaryList';
+import { AddDiaryEntryModal } from '@/components/AddDiaryEntryModal/AddDiaryEntryModal';
+import { useState } from 'react';
+import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
 
 const DiaryListPage = () => {
+  const [isDiaryModalOpen, setIsDiaryModalOpen] = useState(false);
   const { isAuthenticated, isAuthChecked } = useAuthStore();
 
   const {
@@ -29,16 +33,29 @@ const DiaryListPage = () => {
   const diaries = diaryData?.diary ?? [];
 
   return (
-    <section className={css.diary}>
-      <GreetingBlock />
-      <div className='container'>
-        {isError && <p>An error occurred: {error.message}</p>}
-        {!isError && diaries.length === 0 && (
-          <p>Наразі записи у щоденнику відсутні</p>
-        )}
-        <DiaryList diaries={diaries} />
-      </div>
-    </section>
+    <>
+      <section className={css.diary}>
+        <GreetingBlock />
+        <div className='container'>
+          <DiaryList
+            diaries={diaries}
+            openAddDiaryEntryModal={() => setIsDiaryModalOpen(true)}
+          />
+          {isError && (
+            <p className={css.feedbackText}>An error occurred: {error.message}</p>
+          )}
+          {!isError && diaries.length === 0 && (
+            <p className={css.emptyText}>Наразі записи у щоденнику відсутні</p>
+          )}
+        </div>
+      </section>
+
+      {isDiaryModalOpen && (
+        <AddDiaryEntryModal onClose={() => setIsDiaryModalOpen(false)}>
+          {({ close }) => <AddDiaryEntryForm onClose={close} />}
+        </AddDiaryEntryModal>
+      )}
+    </>
   );
 };
 

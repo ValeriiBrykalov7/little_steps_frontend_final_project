@@ -1,13 +1,14 @@
 .container {
+  width: 100%;
   min-width: 335px;
-  max-width: 375px;
+  max-width: 335px;
   margin: 0 auto;
 }
 
 /* Styles for tablet */
 @media only screen and (min-width: 768px) {
   .container {
-    max-width: 768px;
+    max-width: 704px;
     margin: 0;
   }
 }
