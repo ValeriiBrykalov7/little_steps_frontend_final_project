@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'Лелека',
     images: [
       {
-        url: '/images/meta-card.jpg',
+        url: '/images/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Лелека — сторінку не знайдено',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title: '404 - Сторінку не знайдено | Лелека',
     description:
       'На жаль, такої сторінки не існує. Перейдіть на головну сторінку.',
-    images: ['/images/meta-card.jpg'],
+    images: ['/images/og-home.jpg'],
   },
 };
 

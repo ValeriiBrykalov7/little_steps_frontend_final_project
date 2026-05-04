@@ -1,6 +1,7 @@
 .container {
+  width: 100%;
   min-width: 335px;
-  max-width: 375px;
+  max-width: 335px;
   margin: 0 auto;
   padding: 0px 20px;
 }
@@ -8,8 +9,13 @@
 /* Styles for tablet */
 @media only screen and (min-width: 768px) {
   .container {
+<<<<<<< HEAD
     max-width: 768px;
     padding: 0 32px;
+=======
+    max-width: 704px;
+    margin: 0;
+>>>>>>> baedb5a6437d3f330727ef0ddffd6140d7640956
   }
 }
 

@@ -5,7 +5,7 @@ import { api } from '../../api';
 import { logErrorResponse } from '../../_utils/utils';
 
 export async function POST(request: Request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const body = await request.json();
 
   try {

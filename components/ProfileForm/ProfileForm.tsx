@@ -13,6 +13,7 @@ import { Loader } from '../Loader/Loader';
 import { DatePicker } from '../DatePicker/DatePicker';
 import dayjs from 'dayjs';
 import { getDateRange } from '@/lib/helper/date';
+import GenderSelect from '../GenderSelect/GenderSelect';
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
 
 type ProfileFormValues = {
@@ -125,23 +126,7 @@ export const ProfileForm = () => {
                     Стать дитини
                   </label>
                   <div className={css.inputWrapper}>
-                    <Field
-                      as='select'
-                      name='gender'
-                      id='gender'
-                      className={`${css.select} ${
-                        touched.gender && errors.gender ? css.inputError : ''
-                      }`}
-                    >
-                      <option value='null'>Ще не знаю</option>
-                      <option value='boy'>Хлопчик</option>
-                      <option value='girl'>Дівчинка</option>
-                    </Field>
-                    <Icon
-                      name='icon-keyboard_arrow_down'
-                      size={18}
-                      className={css.selectIcon}
-                    />
+                    <GenderSelect />
                   </div>
                   <ErrorMessage
                     name='gender'
