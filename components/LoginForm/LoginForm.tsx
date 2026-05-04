@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { login } from '@/lib/api/clientApi';
+import GoogleAuthButton from '../GoogleAuthButton/GoogleAuthButton';
 import { Loader } from '../Loader/Loader';
 
 interface FormValues {
@@ -106,8 +107,10 @@ export default function LoginForm() {
                   className={`${styles.button} pink`}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? <Loader variant='button' /> : 'Увійти'}
-                </button>
+                  {isSubmitting ? 'Завантаження...' : 'Увійти'}
+                </button>           
+                  <GoogleAuthButton />
+
 
                 <p className={styles.loginPrompt}>
                   Немає аккаунту?{' '}

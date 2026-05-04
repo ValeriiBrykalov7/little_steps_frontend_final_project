@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import { Toaster } from 'react-hot-toast';
+import GoogleProvider from '@/components/GoogleProvider/GoogleProvider';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -75,12 +76,15 @@ export default function RootLayout({
       className={`${lato.variable} ${comfortaa.variable}`}
     >
       <body>
-        <TanStackProvider>
-          <AuthProvider>
-            {children}
-            <Toaster />
-          </AuthProvider>
-        </TanStackProvider>
+        {
+          <GoogleProvider>
+            <TanStackProvider>
+              <AuthProvider>
+                {children} <Toaster />
+              </AuthProvider>
+            </TanStackProvider>
+          </GoogleProvider>
+        }
         <div id='modal-root' />
       </body>
     </html>

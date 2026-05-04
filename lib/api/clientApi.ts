@@ -65,6 +65,14 @@ export const logout = async () => {
   await nextServer.post('/auth/logout');
 };
 
+export const googleAuth = async (credential: string) => {
+  const { data } = await nextServer.post<User>('/auth/google', {
+    credential,
+  });
+
+  return data;
+};
+
 //
 //Weeks
 //
