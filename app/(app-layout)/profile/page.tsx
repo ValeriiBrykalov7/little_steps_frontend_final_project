@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     siteName: 'Лелека',
     images: [
       {
-        url: '/images/meta-card.jpg',
+        url: '/images/og-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Прев’ю сторінки профілю',

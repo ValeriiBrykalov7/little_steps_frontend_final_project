@@ -1,31 +1,40 @@
-import Sidebar from '@/components/Sidebar/Sidebar';
-import styles from './layout.module.css';
-import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 import type { Metadata } from 'next';
+import Sidebar from '@/components/Sidebar/Sidebar';
+import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+import styles from './layout.module.css';
+
+const title = 'Лелека';
+const description =
+  'Керуйте завданнями, щоденником, подорожжю вагітності та персональними порадами у додатку Лелека.';
+const ogImage = '/images/og-home.jpg';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Лелека',
-    template: '%s | Лелека',
+    default: title,
+    template: `%s | ${title}`,
   },
-
-  description: 'Керування завданнями та щоденником у додатку Лелека.',
-
+  description,
   openGraph: {
-    title: 'Лелека',
-    description: 'Завдання, щоденник та події.',
-    url: 'https://little-steps-kappa.vercel.app/',
-    siteName: 'Лелека',
+    title,
+    description,
+    url: '/',
+    siteName: title,
     images: [
       {
-        url: '/images/meta-card.jpg',
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Лелека',
+        alt: 'Лелека - додаток для майбутніх мам',
       },
     ],
     locale: 'uk_UA',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
   },
 };
 

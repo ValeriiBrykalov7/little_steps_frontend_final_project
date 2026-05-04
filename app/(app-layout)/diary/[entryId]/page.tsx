@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
 import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
 import { Loader } from '@/components/Loader/Loader';
 import { ConfirmationModal } from '@/components/ConfirmationModal/ConfirmationModal';
@@ -13,8 +12,12 @@ import type { GetAllDiariesResponse } from '@/types/diary';
 import css from './page.module.css';
 import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
 import DiaryList from '@/components/DiaryList/DiaryList';
+import { useState } from 'react';
+import { AddDiaryEntryModal } from '@/components/AddDiaryEntryModal/AddDiaryEntryModal';
+import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
 
 const DiaryCurrentPage = () => {
+  const [isDiaryModalOpen, setIsDiaryModalOpen] = useState(false);
   const { isAuthenticated, isAuthChecked } = useAuthStore();
   const params = useParams<{ entryId: string }>();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -47,38 +50,51 @@ const DiaryCurrentPage = () => {
     : undefined;
 
   return (
-    <section
-      className={`${css.diary}${
-        currentEntry ? ` ${css.hideGreetingMobileTablet}` : ''
-      }`}
-    >
-      <div className={css.greeting}>
+    <>
+      <section className={css.diary}>
         <GreetingBlock />
-      </div>
-      <div className='container'>
-        {isError && <p>An error occurred: {error.message}</p>}
-        {!isError && diaries.length === 0 && (
-          <p>Наразі записи у щоденнику відсутні</p>
-        )}
-        {!isError && diaries.length > 0 && !currentEntry && <p>Запис не знайдено</p>}
-
-        {!isError && diaries.length > 0 && currentEntry && (
-          <div className={css.content}>
-            <div className={css.desktopList}>
-              <DiaryList diaries={diaries} />
+        <div className='container'>
+          {!isError && diaries.length > 0 && currentEntry && (
+            <div className={css.content}>
+              <div className={css.desktopList}>
+                <DiaryList
+                  diaries={diaries}
+                  openAddDiaryEntryModal={() => setIsDiaryModalOpen(true)}
+                />
+              </div>
+              <div className={css.details}>
+                <DiaryEntryDetails
+                  entry={currentEntry}
+                  onEdit={() => setIsEditModalOpen(true)}
+                  onDelete={openDeleteConfirm}
+                />
+              </div>
             </div>
-            <div className={css.details}>
-              <DiaryEntryDetails
-                entry={currentEntry}
-                onEdit={() => setIsEditModalOpen(true)}
-                onDelete={openDeleteConfirm}
-              />
-            </div>
-          </div>
-        )}
-      </div>
+          )}
 
-      {isEditModalOpen && currentEntry && <p>Тут буде підключено модальне вікно.</p>}
+          {!isError && (!currentEntry || diaries.length === 0) && (
+            <DiaryList
+              diaries={diaries}
+              openAddDiaryEntryModal={() => setIsDiaryModalOpen(true)}
+            />
+          )}
+
+          {isError && (
+            <p className={css.feedbackText}>
+              An error occurred: {error.message}
+            </p>
+          )}
+          {!isError && diaries.length === 0 && (
+            <p className={css.emptyText}>Наразі записи у щоденнику відсутні</p>
+          )}
+        </div>
+      </section>
+
+      {isDiaryModalOpen && (
+        <AddDiaryEntryModal onClose={() => setIsDiaryModalOpen(false)}>
+          {({ close }) => <AddDiaryEntryForm onClose={close} />}
+        </AddDiaryEntryModal>
+      )}
 
       {isDeleteConfirmOpen && currentEntry && (
         <ConfirmationModal
@@ -89,7 +105,18 @@ const DiaryCurrentPage = () => {
           onCancel={closeDeleteConfirm}
         />
       )}
-    </section>
+
+      {isEditModalOpen && currentEntry && (
+        <AddDiaryEntryModal
+          title='Редагування'
+          onClose={() => setIsEditModalOpen(false)}
+        >
+          {({ close }) => (
+            <AddDiaryEntryForm entry={currentEntry} onClose={close} />
+          )}
+        </AddDiaryEntryModal>
+      )}
+    </>
   );
 };
 

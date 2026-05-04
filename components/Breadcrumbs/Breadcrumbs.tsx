@@ -27,12 +27,9 @@ const Arrow = () => (
 const Breadcrumbs = () => {
   const pathname = usePathname();
   const { isAuthenticated, isAuthChecked } = useAuthStore();
-
-  if (!pathname) return null;
-  if (HIDE_ON_PATHS.has(pathname)) return null;
-  if (pathname.startsWith('/auth')) return null;
-
-  const pathSegments = pathname.split('/').filter(Boolean);
+  const shouldHide =
+    !pathname || HIDE_ON_PATHS.has(pathname) || pathname.startsWith('/auth');
+  const pathSegments = pathname?.split('/').filter(Boolean) ?? [];
   const breadcrumbs = pathname === '/' ? ['my-day'] : pathSegments;
   const isDiaryDetailsPage =
     pathSegments[0] === 'diary' && Boolean(pathSegments[1]);
@@ -41,9 +38,12 @@ const Breadcrumbs = () => {
   const { data: diaryData } = useQuery<GetAllDiariesResponse>({
     queryKey: ['diaries', isAuthenticated],
     queryFn: getAllDiaries,
-    enabled: isDiaryDetailsPage && isAuthChecked && isAuthenticated,
+    enabled:
+      !shouldHide && isDiaryDetailsPage && isAuthChecked && isAuthenticated,
     staleTime: 1000 * 60 * 5,
   });
+
+  if (shouldHide) return null;
 
   const diaryEntryTitle = diaryEntryId
     ? diaryData?.diary?.find((entry) => entry._id === diaryEntryId)?.title

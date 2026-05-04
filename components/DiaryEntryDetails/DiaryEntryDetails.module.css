@@ -100,7 +100,7 @@
   padding: 4px 10px;
   background: var(--opacity-neutral-darkest-5);
   font-family: var(--font-family);
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 1.6;
   color: var(--color-scheme-text);
@@ -168,7 +168,6 @@
     padding: 4px 10px;
   }
 }
-
 
 @media only screen and (min-width: 1440px) {
   .card {

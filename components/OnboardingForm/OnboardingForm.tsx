@@ -1,6 +1,5 @@
 'use client';
 
-import { Gender } from '@/types/user';
 import { Formik, Form, ErrorMessage } from 'formik';
 import PhotoDropzone from '../PhotoDropzone/PhotoDropzone';
 import GenderSelect from '../GenderSelect/GenderSelect';
@@ -14,21 +13,17 @@ import { DatePicker } from '../DatePicker/DatePicker';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';
 import { getDateRange } from '@/lib/helper/date';
-
-export type GenderOption = {
-  value: Gender;
-  label: string;
-};
+import { Gender } from '@/types/user';
 
 export interface FormValues {
   photo: File | null;
-  gender: GenderOption | null;
+  gender: Gender | 'null';
   dueDate: Date | null;
 }
 
 const createValidationSchema = (min: Date, max: Date) =>
   Yup.object({
-    gender: Yup.object().nullable(),
+    gender: Yup.string().oneOf(['boy', 'girl', 'null']),
 
     dueDate: Yup.date()
       .nullable()
@@ -46,7 +41,7 @@ export default function OnboardingForm() {
 
   const initialValues: FormValues = {
     photo: null,
-    gender: null,
+    gender: 'null',
     dueDate: null,
   };
 
@@ -65,9 +60,7 @@ export default function OnboardingForm() {
   const handleSubmit = async (values: FormValues) => {
     const formData = new FormData();
 
-    if (values.gender?.value) {
-      formData.append('gender', values.gender.value);
-    }
+    formData.append('gender', values.gender);
 
     if (values.dueDate) {
       const year = values.dueDate.getFullYear();

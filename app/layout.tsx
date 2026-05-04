@@ -20,24 +20,46 @@ const comfortaa = Comfortaa({
   display: 'swap',
 });
 
+const siteUrl = 'https://little-steps-kappa.vercel.app';
+const title = 'Лелека';
+const description =
+  'Лелека - додаток для майбутніх мам. Відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник та керуйте важливими завданнями.';
+const ogImage = '/images/og-home.jpg';
+
 export const metadata: Metadata = {
-  title: 'Лелека',
-  description:
-    'Лелека - додаток для майбутніх мам. Відстежуйте свою вагітність, отримуйте персоналізовані поради та керуйте важливими завданнями.',
+  metadataBase: new URL(siteUrl),
+  applicationName: title,
+  title: {
+    default: title,
+    template: `%s | ${title}`,
+  },
+  description,
+  icons: {
+    icon: [{ url: '/stork.png', type: 'image/png' }],
+    shortcut: '/stork.png',
+    apple: '/stork.png',
+  },
   openGraph: {
-    title: 'Лелека',
-    description:
-      'Лелека - додаток для майбутніх мам. Відстежуйте свою вагітність, отримуйте персоналізовані поради та керуйте важливими завданнями.',
-    url: 'https://little-steps-kappa.vercel.app/',
-    siteName: 'Лелека',
+    title,
+    description,
+    url: '/',
+    siteName: title,
     images: [
       {
-        url: '/images/meta-card.jpg',
+        url: ogImage,
         width: 1200,
         height: 630,
         alt: 'Лелека - додаток для майбутніх мам',
       },
     ],
+    locale: 'uk_UA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
   },
 };
 
@@ -53,13 +75,12 @@ export default function RootLayout({
       className={`${lato.variable} ${comfortaa.variable}`}
     >
       <body>
-        {
-          <TanStackProvider>
-            <AuthProvider>
-              {children} <Toaster />
-            </AuthProvider>
-          </TanStackProvider>
-        }
+        <TanStackProvider>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </TanStackProvider>
         <div id='modal-root' />
       </body>
     </html>

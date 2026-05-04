@@ -13,8 +13,8 @@ export const useDiaryDeleteModal = () => {
 
   const deleteDiaryMutation = useMutation({
     mutationFn: deleteDiary,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['diaries'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['diaries'] });
       toast.success('Запис видалено');
       setIsDeleteConfirmOpen(false);
       router.push('/diary');
@@ -30,6 +30,6 @@ export const useDiaryDeleteModal = () => {
     isDeleteConfirmOpen,
     openDeleteConfirm: () => setIsDeleteConfirmOpen(true),
     closeDeleteConfirm: () => setIsDeleteConfirmOpen(false),
-    confirmDelete: (entryId: string) => deleteDiaryMutation.mutate(entryId),
+    confirmDelete: (entryId: string) => deleteDiaryMutation.mutateAsync(entryId),
   };
 };

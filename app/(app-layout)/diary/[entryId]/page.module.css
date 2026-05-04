@@ -1,17 +1,9 @@
 .diary {
   max-width: 100%;
   overflow-x: hidden;
-}
-
-
-.hideGreetingMobileTablet {
-  position: relative;
-}
-
-@media only screen and (max-width: 1439px) {
-  .hideGreetingMobileTablet .greeting {
-    display: none;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .content {
@@ -20,14 +12,25 @@
   gap: 24px;
 }
 
-@media only screen and (min-width: 768px) {
-  .content {
-    gap: 32px;
-  }
-}
-
 .desktopList {
   display: none;
+}
+
+.emptyText,
+.feedbackText {
+  margin-top: 16px;
+  width: 100%;
+  border-radius: 24px;
+  padding: 18px 20px;
+  background: var(--color-scheme-foreground);
+  color: var(--color-scheme-text);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.feedbackText {
+  color: var(--color-red);
 }
 
 @media only screen and (min-width: 1440px) {
@@ -44,5 +47,10 @@
   .desktopList {
     display: block;
     flex-shrink: 0;
+  }
+  .emptyText,
+  .feedbackText {
+    max-width: 389px;
+    font-size: 16px;
   }
 }
