@@ -4,25 +4,9 @@ import { api } from '../../../api';
 
 export async function GET(request: NextRequest) {
   try {
-    const accessToken = request.cookies.get('accessToken')?.value;
-    const sessionId = request.cookies.get('sessionId')?.value;
-    console.log(request.headers.get('cookie'));
-
-    console.log({
-      accessToken,
-      sessionId,
-    });
-
-    const cookieHeader = [
-      accessToken && `accessToken=${accessToken}`,
-      sessionId && `sessionId=${sessionId}`,
-    ]
-      .filter(Boolean)
-      .join('; ');
-
     const res = await api.get('/weeks/status/private', {
       headers: {
-        Cookie: cookieHeader,
+        Cookie: request.headers.get('cookie') ?? '',
       },
     });
 

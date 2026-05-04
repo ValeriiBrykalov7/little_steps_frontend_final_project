@@ -1,7 +1,5 @@
-//  треба буде дописати, коли будемо мати готовий бек
-
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { splitCookiesString } from 'set-cookie-parser';
 import { checkServerSession } from './lib/api/serverApi';
 
 const privateRoutes = ['/profile', '/diary', '/journey'];
@@ -10,10 +8,9 @@ const publicRoutes = ['/auth/login', '/auth/register'];
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const cookieStore = await cookies();
-
-  const accessToken = cookieStore.get('accessToken')?.value;
-  const refreshToken = cookieStore.get('refreshToken')?.value;
+  const accessToken = request.cookies.get('accessToken')?.value;
+  const refreshToken = request.cookies.get('refreshToken')?.value;
+  const sessionId = request.cookies.get('sessionId')?.value;
 
   const isPrivateRoute = privateRoutes.some((route) =>
     pathname.startsWith(route),
@@ -23,9 +20,11 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith(route),
   );
 
-  if (!accessToken && refreshToken) {
+  if (!accessToken && refreshToken && sessionId) {
     try {
-      const sessionResponse = await checkServerSession();
+      const sessionResponse = await checkServerSession(
+        request.headers.get('cookie') ?? '',
+      );
       const setCookie = sessionResponse.headers.get('set-cookie');
 
       const response = isPublicRoute
@@ -33,7 +32,9 @@ export async function proxy(request: NextRequest) {
         : NextResponse.next();
 
       if (setCookie) {
-        response.headers.set('set-cookie', setCookie);
+        for (const cookie of splitCookiesString(setCookie)) {
+          response.headers.append('set-cookie', cookie);
+        }
       }
 
       return response;

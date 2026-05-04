@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useFormikContext } from 'formik';
 import ReactDatePicker from 'react-datepicker';
 import styles from './DatePicker.module.css';
 import clsx from 'clsx';
+import Icon from '../Icon/Icon';
 
 type DatePickerFormValues = {
   dueDate: Date | null;
@@ -16,6 +18,7 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const { values, setFieldValue, setFieldTouched } =
     useFormikContext<DatePickerFormValues>();
 
@@ -35,6 +38,15 @@ export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
         className={clsx(styles.dateInput, className)}
         showPopperArrow={false}
         popperPlacement='bottom-start'
+        onCalendarOpen={() => setIsCalendarOpen(true)}
+        onCalendarClose={() => setIsCalendarOpen(false)}
+      />
+      <Icon
+        name='select-arrow'
+        size={24}
+        className={clsx(styles.arrow, {
+          [styles.open]: isCalendarOpen,
+        })}
       />
     </div>
   );

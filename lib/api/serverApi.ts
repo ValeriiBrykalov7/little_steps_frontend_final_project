@@ -1,17 +1,12 @@
-import { cookies } from 'next/headers';
-
 const API_URL = 'https://little-steps-final-project.onrender.com/api';
 
-export const checkServerSession = async () => {
-  const cookieStore = await cookies();
-
+export const checkServerSession = async (cookieHeader: string) => {
   const res = await fetch(`${API_URL}/auth/refresh`, {
     method: 'POST',
     headers: {
-      Cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
     cache: 'no-store',
   });
 

@@ -9,6 +9,7 @@ import { register } from '@/lib/api/clientApi';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useAuthStore } from '@/lib/store/authStore';
+import GoogleAuthButton from '../GoogleAuthButton/GoogleAuthButton';
 import { Loader } from '../Loader/Loader';
 
 interface RegistrationFormValues {
@@ -145,6 +146,7 @@ export default function RegistrationForm() {
             >
               {isPending ? <Loader variant='button' /> : 'Зареєструватись'}
             </button>
+              <GoogleAuthButton />
           </Form>
         )}
       </Formik>

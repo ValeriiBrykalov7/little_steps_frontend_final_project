@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Gender, User } from '@/types/user';
 import { updateUser } from '@/lib/api/clientApi';
@@ -8,7 +8,6 @@ import { createProfileSchema } from '@/lib/validation/FormShema';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './ProfileForm.module.css';
 import toast from 'react-hot-toast';
-import Icon from '../Icon/Icon';
 import { Loader } from '../Loader/Loader';
 import { DatePicker } from '../DatePicker/DatePicker';
 import dayjs from 'dayjs';
@@ -28,6 +27,7 @@ export const ProfileForm = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const { min, max } = getDateRange({ minOffset: 7 });
   const validationSchema = createProfileSchema(min, max);
+  const queryClient = useQueryClient();
 
   const initialValues: ProfileFormValues = {
     username: user?.username || '',
@@ -39,8 +39,9 @@ export const ProfileForm = () => {
   const { mutate: saveProfile, isPending } = useMutation<User, Error, FormData>(
     {
       mutationFn: (formData) => updateUser(formData),
-      onSuccess: (updatedUser) => {
+      onSuccess: async (updatedUser) => {
         setUser(updatedUser);
+        await queryClient.invalidateQueries({ queryKey: ['dashboard'] });
         toast.success('Дані успішно змінено!');
       },
       onError: (error) => {
