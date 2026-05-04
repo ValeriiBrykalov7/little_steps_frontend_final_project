@@ -1,17 +1,18 @@
 'use client';
 
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import toast from 'react-hot-toast';
 import type { CreateTaskRequest } from '@/types/task';
+import { createTask } from '@/lib/api/clientApi';
 import css from './AddTaskForm.module.css';
 import { Loader } from '../Loader/Loader';
 import { DatePicker } from '../DatePicker/DatePicker';
 import { getDateRange } from '@/lib/helper/date';
 
 type AddTaskFormProps = {
-  onSubmit: (task: CreateTaskRequest) => Promise<void>;
   onClose: () => void;
 };
 
@@ -44,7 +45,16 @@ const taskSchema = Yup.object({
   isDone: Yup.boolean().default(false).required(),
 });
 
-export default function AddTaskForm({ onSubmit, onClose }: AddTaskFormProps) {
+export default function AddTaskForm({ onClose }: AddTaskFormProps) {
+  const queryClient = useQueryClient();
+
+  const createTaskMutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+
   const handleSubmit = async (
     values: AddTaskFormValues,
     { resetForm }: FormikHelpers<AddTaskFormValues>,
@@ -58,7 +68,7 @@ export default function AddTaskForm({ onSubmit, onClose }: AddTaskFormProps) {
         isDone: values.isDone ?? false,
       };
 
-      await onSubmit(newTask);
+      await createTaskMutation.mutateAsync(newTask);
 
       resetForm();
       onClose();

@@ -2,16 +2,10 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  createTask,
-  getBabyWeekInfo,
-  getMomWeekInfo,
-} from '@/lib/api/clientApi';
-import { useAuthStore } from '@/lib/store/authStore';
+import { useQuery } from '@tanstack/react-query';
+import { getBabyWeekInfo, getMomWeekInfo } from '@/lib/api/clientApi';
 import type { Baby } from '@/types/baby';
 import type { Mom } from '@/types/mom';
-import type { CreateTaskRequest } from '@/types/task';
 import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
 import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
 import { Loader } from '@/components/Loader/Loader';
@@ -37,8 +31,6 @@ const splitTextBlocks = (text?: string) =>
 export default function JourneyDetails({ weekNumber }: Props) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('baby');
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const { isAuthenticated } = useAuthStore();
-  const queryClient = useQueryClient();
 
   const babyQuery = useQuery<Baby>({
     queryKey: ['journeyDetails', 'baby', weekNumber],
@@ -60,19 +52,6 @@ export default function JourneyDetails({ weekNumber }: Props) {
       : momQuery.isLoading || momQuery.isFetching;
 
   const hasError = activeTab === 'baby' ? babyQuery.isError : momQuery.isError;
-
-  const createTaskMutation = useMutation({
-    mutationFn: createTask,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tasks', isAuthenticated],
-      });
-    },
-  });
-
-  const handleCreateTask = async (task: CreateTaskRequest) => {
-    await createTaskMutation.mutateAsync(task);
-  };
 
   const renderBabyTab = () => {
     const baby = babyQuery.data;
@@ -256,9 +235,7 @@ export default function JourneyDetails({ weekNumber }: Props) {
 
       {isAddTaskModalOpen && (
         <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
-          {({ close }) => (
-            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
-          )}
+          {({ close }) => <AddTaskForm onClose={close} />}
         </AddTaskModal>
       )}
     </>

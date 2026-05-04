@@ -9,9 +9,16 @@ export const AddDiaryEntryFormSchema = Yup.object().shape({
     .required("Запис є обов'язковим")
     .min(1, 'Запис має бути не менше 1 символа')
     .max(1000, 'Запис має бути не більше 1000 символів'),
-  // categories: Yup.array()
-  //   .required('Оберіть принаймні одну категорію')
-  //   .of(Yup.number().integer('Має бути цілим числом'))
-  //   .min(1, 'Оберіть принаймні одну категорію')
-  //   .max(12, 'Оберіть не більше 12 категорій')
+  categories: Yup.array()
+    .of(
+      Yup.object({
+        value: Yup.object({
+          _id: Yup.string().required(),
+          title: Yup.string().required(),
+        }).required(),
+        label: Yup.string().required(),
+      }),
+    )
+    .min(1, 'Оберіть хоча б одну емоцію')
+    .required('Оберіть хоча б одну емоцію'),
 });

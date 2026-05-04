@@ -15,8 +15,14 @@ export default function GenderSelect() {
     useFormikContext<FormValues>();
 
   const customStyles: StylesConfig<GenderOption, false> = {
+    container: (base) => ({
+      ...base,
+      width: '100%',
+    }),
+
     control: (base, state) => ({
       ...base,
+      width: '100%',
       minHeight: 40,
       height: 40,
       borderRadius: state.menuIsOpen ? '12px 12px 0 0' : 12,
@@ -69,6 +75,7 @@ export default function GenderSelect() {
 
     menu: (base) => ({
       ...base,
+      width: '100%',
       borderRadius: '0 0 12px 12px',
       borderTop: '1px solid rgba(0, 0, 0, 0.15)',
       marginTop: 0,
