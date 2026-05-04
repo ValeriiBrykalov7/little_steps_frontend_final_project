@@ -7,6 +7,7 @@ const description =
 const ogImage = '/images/og-home.jpg';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://little-steps-kappa.vercel.app'),
   title: {
     absolute: title,
   },
