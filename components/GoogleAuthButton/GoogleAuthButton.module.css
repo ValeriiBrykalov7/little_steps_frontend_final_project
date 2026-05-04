@@ -2,6 +2,7 @@
   position: relative;
   width: 100%;
   height: 42px;
+  cursor: pointer;
 }
 
 .googleButtonWrapper:hover .button,
@@ -23,6 +24,15 @@
   inset: 0;
   opacity: 0.01;
   z-index: 2;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.hiddenGoogleButton > div,
+.hiddenGoogleButton iframe {
+  width: 100% !important;
+  height: 100% !important;
+  cursor: pointer;
 }
 
 .button {
