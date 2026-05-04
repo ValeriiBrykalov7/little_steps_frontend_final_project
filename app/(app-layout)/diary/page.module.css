@@ -6,10 +6,10 @@
   gap: 24px;
 }
 
-.diaryList {
+.content {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  gap: 24px;
 }
 
 .emptyText,
@@ -34,6 +34,16 @@
     overflow-x: visible;
   }
 
+  .content {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .desktopList {
+    display: block;
+    flex-shrink: 0;
+  }
   .emptyText,
   .feedbackText {
     max-width: 389px;

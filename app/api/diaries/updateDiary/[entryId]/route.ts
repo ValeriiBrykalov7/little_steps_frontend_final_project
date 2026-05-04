@@ -9,7 +9,7 @@ type Props = {
 };
 
 export async function PATCH(request: Request, { params }: Props) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const { entryId } = await params;
   const body = await request.json();
 

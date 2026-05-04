@@ -5,6 +5,7 @@ import type {
   CreateDiaryRequest,
   DiaryEntry,
   GetAllDiariesResponse,
+  UpdateDiaryRequest,
 } from '@/types/diary';
 import { requestWithAuthRefresh } from '@/lib/helper/requestWithAuthRefresh';
 import type { Baby } from '@/types/baby';
@@ -140,10 +141,30 @@ export const getAllDiaries = async (): Promise<GetAllDiariesResponse> => {
   });
 };
 
+export const deleteDiary = async (entryId: string) => {
+  return requestWithAuthRefresh(async () => {
+    await nextServer.delete(`/diaries/deleteDairy/${entryId}`);
+  });
+};
+
 export const createDiary = async (payload: CreateDiaryRequest) => {
   return requestWithAuthRefresh(async () => {
     const { data } = await nextServer.post<DiaryEntry>(
       '/diaries/createDiary',
+      payload,
+    );
+
+    return data;
+  });
+};
+
+export const updateDiary = async (
+  entryId: string,
+  payload: UpdateDiaryRequest,
+) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.patch<DiaryEntry>(
+      `/diaries/updateDiary/${entryId}`,
       payload,
     );
 

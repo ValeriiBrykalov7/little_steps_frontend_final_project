@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 import { components } from 'react-select';
 import ReactSelect from 'react-select';
@@ -11,14 +11,19 @@ import CheckboxOption from '../EmotionsOption/EmotionOption';
 import { EmotionOption } from '@/types/option';
 import { Emotion } from '@/types/emotion';
 import { AddDiaryEntryFormSchema } from '@/lib/validation/AddDiaryEntryFormSchema';
-import { useRef, useState, useEffect } from 'react';
-import { createDiary, getAllDiaries } from '@/lib/api/clientApi';
-import type { CreateDiaryRequest, GetAllDiariesResponse } from '@/types/diary';
+import { createDiary, getAllDiaries, updateDiary } from '@/lib/api/clientApi';
+import type {
+  CreateDiaryRequest,
+  DiaryEntry,
+  GetAllDiariesResponse,
+  UpdateDiaryRequest,
+} from '@/types/diary';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Loader } from '../Loader/Loader';
 import toast from 'react-hot-toast';
 
 type AddDiaryEntryFormProps = {
+  entry?: DiaryEntry;
   onClose: () => void;
 };
 
@@ -28,16 +33,11 @@ interface AddDiaryEntryFormValues {
   content: string;
 }
 
-const initialValues: AddDiaryEntryFormValues = {
-  title: '',
-  categories: [],
-  content: '',
-};
-
-const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
+const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
   const fieldId = useId();
   const { isAuthenticated, isAuthChecked } = useAuthStore();
   const queryClient = useQueryClient();
+  const isEditing = Boolean(entry);
 
   const { data: diaryData, isLoading: isEmotionsLoading } =
     useQuery<GetAllDiariesResponse>({
@@ -54,11 +54,36 @@ const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
     },
   });
 
+  const updateDiaryMutation = useMutation({
+    mutationFn: ({
+      entryId,
+      payload,
+    }: {
+      entryId: string;
+      payload: UpdateDiaryRequest;
+    }) => updateDiary(entryId, payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['diaries'] });
+    },
+  });
+
   const availableEmotions = diaryData?.allEmotions ?? [];
   const emotionOptions: EmotionOption[] = availableEmotions.map((emotion) => ({
     value: emotion,
     label: emotion.title,
   }));
+  const formInitialValues = useMemo<AddDiaryEntryFormValues>(
+    () => ({
+      title: entry?.title ?? '',
+      categories:
+        entry?.emotions.map((emotion) => ({
+          value: emotion,
+          label: emotion.title,
+        })) ?? [],
+      content: entry?.description ?? '',
+    }),
+    [entry],
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(2);
@@ -87,13 +112,20 @@ const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
         return;
       }
 
-      const newDiary: CreateDiaryRequest = {
+      const diaryPayload: CreateDiaryRequest = {
         title: values.title.trim(),
         description: values.content.trim(),
         emotions: values.categories.map((category) => category.value._id),
       };
 
-      await createDiaryMutation.mutateAsync(newDiary);
+      if (entry) {
+        await updateDiaryMutation.mutateAsync({
+          entryId: entry._id,
+          payload: diaryPayload,
+        });
+      } else {
+        await createDiaryMutation.mutateAsync(diaryPayload);
+      }
 
       resetForm();
       onClose();
@@ -108,7 +140,8 @@ const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
     <div ref={containerRef} className={css.formWrapper}>
       <Formik
         validationSchema={AddDiaryEntryFormSchema}
-        initialValues={initialValues}
+        initialValues={formInitialValues}
+        enableReinitialize
         onSubmit={handleSubmit}
       >
         {({
@@ -239,7 +272,11 @@ const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
             <button
               type='submit'
               className={css.submitButton}
-              disabled={isSubmitting}
+              disabled={
+                isSubmitting ||
+                createDiaryMutation.isPending ||
+                updateDiaryMutation.isPending
+              }
               onClick={() => {
                 const isTitleEmpty = values.title.trim().length === 0;
                 const isContentEmpty = values.content.trim().length === 0;
@@ -277,7 +314,15 @@ const AddDiaryEntryForm = ({ onClose }: AddDiaryEntryFormProps) => {
                 }
               }}
             >
-              {isSubmitting ? <Loader variant='button' /> : 'Зберегти'}
+              {isSubmitting ||
+              createDiaryMutation.isPending ||
+              updateDiaryMutation.isPending ? (
+                <Loader variant='button' />
+              ) : isEditing ? (
+                'Зберегти зміни'
+              ) : (
+                'Зберегти'
+              )}
             </button>
           </Form>
         )}

@@ -1,83 +1,43 @@
-'use client';
+import type { Metadata } from 'next';
+import DashboardPageClient from './DashboardPageClient';
 
-import { useAuthStore } from '@/lib/store/authStore';
-import { useQuery } from '@tanstack/react-query';
-import { getDashboardInfo } from '@/lib/api/clientApi';
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
-import FeelingCheckcard from '@/components/FeelingCheckcard/FeelingCheckcard';
-import { Loader } from '@/components/Loader/Loader';
-import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
-import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
-import css from './page.module.css';
-import { useState } from 'react';
-import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
-import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
-import { AddDiaryEntryModal } from '@/components/AddDiaryEntryModal/AddDiaryEntryModal';
-import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
+const title = 'Лелека';
+const description =
+  'Лелека - додаток для майбутніх мам: відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник і керуйте важливими завданнями.';
+const ogImage = '/images/og-home.jpg';
+
+export const metadata: Metadata = {
+  title: {
+    absolute: title,
+  },
+  description,
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title,
+    description,
+    url: '/',
+    siteName: 'Лелека',
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'Лелека - додаток для майбутніх мам',
+      },
+    ],
+    locale: 'uk_UA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
+  },
+};
 
 export default function DashboardPage() {
-  const { isAuthenticated, isAuthChecked } = useAuthStore();
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const [isDiaryModalOpen, setIsDiaryModalOpen] = useState(false);
-
-  // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
-  const { data, isLoading } = useQuery({
-    queryKey: ['dashboard', isAuthenticated],
-    queryFn: () => getDashboardInfo(isAuthenticated),
-    enabled: isAuthChecked, // це для того, щоб запит не відбувався, поки ми не перевірили автентифікацію
-    staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
-  });
-
-  if (!isAuthChecked || isLoading) return <Loader />;
-
-  if (!data) return <div>No data found.</div>;
-
-  return (
-    <>
-      <section className={css.dashboard}>
-        <div className='container'>
-          <GreetingBlock />
-
-          <div className={css.dashboard_content}>
-            <div className={css.dashboard_greeting_status}>
-              <StatusBlock
-                daysToMeeting={data.daysToMeeting}
-                currentWeek={data.currentWeek}
-              />
-              <BabyTodayCard dataBaby={data.baby} />
-              <MomTipCard currentTip={data.dailyAdvice} />
-            </div>
-
-            <div className={css.dashboard_task_diary}>
-              <TasksReminderCard
-                openAddTaskModal={() => {
-                  setIsAddTaskModalOpen(true);
-                }}
-              />
-
-              <FeelingCheckcard
-                openAddDiaryModal={() => {
-                  setIsDiaryModalOpen(true);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
-          {({ close }) => <AddTaskForm onClose={close} />}
-        </AddTaskModal>
-      )}
-
-      {isDiaryModalOpen && (
-        <AddDiaryEntryModal onClose={() => setIsDiaryModalOpen(false)}>
-          {({ close }) => <AddDiaryEntryForm onClose={close} />}
-        </AddDiaryEntryModal>
-      )}
-    </>
-  );
+  return <DashboardPageClient />;
 }

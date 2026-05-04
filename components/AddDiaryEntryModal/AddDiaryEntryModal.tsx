@@ -13,6 +13,7 @@ import css from './AddDiaryEntryModal.module.css';
 
 type ModalProps = {
   onClose: () => void;
+  title?: string;
   children?: ReactNode | ((props: { close: () => void }) => ReactNode);
 };
 
@@ -25,7 +26,11 @@ const useIsClient = () =>
     () => false,
   );
 
-export const AddDiaryEntryModal = ({ onClose, children }: ModalProps) => {
+export const AddDiaryEntryModal = ({
+  onClose,
+  title = 'Новий запис',
+  children,
+}: ModalProps) => {
   const isClient = useIsClient();
   const [isClosing, setIsClosing] = useState(false);
 
@@ -80,7 +85,7 @@ export const AddDiaryEntryModal = ({ onClose, children }: ModalProps) => {
             <use href='/sprite.svg#icon-close'></use>
           </svg>
         </button>
-        <p className={css.textfortask}>Новий запис</p>
+        <p className={css.textfortask}>{title}</p>
         {typeof children === 'function'
           ? children({ close: closeWithAnimation })
           : children}
