@@ -37,8 +37,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <div className={styles.shell}>
       <Sidebar />
-      <main className={`container ${styles.content}`}>
-        <div className='container'>
+      <main className={`${styles.content}`}>
+        <div className={`${styles.breadcrumbs}`}>
           <Breadcrumbs />
         </div>
         {children}

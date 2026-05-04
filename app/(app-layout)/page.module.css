@@ -16,18 +16,26 @@
 
 @media only screen and (min-width: 768px) {
   .dashboard_task_diary {
-    padding-inline: 32px;
-  }
+  margin-top: 0px;
+}
+.dashboard_content {
+  display: flex;
+  flex-direction: column;
+  gap:48px
+}
+
 }
 
 @media only screen and (min-width: 1440px) {
   .dashboard_content {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
+    gap: 32px;
   }
 
   .dashboard_greeting_status {
-    width: 674px;
+    width: 642px;
     flex-shrink: 0;
   }
 

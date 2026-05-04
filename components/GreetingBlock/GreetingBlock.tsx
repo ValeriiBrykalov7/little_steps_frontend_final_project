@@ -22,7 +22,7 @@ const GreetingBlock = () => {
   const username = formatName(user?.username);
 
   return (
-    <div className={`container ${css.greeting_block}`}>
+    <div className={`${css.greeting_block}`}>
       {isAuthenticated ? (
         <p className={css.greeting_text}>
           {greeting}, {username}!

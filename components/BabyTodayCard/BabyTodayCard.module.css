@@ -10,9 +10,6 @@
   margin-top: 16px;
 }
 
-.container_card {
-  margin: 0 20px;
-}
 .cardSubcontainer {
   display: flex;
   flex-direction: column;
@@ -81,7 +78,6 @@
     align-items: center;
   }
   .container_card {
-    margin: 0 32px;
     margin-top: 32px;
   }
   .cardImgContainer {
@@ -119,7 +115,6 @@
     margin: 0;
   }
   .container_card {
-    margin: 0;
     margin-top: 32px;
   }
   .cardTitle {
