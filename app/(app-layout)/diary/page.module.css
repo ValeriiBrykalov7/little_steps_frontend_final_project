@@ -23,6 +23,7 @@
   font-size: 14px;
   line-height: 1.6;
   text-align: center;
+  animation: emptyStateIn 360ms ease both;
 }
 
 .feedbackText {
@@ -48,5 +49,17 @@
   .feedbackText {
     max-width: 389px;
     font-size: 16px;
+  }
+}
+
+@keyframes emptyStateIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
