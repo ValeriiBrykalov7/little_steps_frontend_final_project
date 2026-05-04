@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { DiaryEntry } from '@/types/diary';
 import DiaryEntryCard from '../DiaryEntryCard/DiaryEntryCard';
@@ -8,25 +7,35 @@ import css from './DiaryList.module.css';
 
 interface DiaryListProps {
   diaries: DiaryEntry[];
+  openAddDiaryEntryModal?: () => void;
 }
 
-const DiaryList = ({ diaries }: DiaryListProps) => {
+const DiaryList = ({ diaries, openAddDiaryEntryModal }: DiaryListProps) => {
   const router = useRouter();
 
   const handleClick = (card: DiaryEntry) => {
     router.push(`/diary/${card._id}`);
   };
 
-  //Це буде не link а кнопка, яка буде відкривавати модалку, теж треба буде cтворити пропс
-  //openAddDiaryEntryModal який буде приймати функцію для відкриття модалки і обробник при натисканні на кнопку. А у page для кнопки треба буде зробити стан для
-  //відкриття і закриття модалки
+  const handleCreateClick = () => {
+    if (openAddDiaryEntryModal) {
+      openAddDiaryEntryModal();
+      return;
+    }
+
+    router.push('/diary');
+  };
 
   return (
     <div className={css.diaryListContainer}>
       <div className={css.diaryNavigation}>
         <h2 className={css.diaryNavigationTitle}>Ваші записи</h2>
 
-        <Link href='/diary' className={css.diaryNavigationButton}>
+        <button
+          type='button'
+          className={css.diaryNavigationButton}
+          onClick={handleCreateClick}
+        >
           <span className={css.diaryNavigationButtonText}>Новий запис</span>
           <svg
             width='21'
@@ -36,7 +45,7 @@ const DiaryList = ({ diaries }: DiaryListProps) => {
           >
             <use href='/sprite.svg#icon-create'></use>
           </svg>
-        </Link>
+        </button>
       </div>
 
       <ul className={css.diaryList}>

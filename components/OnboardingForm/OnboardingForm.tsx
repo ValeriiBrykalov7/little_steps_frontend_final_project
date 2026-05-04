@@ -1,6 +1,5 @@
 'use client';
 
-import { Gender } from '@/types/user';
 import { Formik, Form, ErrorMessage } from 'formik';
 import PhotoDropzone from '../PhotoDropzone/PhotoDropzone';
 import GenderSelect from '../GenderSelect/GenderSelect';
@@ -10,41 +9,39 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 import { useAuthStore } from '@/lib/store/authStore';
-import 'react-datepicker/dist/react-datepicker.css';
-import { DueDatePicker } from '../DueDatePicker/DueDatePicker';
-import { max, min } from '@/lib/helper/date';
+import { DatePicker } from '../DatePicker/DatePicker';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';
-
-export type GenderOption = {
-  value: Gender;
-  label: string;
-};
+import { getDateRange } from '@/lib/helper/date';
+import { Gender } from '@/types/user';
 
 export interface FormValues {
   photo: File | null;
-  gender: GenderOption | null;
+  gender: Gender | 'null';
   dueDate: Date | null;
 }
 
-export const validationSchema = Yup.object({
-  gender: Yup.object().nullable(),
+const createValidationSchema = (min: Date, max: Date) =>
+  Yup.object({
+    gender: Yup.string().oneOf(['boy', 'girl', 'null']),
 
-  dueDate: Yup.date()
-    .nullable()
-    .min(min, 'Дата не може бути раніше дозволеної')
-    .max(max, 'Дата не може бути пізніше дозволеної'),
+    dueDate: Yup.date()
+      .nullable()
+      .min(min, 'Дата не може бути раніше дозволеної')
+      .max(max, 'Дата не може бути пізніше дозволеної'),
 
-  photo: Yup.mixed().nullable(),
-});
+    photo: Yup.mixed().nullable(),
+  });
 
 export default function OnboardingForm() {
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
+  const { min, max } = getDateRange({ minOffset: 7 }); // якщо не передати minOffset, мінімальна доступна дата буде сьогодні
+  const ValidationSchema = createValidationSchema(min, max);
 
   const initialValues: FormValues = {
     photo: null,
-    gender: null,
+    gender: 'null',
     dueDate: null,
   };
 
@@ -63,9 +60,7 @@ export default function OnboardingForm() {
   const handleSubmit = async (values: FormValues) => {
     const formData = new FormData();
 
-    if (values.gender?.value) {
-      formData.append('gender', values.gender.value);
-    }
+    formData.append('gender', values.gender);
 
     if (values.dueDate) {
       const year = values.dueDate.getFullYear();
@@ -88,7 +83,7 @@ export default function OnboardingForm() {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={validationSchema}
+      validationSchema={ValidationSchema}
     >
       {({ errors, touched }) => (
         <Form className={styles.form}>
@@ -116,7 +111,11 @@ export default function OnboardingForm() {
                 Планова дата пологів
               </label>
 
-              <DueDatePicker />
+              <DatePicker
+                minDate={min}
+                maxDate={max}
+                className={styles.datePickerInput}
+              />
 
               {touched.dueDate && errors.dueDate && (
                 <span className={styles.error}>{errors.dueDate}</span>

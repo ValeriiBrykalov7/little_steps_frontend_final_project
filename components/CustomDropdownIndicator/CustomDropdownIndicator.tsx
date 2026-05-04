@@ -1,11 +1,13 @@
 import { components, DropdownIndicatorProps } from 'react-select';
-import { GenderOption } from '../OnboardingForm/OnboardingForm';
+import { BaseOption } from '@/types/option';
 import Icon from '../Icon/Icon';
 import styles from './CustomDropdownIndicator.module.css';
+import clsx from 'clsx';
 
-export default function CustomDropdownIndicator(
-  props: DropdownIndicatorProps<GenderOption, false>,
-) {
+export default function CustomDropdownIndicator<
+  T,
+  IsMulti extends boolean = false,
+>(props: DropdownIndicatorProps<BaseOption<T>, IsMulti>) {
   const {
     selectProps: { menuIsOpen },
   } = props;
@@ -15,7 +17,9 @@ export default function CustomDropdownIndicator(
       <Icon
         name='select-arrow'
         size={24}
-        className={`${styles.arrow} ${menuIsOpen ? styles.open : ''}`}
+        className={clsx(styles.arrow, {
+          [styles.open]: menuIsOpen,
+        })}
       />
     </components.DropdownIndicator>
   );

@@ -4,6 +4,20 @@
   height: 42px;
 }
 
+.googleButtonWrapper:hover .button,
+.googleButtonWrapper:focus-within .button {
+  border-bottom: 4px solid var(--opacity-neutral-darkest-15);
+  border-radius: 100px;
+  background: var(--color-scheme-foreground);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.googleButtonWrapper:active .button {
+  transform: translateY(0);
+  background: var(--color-scheme-accent);
+}
+
 .hiddenGoogleButton {
   position: absolute;
   inset: 0;

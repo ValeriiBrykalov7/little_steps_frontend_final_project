@@ -1,5 +1,6 @@
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
@@ -20,27 +21,46 @@ const comfortaa = Comfortaa({
   display: 'swap',
 });
 
+const siteUrl = 'https://little-steps-kappa.vercel.app';
+const title = 'Лелека';
+const description =
+  'Лелека - додаток для майбутніх мам. Відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник та керуйте важливими завданнями.';
+const ogImage = '/images/og-home.jpg';
+
 export const metadata: Metadata = {
-  title: 'Leleka',
-  description:
-    'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
+  metadataBase: new URL(siteUrl),
+  applicationName: title,
+  title: {
+    default: title,
+    template: `%s | ${title}`,
+  },
+  description,
   icons: {
-    icon: '/stork.png',
+    icon: [{ url: '/stork.png', type: 'image/png' }],
+    shortcut: '/stork.png',
+    apple: '/stork.png',
   },
   openGraph: {
-    title: 'Leleka',
-    description:
-      'Leleka is an app for future mothers. Track your pregnancy journey, get personalized tips and manage important tasks.',
-    url: 'https://little-steps-kappa.vercel.app/',
-    siteName: 'Leleka',
+    title,
+    description,
+    url: '/',
+    siteName: title,
     images: [
       {
-        url: '',
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: 'Leleka app',
+        alt: 'Лелека - додаток для майбутніх мам',
       },
     ],
+    locale: 'uk_UA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
   },
 };
 
@@ -57,13 +77,13 @@ export default function RootLayout({
     >
       <body>
         {
-           <GoogleProvider>
-          <TanStackProvider>
-            <AuthProvider>
-              {children} <Toaster />
-            </AuthProvider>
+          <GoogleProvider>
+            <TanStackProvider>
+              <AuthProvider>
+                {children} <Toaster />
+              </AuthProvider>
             </TanStackProvider>
-            </GoogleProvider>
+          </GoogleProvider>
         }
         <div id='modal-root' />
       </body>

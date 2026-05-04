@@ -5,7 +5,6 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import type { User } from '@/types/user';
 import styles from './GoogleAuthButton.module.css';
 import { googleAuth } from '@/lib/api/clientApi';
 
@@ -38,22 +37,23 @@ export default function GoogleAuthButton() {
               setUser(user);
 
               toast.success('Успішна автентифікація через Google');
-        
+
               router.push('/');
             } catch (error) {
-  if (axios.isAxiosError(error)) {
-    console.log('GOOGLE AUTH STATUS:', error.response?.status);
-    console.log('GOOGLE AUTH DATA:', error.response?.data);
-    console.log('GOOGLE AUTH URL:', error.config?.url);
+              if (axios.isAxiosError(error)) {
+                console.log('GOOGLE AUTH STATUS:', error.response?.status);
+                console.log('GOOGLE AUTH DATA:', error.response?.data);
+                console.log('GOOGLE AUTH URL:', error.config?.url);
 
-    toast.error(
-      error.response?.data?.message || 'Помилка автентифікації через Google',
-    );
-    return;
-  }
+                toast.error(
+                  error.response?.data?.message ||
+                    'Помилка автентифікації через Google',
+                );
+                return;
+              }
 
-  console.log('UNKNOWN GOOGLE AUTH ERROR:', error);
-  toast.error('Невідома помилка');
+              console.log('UNKNOWN GOOGLE AUTH ERROR:', error);
+              toast.error('Невідома помилка');
             }
           }}
           onError={() => {

@@ -1,8 +1,9 @@
 import Select, { StylesConfig } from 'react-select';
 import { useFormikContext } from 'formik';
-import { FormValues, GenderOption } from '../OnboardingForm/OnboardingForm';
+import { FormValues } from '../OnboardingForm/OnboardingForm';
 import CustomDropdownIndicator from '../CustomDropdownIndicator/CustomDropdownIndicator';
-
+import { GenderOption } from '@/types/option';
+import { Gender } from '@/types/user';
 const options: GenderOption[] = [
   { value: 'boy', label: 'Хлопчик' },
   { value: 'girl', label: 'Дівчинка' },
@@ -14,8 +15,14 @@ export default function GenderSelect() {
     useFormikContext<FormValues>();
 
   const customStyles: StylesConfig<GenderOption, false> = {
+    container: (base) => ({
+      ...base,
+      width: '100%',
+    }),
+
     control: (base, state) => ({
       ...base,
+      width: '100%',
       minHeight: 40,
       height: 40,
       borderRadius: state.menuIsOpen ? '12px 12px 0 0' : 12,
@@ -68,6 +75,7 @@ export default function GenderSelect() {
 
     menu: (base) => ({
       ...base,
+      width: '100%',
       borderRadius: '0 0 12px 12px',
       borderTop: '1px solid rgba(0, 0, 0, 0.15)',
       marginTop: 0,
@@ -101,18 +109,18 @@ export default function GenderSelect() {
   };
 
   return (
-    <Select
+    <Select<GenderOption, false>
       options={options}
-      value={values.gender}
+      value={options.find((o) => o.value === values.gender) ?? null}
       onChange={(option) => {
-        setFieldValue('gender', option);
+        setFieldValue('gender', option?.value ?? null);
         setFieldTouched('gender', true, false);
       }}
       placeholder='Оберіть стать'
       styles={customStyles}
       isSearchable={false}
       components={{
-        DropdownIndicator: CustomDropdownIndicator,
+        DropdownIndicator: CustomDropdownIndicator<Gender, false>,
       }}
       instanceId='gender-select'
     />

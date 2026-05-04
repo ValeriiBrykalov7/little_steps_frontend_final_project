@@ -1,97 +1,43 @@
-'use client';
-import { useAuthStore } from '@/lib/store/authStore';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getDashboardInfo, createTask } from '@/lib/api/clientApi';
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
-import FeelingCheckcard from '@/components/FeelingCheckcard/FeelingCheckcard';
-import { Loader } from '@/components/Loader/Loader';
-import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
-import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
-import css from './page.module.css';
-import type { CreateTaskRequest } from '@/types/task';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
-import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
+import type { Metadata } from 'next';
+import DashboardPageClient from './DashboardPageClient';
+
+const title = 'Лелека';
+const description =
+  'Лелека - додаток для майбутніх мам: відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник і керуйте важливими завданнями.';
+const ogImage = '/images/og-home.jpg';
+
+export const metadata: Metadata = {
+  title: {
+    absolute: title,
+  },
+  description,
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title,
+    description,
+    url: '/',
+    siteName: 'Лелека',
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'Лелека - додаток для майбутніх мам',
+      },
+    ],
+    locale: 'uk_UA',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: [ogImage],
+  },
+};
 
 export default function DashboardPage() {
-  const { isAuthenticated, isAuthChecked } = useAuthStore();
-  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
-  const queryClient = useQueryClient();
-
-  const router = useRouter();
-  // важливо ставити ключ 'dashboard' на всіх інших сторінках, де відбуваєтья запит до getDashboardInfo
-  const { data, isLoading } = useQuery({
-    queryKey: ['dashboard', isAuthenticated],
-    queryFn: () => getDashboardInfo(isAuthenticated),
-    enabled: isAuthChecked, // це для того, щоб запит не відбувався, поки ми не перевірили автентифікацію
-    staleTime: 1000 * 60 * 5, // це для того, щоб дані були свіжими 5 хвилин, а потім відбувався знову запит на сервак
-  });
-
-  const createTaskMutation = useMutation({
-    mutationFn: createTask,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ['tasks', isAuthenticated],
-      });
-    },
-  });
-
-  if (!isAuthChecked || isLoading) return <Loader />;
-
-  if (!data) return <div>No data found.</div>;
-
-  const handleCreateTask = async (task: CreateTaskRequest) => {
-    // mutateAsync повертає проміс, тому AddTaskForm може зробити await onSubmit
-    // Якщо запит успішний то форма скине поля і закриє модалку
-    // Якщо запит фіговий то код у AddTaskForm перейде в catch і модалка залишиться відкритою
-
-    await createTaskMutation.mutateAsync(task);
-  };
-
-  return (
-    <>
-      <section className={css.dashboard}>
-        <div className='container'>
-          <GreetingBlock />
-
-          <div className={css.dashboard_content}>
-            <div className={css.dashboard_greeting_status}>
-              <StatusBlock
-                daysToMeeting={data.daysToMeeting}
-                currentWeek={data.currentWeek}
-              />
-              <BabyTodayCard dataBaby={data.baby} />
-              <MomTipCard currentTip={data.dailyAdvice} />
-            </div>
-
-            <div className={css.dashboard_task_diary}>
-              <TasksReminderCard
-                openAddTaskModal={() => {
-                  setIsAddTaskModalOpen(true);
-                }}
-              />
-
-              <FeelingCheckcard
-                openAddTaskModal={() => {
-                  router.push('/diary');
-                }}
-              />
-              {/*поки немає модалки, тому просто пушимо на сторінку щоденника*/}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {isAddTaskModalOpen && (
-        <AddTaskModal onClose={() => setIsAddTaskModalOpen(false)}>
-          {({ close }) => (
-            <AddTaskForm onSubmit={handleCreateTask} onClose={close} />
-          )}
-        </AddTaskModal>
-      )}
-    </>
-  );
+  return <DashboardPageClient />;
 }

@@ -1,5 +1,4 @@
 import { isAxiosError } from 'axios';
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { logErrorResponse } from '../../../_utils/utils';
 import { api } from '../../../api';
@@ -9,12 +8,12 @@ type Props = {
 };
 
 export async function DELETE(request: Request, { params }: Props) {
-  const cookieStore = cookies();
   const { entryId } = await params;
+  const cookieHeader = request.headers.get('cookie') ?? '';
 
   try {
     await api.delete(`/diaries/deleteDiary/${entryId}`, {
-      headers: { Cookie: cookieStore.toString() },
+      headers: { Cookie: cookieHeader },
     });
 
     return NextResponse.json({ success: true }, { status: 200 });
