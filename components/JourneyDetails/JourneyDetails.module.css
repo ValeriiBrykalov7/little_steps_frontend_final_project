@@ -1,5 +1,12 @@
 .journeyDetails {
   width: 100%;
+  min-height: 720px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.journeyDetails::-webkit-scrollbar {
+  display: none;
 }
 
 .tabsList {
@@ -352,6 +359,10 @@
 }
 
 @media only screen and (min-width: 1440px) {
+  .journeyDetails {
+    min-height: 620px;
+  }
+
   .babyCard {
     grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
     align-items: stretch;
