@@ -3,6 +3,9 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../../_utils/utils';
+import FormData from 'form-data';
+
+export const runtime = 'nodejs';
 
 export async function PATCH(request: Request) {
   try {
@@ -14,17 +17,21 @@ export async function PATCH(request: Request) {
     const email = incomingFormData.get('email');
     const gender = incomingFormData.get('gender');
     const dueDate = incomingFormData.get('dueDate');
-    const avatar = incomingFormData.get('photo');
+    const avatar = incomingFormData.get('avatar');
 
     if (username !== null) formData.append('username', String(username));
     if (email !== null) formData.append('email', String(email));
     if (gender !== null) formData.append('gender', String(gender));
     if (dueDate !== null) formData.append('dueDate', String(dueDate));
     if (avatar instanceof File) {
-      formData.append('avatar', avatar);
+      formData.append('avatar', Buffer.from(await avatar.arrayBuffer()), {
+        filename: avatar.name,
+        contentType: avatar.type,
+      });
     }
     const res = await api.patch('/users/me', formData, {
       headers: {
+        ...formData.getHeaders(),
         Cookie: cookieStore.toString(),
       },
     });

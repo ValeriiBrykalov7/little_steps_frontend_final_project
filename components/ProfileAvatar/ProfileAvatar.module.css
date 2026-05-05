@@ -10,7 +10,7 @@
   width: 132px;
   height: 132px;
   border-radius: 50%;
-  background-color: #e5e5e5;
+  background-color: var(--color-scheme-foreground);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@
 
 .circle:hover,
 .circle:focus-within {
-  box-shadow: 0 0 0 2px var(--color-pastel-pink);
+  box-shadow: 0 0 0 2px var(--color-scheme-accent);
 }
 
 .circle:active {
@@ -37,7 +37,7 @@
 }
 
 .active {
-  box-shadow: 0 0 0 2px var(--color-pastel-pink);
+  box-shadow: 0 0 0 2px var(--color-scheme-accent);
 }
 
 .info {

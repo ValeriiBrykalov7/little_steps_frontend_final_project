@@ -28,6 +28,10 @@
   cursor: pointer;
 }
 
+.disabledGoogleButton {
+  pointer-events: none;
+}
+
 .hiddenGoogleButton > div,
 .hiddenGoogleButton iframe {
   width: 100% !important;

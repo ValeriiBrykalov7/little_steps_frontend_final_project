@@ -20,18 +20,22 @@
   display: block;
   font-size: 14px;
   margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .formField {
   width: 100%;
   font-size: 14px;
+  cursor: pointer;
+  cursor: pointer;
 }
 
 .selectContainer {
   position: relative;
+  cursor: pointer;
 }
 
-.selectControl {
+div.selectControl {
   border: 1px solid var(--opacity-transparent);
   background: var(--color-neutral-lightest);
   border-radius: 12px;
@@ -39,11 +43,13 @@
   padding: 8px 12px;
   font-size: 14px;
   color: var(--color-neutral-darkest);
+  cursor: pointer;
 }
 
 .selectControl.selectControlFocused {
   border: 1px solid var(--color-scheme-border);
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .selectControl.selectControlOpen {
@@ -62,6 +68,17 @@
   background: var(--color-neutral-lightest);
   border: 1px solid var(--color-scheme-border);
   border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  transform-origin: top center;
+}
+
+.selectMenuOpening {
+  animation: diarySelectMenuOpen 160ms ease forwards;
+}
+
+.selectMenuClosing {
+  pointer-events: none;
+  animation: diarySelectMenuClose 160ms ease forwards;
 }
 
 .selectMenuList {
@@ -104,6 +121,7 @@ textarea:focus {
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 }
 
 .tag {
@@ -117,6 +135,7 @@ textarea:focus {
   color: var(--color-scheme-text);
   white-space: nowrap;
   background: var(--opacity-neutral-darkest-5);
+  cursor: pointer;
 }
 
 .textarea {
@@ -182,6 +201,30 @@ textarea:focus {
 
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes diarySelectMenuOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes diarySelectMenuClose {
+  from {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.96);
   }
 }
 

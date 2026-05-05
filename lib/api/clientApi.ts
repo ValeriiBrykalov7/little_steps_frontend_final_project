@@ -1,4 +1,4 @@
-import { User } from '@/types/user';
+import type { Gender, User } from '@/types/user';
 import type { CreateTaskRequest, Task, UpdateTaskRequest } from '@/types/task';
 import { nextServer } from './api';
 import type {
@@ -29,9 +29,13 @@ export interface RegisterRequest {
 }
 
 export interface UpdateUserRequest {
-  photo: File | null;
+  avatar: File | null;
   gender?: string;
   dueDate?: string | null;
+}
+
+export interface UpdateThemeRequest {
+  theme: Gender;
 }
 
 //
@@ -207,5 +211,15 @@ export const updateUser = async (data: Partial<User> | FormData) => {
   return requestWithAuthRefresh(async () => {
     const { data: responseData } = await nextServer.patch('users/me', data);
     return responseData;
+  });
+};
+
+export const updateTheme = async (theme: Gender) => {
+  return requestWithAuthRefresh(async () => {
+    const { data } = await nextServer.patch<UpdateThemeRequest>(
+      '/users/theme',
+      { theme },
+    );
+    return data;
   });
 };

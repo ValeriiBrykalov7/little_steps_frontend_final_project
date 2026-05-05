@@ -4,7 +4,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import PhotoDropzone from '../PhotoDropzone/PhotoDropzone';
 import GenderSelect from '../GenderSelect/GenderSelect';
 import styles from './OnboardingForm.module.css';
-import { updateUser } from '@/lib/api/clientApi';
+import { updateTheme, updateUser } from '@/lib/api/clientApi';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
@@ -13,13 +13,19 @@ import { DatePicker } from '../DatePicker/DatePicker';
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader/Loader';
 import { getDateRange } from '@/lib/helper/date';
-import { Gender } from '@/types/user';
+import { getThemeByGender } from '@/lib/helper/theme';
+import { Gender, User } from '@/types/user';
 
 export interface FormValues {
-  photo: File | null;
+  avatar: File | null;
   gender: Gender | 'null';
   dueDate: Date | null;
 }
+
+type SaveOnboardingPayload = {
+  formData: FormData;
+  theme: Gender;
+};
 
 const createValidationSchema = (min: Date, max: Date) =>
   Yup.object({
@@ -30,7 +36,7 @@ const createValidationSchema = (min: Date, max: Date) =>
       .min(min, 'Дата не може бути раніше дозволеної')
       .max(max, 'Дата не може бути пізніше дозволеної'),
 
-    photo: Yup.mixed().nullable(),
+    avatar: Yup.mixed().nullable(),
   });
 
 export default function OnboardingForm() {
@@ -40,13 +46,22 @@ export default function OnboardingForm() {
   const ValidationSchema = createValidationSchema(min, max);
 
   const initialValues: FormValues = {
-    photo: null,
+    avatar: null,
     gender: 'null',
     dueDate: null,
   };
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateUser,
+  const { mutate, isPending } = useMutation<
+    User,
+    Error,
+    SaveOnboardingPayload
+  >({
+    mutationFn: async ({ formData, theme }: SaveOnboardingPayload) => {
+      const updatedUser = await updateUser(formData);
+      const updatedTheme = await updateTheme(theme);
+
+      return { ...updatedUser, theme: updatedTheme.theme };
+    },
     onSuccess: (user) => {
       setUser(user);
       toast.success('Дані успішно збережено');
@@ -72,11 +87,14 @@ export default function OnboardingForm() {
       formData.append('dueDate', formattedDate);
     }
 
-    if (values.photo) {
-      formData.append('photo', values.photo);
+    if (values.avatar) {
+      formData.append('avatar', values.avatar);
     }
 
-    mutate(formData);
+    mutate({
+      formData,
+      theme: getThemeByGender(values.gender),
+    });
   };
 
   return (
@@ -90,7 +108,7 @@ export default function OnboardingForm() {
           <PhotoDropzone />
 
           <ErrorMessage
-            name='photo'
+            name='avatar'
             component='span'
             className={styles.error}
           />
