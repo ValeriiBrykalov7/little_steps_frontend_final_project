@@ -27,6 +27,8 @@ type AddDiaryEntryFormProps = {
   onClose: () => void;
 };
 
+const SELECT_MENU_ANIMATION_DURATION = 160;
+
 interface AddDiaryEntryFormValues {
   title: string;
   categories: EmotionOption[];
@@ -86,7 +88,18 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [visibleCount, setVisibleCount] = useState(2);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -101,6 +114,25 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
+
+  const openMenu = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+
+    setIsMenuClosing(false);
+    setMenuIsOpen(true);
+  };
+
+  const closeMenu = () => {
+    if (!menuIsOpen || isMenuClosing) return;
+
+    setIsMenuClosing(true);
+    closeTimerRef.current = setTimeout(() => {
+      setMenuIsOpen(false);
+      setIsMenuClosing(false);
+    }, SELECT_MENU_ANIMATION_DURATION);
+  };
 
   const handleSubmit = async (
     values: AddDiaryEntryFormValues,
@@ -192,6 +224,9 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
                 }
                 closeMenuOnSelect={false}
                 hideSelectedOptions={false}
+                menuIsOpen={menuIsOpen}
+                onMenuOpen={openMenu}
+                onMenuClose={closeMenu}
                 components={{
                   DropdownIndicator: CustomDropdownIndicator<Emotion, true>,
                   Option: CheckboxOption,
@@ -233,7 +268,13 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
                     ]
                       .filter(Boolean)
                       .join(' '),
-                  menu: () => css.selectMenu,
+                  menu: () =>
+                    [
+                      css.selectMenu,
+                      isMenuClosing
+                        ? css.selectMenuClosing
+                        : css.selectMenuOpening,
+                    ].join(' '),
                   menuList: () => css.selectMenuList,
                   option: () => css.selectOption,
                   placeholder: () => css.dropdownPlaceholder,

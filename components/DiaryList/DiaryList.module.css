@@ -1,103 +1,102 @@
-.diaryListContainer{
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background-color: #fff4f6;
-    border-radius: 32px;
+.diaryListContainer {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--color-scheme-foreground);
+  border-radius: 32px;
 }
 
-.diaryNavigation{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.diaryNavigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.diaryNavigationTitle{
-    font-size: 18px;
-    line-height: 1.4;
-    letter-spacing: 0.01em;
+.diaryNavigationTitle {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 
-.diaryNavigationButton{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    background-color: transparent;
-    border: none;
-    border-radius: 999px;
-    padding: 4px 8px;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        box-shadow 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+.diaryNavigationButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .diaryNavigationButton:hover,
 .diaryNavigationButton:focus-visible {
-    background-color: var(--color-scheme-foreground-alt);
-    box-shadow: 0 6px 16px rgba(255, 203, 211, 0.45);
-    color: var(--color-scheme-text);
+  background-color: var(--color-scheme-foreground-alt);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  color: var(--color-scheme-text);
 }
 
 .diaryNavigationButton:focus-visible {
-    outline: 2px solid var(--color-pastel-pink-dark);
-    outline-offset: 3px;
+  outline: 2px solid var(--color-scheme-foreground);
+  outline-offset: 3px;
 }
 
 .diaryNavigationButton:active {
-    background-color: var(--color-scheme-accent);
-    box-shadow: 0 2px 8px rgba(255, 203, 211, 0.45);
-    transform: scale(0.96);
+  background-color: var(--color-scheme-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: scale(0.96);
 }
 
-.diaryNavigationButtonText{
-    font-size: 14px;
-    line-height: 1.6;
-    font-weight: 500;
+.diaryNavigationButtonText {
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
-.diaryNavigationButtonIcon{
-    display: flex;
-    align-items: center;
-    fill: currentColor;
-    transition: transform 0.2s ease;
+.diaryNavigationButtonIcon {
+  display: flex;
+  align-items: center;
+  fill: currentColor;
+  transition: transform 0.2s ease;
 }
 
 .diaryNavigationButton:hover .diaryNavigationButtonIcon,
 .diaryNavigationButton:focus-visible .diaryNavigationButtonIcon {
-    transform: rotate(90deg) scale(1.08);
+  transform: rotate(90deg) scale(1.08);
 }
 
 .diaryNavigationButton:active .diaryNavigationButtonIcon {
-    transform: rotate(90deg) scale(0.96);
+  transform: rotate(90deg) scale(0.96);
 }
 
-.diaryList{
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
+.diaryList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
 }
 
-@media screen and (min-width: 768px){
-
+@media screen and (min-width: 768px) {
 }
 
-@media screen and (min-width: 1440px){
-    .diaryListContainer{
-        max-width: 389px;
-    }
+@media screen and (min-width: 1440px) {
+  .diaryListContainer {
+    max-width: 389px;
+  }
 
-    .diaryNavigationTitle{
-        font-size: 20px;
-    }
+  .diaryNavigationTitle {
+    font-size: 20px;
+  }
 
-    .diaryNavigationButtonText{
-        font-size: 16px;
-    }
+  .diaryNavigationButtonText {
+    font-size: 16px;
+  }
 }

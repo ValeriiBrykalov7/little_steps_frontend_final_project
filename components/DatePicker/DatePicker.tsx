@@ -30,6 +30,7 @@ export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
         onChange={(date: Date | null) => {
           setFieldValue('dueDate', date);
           setFieldTouched('dueDate', true);
+          setIsCalendarOpen(false);
         }}
         minDate={minDate}
         maxDate={maxDate}
@@ -38,16 +39,27 @@ export function DatePicker({ minDate, maxDate, className }: DatePickerProps) {
         className={clsx(styles.dateInput, className)}
         showPopperArrow={false}
         popperPlacement='bottom-start'
+        open={isCalendarOpen}
+        onInputClick={() => setIsCalendarOpen(true)}
+        onClickOutside={() => setIsCalendarOpen(false)}
         onCalendarOpen={() => setIsCalendarOpen(true)}
         onCalendarClose={() => setIsCalendarOpen(false)}
       />
-      <Icon
-        name='select-arrow'
-        size={24}
-        className={clsx(styles.arrow, {
-          [styles.open]: isCalendarOpen,
-        })}
-      />
+      <button
+        type='button'
+        className={styles.arrowButton}
+        aria-label={isCalendarOpen ? 'Закрити календар' : 'Відкрити календар'}
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+      >
+        <Icon
+          name='select-arrow'
+          size={24}
+          className={clsx(styles.arrow, {
+            [styles.open]: isCalendarOpen,
+          })}
+        />
+      </button>
     </div>
   );
 }

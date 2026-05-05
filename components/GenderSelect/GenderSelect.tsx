@@ -1,9 +1,13 @@
 import Select, { StylesConfig } from 'react-select';
 import { useFormikContext } from 'formik';
+import { useEffect, useRef, useState } from 'react';
 import { FormValues } from '../OnboardingForm/OnboardingForm';
 import CustomDropdownIndicator from '../CustomDropdownIndicator/CustomDropdownIndicator';
 import { GenderOption } from '@/types/option';
 import { Gender } from '@/types/user';
+
+const MENU_ANIMATION_DURATION = 160;
+
 const options: GenderOption[] = [
   { value: 'boy', label: 'Хлопчик' },
   { value: 'girl', label: 'Дівчинка' },
@@ -13,6 +17,36 @@ const options: GenderOption[] = [
 export default function GenderSelect() {
   const { values, setFieldValue, setFieldTouched } =
     useFormikContext<FormValues>();
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
+
+  const openMenu = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+
+    setIsMenuClosing(false);
+    setMenuIsOpen(true);
+  };
+
+  const closeMenu = () => {
+    if (!menuIsOpen || isMenuClosing) return;
+
+    setIsMenuClosing(true);
+    closeTimerRef.current = setTimeout(() => {
+      setMenuIsOpen(false);
+      setIsMenuClosing(false);
+    }, MENU_ANIMATION_DURATION);
+  };
 
   const customStyles: StylesConfig<GenderOption, false> = {
     container: (base) => ({
@@ -83,6 +117,12 @@ export default function GenderSelect() {
       border: '1px solid #cfcfcf',
       backgroundColor: '#f5f5f5',
       padding: '8px 0',
+      overflow: 'hidden',
+      transformOrigin: 'top center',
+      pointerEvents: isMenuClosing ? 'none' : 'auto',
+      animation: `${
+        isMenuClosing ? 'genderSelectMenuClose' : 'genderSelectMenuOpen'
+      } ${MENU_ANIMATION_DURATION}ms ease forwards`,
     }),
 
     menuList: (base) => ({
@@ -113,9 +153,12 @@ export default function GenderSelect() {
       options={options}
       value={options.find((o) => o.value === values.gender) ?? null}
       onChange={(option) => {
-        setFieldValue('gender', option?.value ?? null);
+        setFieldValue('gender', option?.value ?? 'null');
         setFieldTouched('gender', true, false);
       }}
+      menuIsOpen={menuIsOpen}
+      onMenuOpen={openMenu}
+      onMenuClose={closeMenu}
       placeholder='Оберіть стать'
       styles={customStyles}
       isSearchable={false}

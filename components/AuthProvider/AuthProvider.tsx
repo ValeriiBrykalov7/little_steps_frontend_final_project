@@ -1,6 +1,7 @@
 'use client';
 
 import { checkSession, getMe } from '@/lib/api/clientApi';
+import { applyTheme } from '@/lib/helper/theme';
 import { useAuthStore } from '@/lib/store/authStore';
 import { useEffect } from 'react';
 
@@ -14,6 +15,7 @@ const AuthProvider = ({ children }: Props) => {
     (state) => state.clearIsAuthenticated,
   );
   const setAuthChecked = useAuthStore((state) => state.setAuthChecked);
+  const theme = useAuthStore((state) => state.user?.theme ?? 'null');
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -34,6 +36,10 @@ const AuthProvider = ({ children }: Props) => {
     };
     fetchUser();
   }, [setUser, clearIsAuthenticated, setAuthChecked]);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
 
   return children;
 };

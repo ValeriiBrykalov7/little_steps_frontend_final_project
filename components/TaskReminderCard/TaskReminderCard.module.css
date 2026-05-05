@@ -54,11 +54,11 @@
 .addTaskButton:hover,
 .addTaskButton:focus-visible {
   background: var(--color-scheme-foreground-alt);
-  box-shadow: 0 6px 16px rgba(255, 203, 211, 0.55);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .addTaskButton:focus-visible {
-  outline: 2px solid var(--color-pastel-pink-dark);
+  outline: 2px solid var(--color-scheme-accent);
   outline-offset: 3px;
 }
 
@@ -129,7 +129,7 @@
   width: 18px;
   height: 18px;
   border-radius: 4px;
-  background: #e6dede;
+  background: var(--opacity-neutral-darkest-5);
   display: inline-flex;
   align-items: center;
   justify-content: center;

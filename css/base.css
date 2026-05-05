@@ -17,7 +17,7 @@ html {
   --color-neutral-dark: #4c4c4c;
   --color-neutral-darker: #191919;
   --opacity-transparent: rgba(255, 255, 255, 0);
-  --color-scheme-foreground: var(--color-pastel-pink-lighter);
+  --color-scheme-foreground: var(--color-oasis-lighter);
   --color-scheme-accent: var(--color-pastel-pink);
   --opacity-white-5: rgba(255, 255, 255, 0.05);
   --opacity-white-10: rgba(255, 255, 255, 0.1);
@@ -42,7 +42,7 @@ html {
   --color-pastel-pink-dark: #cca2a8;
   --color-pastel-pink-darker: #665154;
   --color-pastel-pink-darkest: #4c3c3f;
-  --color-scheme-foreground-alt: var(--color-pastel-pink-light);
+  --color-scheme-foreground-alt: var(--color-oasis-light);
   --color-oasis-light: #fef1db;
   --color-oasis: #feeccc;
   --color-oasis-dark: #cbbca3;
@@ -61,6 +61,52 @@ html {
 
   --font-family: 'Lato', sans-serif;
   --second-family: 'Comfortaa', sans-serif;
+}
+/* 
+ var(--color-pastel-pink-light); - #ffdae0 ; --color-scheme-foreground-alt
+ var(--color-pastel-pink); - #ffcbd3; --color-scheme-accent:
+ var(--color-pastel-pink-lighter); - #fff4f6; --color-scheme-foreground*/
+
+:root[data-theme='girl'] {
+  --color-scheme-foreground: var(--color-pastel-pink-lighter);
+  --color-scheme-foreground-alt: var(--color-pastel-pink-light);
+  --color-scheme-accent: var(--color-pastel-pink);
+}
+
+:root[data-theme='boy'] {
+  --color-scheme-foreground: var(--color-french-pass-lighter);
+  --color-scheme-foreground-alt: var(--color-french-pass-light);
+  --color-scheme-accent: var(--color-french-pass);
+}
+
+:root[data-theme='null'] {
+  --color-scheme-foreground: var(--color-oasis-lighter);
+  --color-scheme-foreground-alt: var(--color-oasis-light);
+  --color-scheme-accent: var(--color-oasis);
+}
+
+@keyframes genderSelectMenuOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes genderSelectMenuClose {
+  from {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.96);
+  }
 }
 
 body {

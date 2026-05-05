@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { googleAuth } from '@/lib/api/clientApi';
+import { Loader } from '../Loader/Loader';
 import styles from './GoogleAuthButton.module.css';
 
 export default function GoogleAuthButton() {
@@ -14,6 +15,7 @@ export default function GoogleAuthButton() {
   const setUser = useAuthStore((state) => state.setUser);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [googleButtonWidth, setGoogleButtonWidth] = useState(0);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     if (!wrapperRef.current) return;
@@ -33,14 +35,28 @@ export default function GoogleAuthButton() {
 
   return (
     <div ref={wrapperRef} className={styles.googleButtonWrapper}>
-      <button type='button' className={`${styles.button} gray`}>
-        <svg width='18' height='18' aria-hidden='true'>
-          <use href='/sprite.svg#icon-google'></use>
-        </svg>
-        Увійти через Google
+      <button
+        type='button'
+        className={`${styles.button} gray`}
+        disabled={isAuthenticating}
+      >
+        {isAuthenticating ? (
+          <Loader variant='button' />
+        ) : (
+          <>
+            <svg width='18' height='18' aria-hidden='true'>
+              <use href='/sprite.svg#icon-google'></use>
+            </svg>
+            Увійти через Google
+          </>
+        )}
       </button>
 
-      <div className={styles.hiddenGoogleButton}>
+      <div
+        className={`${styles.hiddenGoogleButton} ${
+          isAuthenticating ? styles.disabledGoogleButton : ''
+        }`}
+      >
         {googleButtonWidth > 0 && (
           <GoogleLogin
             width={googleButtonWidth}
@@ -53,6 +69,7 @@ export default function GoogleAuthButton() {
               }
 
               try {
+                setIsAuthenticating(true);
                 const user = await googleAuth(credential);
 
                 setUser(user);
@@ -75,6 +92,8 @@ export default function GoogleAuthButton() {
 
                 console.log('UNKNOWN GOOGLE AUTH ERROR:', error);
                 toast.error('Невідома помилка');
+              } finally {
+                setIsAuthenticating(false);
               }
             }}
             onError={() => {

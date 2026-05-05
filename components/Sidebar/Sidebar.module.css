@@ -84,7 +84,7 @@
 }
 
 .active {
-  background: var(--color-pastel-pink-lighter);
+  background: var(--color-scheme-foreground);
 }
 
 .icon {
