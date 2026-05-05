@@ -124,9 +124,14 @@ export default function TasksReminderCard({
           className={styles.addTaskButton}
           onClick={handleAddTask}
         >
-          <svg className={styles.addTaskIcon} width="24" height="24" aria-hidden='true'>
-    <use href='/sprite.svg#icon-create'></use>
-  </svg>
+          <svg
+            className={styles.addTaskIcon}
+            width='24'
+            height='24'
+            aria-hidden='true'
+          >
+            <use href='/sprite.svg#icon-create'></use>
+          </svg>
         </button>
       </div>
 
