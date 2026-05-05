@@ -47,9 +47,7 @@ export default function JourneyDetails({ weekNumber }: Props) {
   });
 
   const isLoading =
-    activeTab === 'baby'
-      ? babyQuery.isLoading || babyQuery.isFetching
-      : momQuery.isLoading || momQuery.isFetching;
+    activeTab === 'baby' ? babyQuery.isLoading : momQuery.isLoading;
 
   const hasError = activeTab === 'baby' ? babyQuery.isError : momQuery.isError;
 
@@ -215,16 +213,15 @@ export default function JourneyDetails({ weekNumber }: Props) {
           </button>
         </div>
 
-        <div
-          key={`${activeTab}-${weekNumber}`}
-          className={styles.contentFade}
-        >
+        <div key={`${activeTab}-${weekNumber}`} className={styles.contentFade}>
           {isLoading ? (
             <div className={styles.loaderWrapper}>
               <Loader variant='inline' />
             </div>
           ) : hasError ? (
-            <p className={styles.errorText}>Не вдалося завантажити дані тижня.</p>
+            <p className={styles.errorText}>
+              Не вдалося завантажити дані тижня.
+            </p>
           ) : activeTab === 'baby' ? (
             renderBabyTab()
           ) : (

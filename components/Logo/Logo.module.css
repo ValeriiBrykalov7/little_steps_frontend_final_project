@@ -9,4 +9,30 @@
     width: 30px;
     height: 30px;
   }
+
+  .header_leleka {
+    width: 62px;
+    height: 14px;
+  }
+}
+
+.header_logo {
+  flex-shrink: 0;
+  transform-origin: center;
+  animation: logoFloat 4s ease-in-out;
+}
+
+.header_leleka {
+  flex-shrink: 0;
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-2px) rotate(-2deg);
+  }
 }

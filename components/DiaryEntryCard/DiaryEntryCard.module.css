@@ -1,5 +1,6 @@
 .diaryListItem {
   width: 303px;
+  animation: diaryCardIn 320ms ease both;
 }
 
 .diaryButton {
@@ -62,7 +63,7 @@
 .emotionListItem {
   border-radius: 100px;
   padding: 2px 12px;
-  background-color: var(--color-pastel-pink-lighter);
+  background-color: var(--color-scheme-foreground-alt);
   font-size: 14px;
 }
 
@@ -87,5 +88,17 @@
 
   .emotionListItem {
     font-size: 16px;
+  }
+}
+
+@keyframes diaryCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }

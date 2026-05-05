@@ -58,8 +58,8 @@ export const ProfileForm = () => {
       await queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       toast.success('Дані успішно змінено!');
     },
-    onError: (error) => {
-      toast.error(`Помилка: ${error.message}`);
+    onError: () => {
+      toast.error(`Щось пішло не так. Спробуйте ще раз)`);
     },
   });
 

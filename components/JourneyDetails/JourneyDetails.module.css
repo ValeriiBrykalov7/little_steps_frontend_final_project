@@ -1,5 +1,12 @@
 .journeyDetails {
   width: 100%;
+  min-height: 720px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.journeyDetails::-webkit-scrollbar {
+  display: none;
 }
 
 .tabsList {
@@ -86,7 +93,7 @@
 }
 
 .contentFade {
-  animation: contentFadeIn 0.22s ease both;
+  animation: contentFadeIn 240ms ease both;
   display: flex;
   justify-content: center;
 }
@@ -96,8 +103,10 @@
   grid-template-columns: 1fr;
   gap: 32px;
   width: 335px;
+
   background: var(--color-scheme-foreground);
-  border-radius: 24px;
+  border-radius: 32px;
+
   padding: 24px;
 }
 
@@ -114,7 +123,7 @@
   overflow: hidden;
   border: 1px solid var(--opacity-neutral-darkest-15);
   border-radius: 20px;
-  background: var(--color-oasis-lightest);
+  background: var(--color-scheme-foreground);
 }
 
 .babyImage {
@@ -302,11 +311,13 @@
 
 @keyframes contentFadeIn {
   from {
-    opacity: 0.55;
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -350,12 +361,15 @@
 }
 
 @media only screen and (min-width: 1440px) {
+  .journeyDetails {
+    min-height: 620px;
+  }
+
   .babyCard {
     grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
     align-items: stretch;
     width: 1064px;
     gap: 32px;
-    padding: 22px;
   }
 
   .babyImage {

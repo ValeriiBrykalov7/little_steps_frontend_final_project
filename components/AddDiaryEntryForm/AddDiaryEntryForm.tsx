@@ -312,7 +312,7 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
 
             <button
               type='submit'
-              className={css.submitButton}
+              className={`${css.submitButton} pink`}
               disabled={
                 isSubmitting ||
                 createDiaryMutation.isPending ||

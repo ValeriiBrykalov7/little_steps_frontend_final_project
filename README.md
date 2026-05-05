@@ -113,7 +113,7 @@ Little Steps — це веб-застосунок для підтримки ва
 • Vitalii <br>
 • Andriy Baranovich <br>
 • Bogdan Ostapenko <br>
-• Alinka <br>
+• Alina Slipenka <br>
 • Andrii Storozhenko <br>
 • Nazar Ismailov <br>
 • Anna Anishchenko <br>

@@ -1,5 +1,6 @@
 import { ProfileForm } from '@/components/ProfileForm/ProfileForm';
 import { Metadata } from 'next';
+import css from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'Налаштування профілю',
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 
 const Home = async () => {
   return (
-    <div>
+    <div className={css.profilePage}>
       <ProfileForm />
     </div>
   );

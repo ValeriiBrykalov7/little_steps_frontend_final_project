@@ -1,41 +1,57 @@
-.status_text_name{
+.status_text_name {
   font-family: var(--font-family);
-font-weight: 400;
-font-size: 14px;
-line-height: 150%;
-color: var(--color-scheme-text);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--color-scheme-text);
 }
 
-.status_text{
-font-family: var(--second-family);
-font-weight: 700;
-font-size: 40px;
-line-height: 120%;
-letter-spacing: 0.01em;
-color: var(--color-scheme-text);
+.status_text {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 120%;
+  letter-spacing: 0.01em;
+  color: var(--color-scheme-text);
 }
-.status_block{
-    display: flex;
-    flex-direction: row;
-    gap:16px;
-    justify-content: center;
-    padding-top: 16px;
+.status_block {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  padding-top: 16px;
 }
-.status{
-    border: 0px solid var(--color-scheme-border);
-border-radius: 32px;
-padding: 16px;
-width: 159px;
-height: 105px;
-background: var(--color-scheme-foreground);
+.status {
+  border: 0px solid var(--color-scheme-border);
+  border-radius: 32px;
+  padding: 16px;
+  width: 159px;
+  height: 105px;
+  background: var(--color-scheme-foreground);
+}
+
+.status_text {
+  animation: numberPop 420ms ease both;
+}
+
+@keyframes numberPop {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Styles for tablet */
 @media only screen and (min-width: 768px) {
-  .status_block{
+  .status_block {
     gap: 32px;
   }
-  .status{
+  .status {
     width: 336px;
     height: 105px;
   }
@@ -43,17 +59,17 @@ background: var(--color-scheme-foreground);
 
 /* Styles for desktop */
 @media only screen and (min-width: 1440px) {
-  .status{
+  .status {
     width: 305px;
     height: 127px;
   }
-  .status_text{
-    font-size: 56px
+  .status_text {
+    font-size: 56px;
   }
-  .status_text_name{
+  .status_text_name {
     font-size: 16px;
   }
-  .status_block{
+  .status_block {
     justify-content: flex-start;
   }
 }
