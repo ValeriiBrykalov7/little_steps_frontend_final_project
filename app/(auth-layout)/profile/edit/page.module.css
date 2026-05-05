@@ -17,6 +17,26 @@
   color: #000;
 }
 
+.wrapper > * {
+  animation: onboardingPageBlockIn 420ms ease both;
+}
+
+.wrapper > *:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+@keyframes onboardingPageBlockIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media screen and (min-width: 768px) {
   .title {
     max-width: 480px;
