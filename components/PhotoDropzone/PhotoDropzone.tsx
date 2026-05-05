@@ -20,8 +20,8 @@ export default function PhotoDropzone() {
 
       const previewUrl = URL.createObjectURL(file);
 
-      setFieldValue('photo', file);
-      setFieldTouched('photo', true);
+      setFieldValue('avatar', file);
+      setFieldTouched('avatar', true);
 
       setPreview((prev) => {
         if (prev) URL.revokeObjectURL(prev);

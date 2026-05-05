@@ -3,8 +3,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Gender, User } from '@/types/user';
-import { updateUser } from '@/lib/api/clientApi';
+import { updateTheme, updateUser } from '@/lib/api/clientApi';
 import { createProfileSchema } from '@/lib/validation/FormShema';
+import { getThemeByGender } from '@/lib/helper/theme';
 import { useAuthStore } from '@/lib/store/authStore';
 import css from './ProfileForm.module.css';
 import toast from 'react-hot-toast';
@@ -22,6 +23,11 @@ type ProfileFormValues = {
   dueDate: Date | null;
 };
 
+type SaveProfilePayload = {
+  formData: FormData;
+  theme: Gender;
+};
+
 export const ProfileForm = () => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
@@ -36,19 +42,26 @@ export const ProfileForm = () => {
     dueDate: user?.dueDate ? new Date(user.dueDate) : null,
   };
 
-  const { mutate: saveProfile, isPending } = useMutation<User, Error, FormData>(
-    {
-      mutationFn: (formData) => updateUser(formData),
-      onSuccess: async (updatedUser) => {
-        setUser(updatedUser);
-        await queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-        toast.success('Дані успішно змінено!');
-      },
-      onError: (error) => {
-        toast.error(`Помилка: ${error.message}`);
-      },
+  const { mutate: saveProfile, isPending } = useMutation<
+    User,
+    Error,
+    SaveProfilePayload
+  >({
+    mutationFn: async ({ formData, theme }) => {
+      const updatedUser = await updateUser(formData);
+      const updatedTheme = await updateTheme(theme);
+
+      return { ...updatedUser, theme: updatedTheme.theme };
     },
-  );
+    onSuccess: async (updatedUser) => {
+      setUser(updatedUser);
+      await queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      toast.success('Дані успішно змінено!');
+    },
+    onError: () => {
+      toast.error(`Щось пішло не так. Спробуйте ще раз)`);
+    },
+  });
 
   const handleSubmit = (values: ProfileFormValues) => {
     const formData = new FormData();
@@ -67,7 +80,10 @@ export const ProfileForm = () => {
       formData.append('dueDate', dayjs(values.dueDate).format('YYYY-MM-DD'));
     }
 
-    saveProfile(formData);
+    saveProfile({
+      formData,
+      theme: getThemeByGender(values.gender),
+    });
   };
 
   return (

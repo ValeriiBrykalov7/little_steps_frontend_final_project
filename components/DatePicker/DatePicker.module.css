@@ -18,19 +18,39 @@
   caret-color: transparent;
 }
 
-.arrow {
+.arrowButton {
   position: absolute;
   top: 50%;
   right: 12px;
-  z-index: 1;
-  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.arrowButton:hover .arrow,
+.arrowButton:focus-visible .arrow {
+  fill: #000;
+}
+
+.arrow {
   fill: rgba(0, 0, 0, 0.6);
-  transform: translateY(-50%) rotate(180deg);
-  transition: transform 0.2s ease;
+  transform: rotate(180deg);
+  transition:
+    fill 0.2s ease,
+    transform 0.2s ease;
 }
 
 .open {
-  transform: translateY(-50%) rotate(0deg);
+  transform: rotate(0deg);
 }
 
 :global(.react-datepicker-popper) {
@@ -45,7 +65,7 @@
 }
 
 :global(.react-datepicker__header) {
-  background-color: #ffcbd3;
+  background-color: var(--color-scheme-accent);
   border-bottom: none;
 }
 :global(.react-datepicker__month-container) {
@@ -67,7 +87,7 @@
 
 :global(.react-datepicker__day--selected),
 :global(.react-datepicker__day--keyboard-selected) {
-  background-color: #ffcbd3;
+  background-color: var(--color-scheme-accent);
   color: #000;
 }
 
@@ -76,7 +96,7 @@
       .react-datepicker__day--keyboard-selected
     )
 ) {
-  background-color: rgba(255, 203, 211, 0.4);
+  background-color: var(--color-scheme-foreground);
 }
 
 @media screen and (min-width: 1440px) {

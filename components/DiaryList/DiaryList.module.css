@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background-color: #fff4f6;
+  background-color: var(--color-scheme-foreground);
   border-radius: 32px;
 }
 
@@ -41,18 +41,18 @@
 .diaryNavigationButton:hover,
 .diaryNavigationButton:focus-visible {
   background-color: var(--color-scheme-foreground-alt);
-  box-shadow: 0 6px 16px rgba(255, 203, 211, 0.45);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   color: var(--color-scheme-text);
 }
 
 .diaryNavigationButton:focus-visible {
-  outline: 2px solid var(--color-pastel-pink-dark);
+  outline: 2px solid var(--color-scheme-foreground);
   outline-offset: 3px;
 }
 
 .diaryNavigationButton:active {
   background-color: var(--color-scheme-accent);
-  box-shadow: 0 2px 8px rgba(255, 203, 211, 0.45);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transform: scale(0.96);
 }
 
@@ -98,10 +98,27 @@
   font-size: 12px;
   line-height: 1.5;
   cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+}
+
+.sortButton:hover,
+.sortButton:focus-visible {
+  background: var(--color-scheme-foreground-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+.sortButton:active {
+  background: var(--color-scheme-foreground);
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .sortButtonActive {
-  background: var(--color-pastel-pink-light);
+  background: var(--color-scheme-accent);
   font-weight: 600;
 }
 

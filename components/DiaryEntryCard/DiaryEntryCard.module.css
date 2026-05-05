@@ -9,10 +9,10 @@
   padding: 16px;
 
   border-radius: 16px;
-  background-color: var(--color-pastel-pink);
+  background-color: var(--color-scheme-accent);
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 8px 22px rgba(255, 203, 211, 0.55);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -22,18 +22,18 @@
 
 .diaryButton:hover,
 .diaryButton:focus-visible {
-  border-color: #ffcbd3;
-  background-color: var(--color-pastel-pink-light);
+  border-color: var(--color-scheme-accent);
+  background-color: var(--color-scheme-foreground-alt);
   outline: none;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(204, 162, 168, 0.38);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .diaryButton:active {
   transform: translateY(0);
-  border-color: var(--color-pastel-pink-darkest);
-  background-color: var(--color-pastel-pink-dark);
-  box-shadow: 0 4px 12px rgba(204, 162, 168, 0.28);
+  border-color: var(--color-scheme-accent);
+  background-color: var(--color-scheme-foreground);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
 }
 
 .headerCard {
@@ -63,7 +63,7 @@
 .emotionListItem {
   border-radius: 100px;
   padding: 2px 12px;
-  background-color: var(--color-pastel-pink-lighter);
+  background-color: var(--color-scheme-foreground-alt);
   font-size: 14px;
 }
 
