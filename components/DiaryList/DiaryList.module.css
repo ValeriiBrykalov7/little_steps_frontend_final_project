@@ -85,6 +85,26 @@
   animation: diaryFadeIn 360ms ease both;
 }
 
+.sortControls {
+  display: flex;
+  gap: 8px;
+}
+
+.sortButton {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.sortButtonActive {
+  background: var(--color-pastel-pink-light);
+  font-weight: 600;
+}
+
 @media screen and (min-width: 768px) {
 }
 

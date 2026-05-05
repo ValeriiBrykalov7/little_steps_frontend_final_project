@@ -45,6 +45,10 @@ export default function TasksReminderCard({
     staleTime: 1000 * 60 * 5,
   });
 
+  const sortedTasks = [...tasks].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+
   // Також тут у мутаціїї використовується optimistic update(для чекбоксів) тому код виглядає реально сумбурно. Але погугліть і пчочитайте що це. Я так зрозумів, що це реально стандарт
   const toggleTaskMutation = useMutation({
     mutationFn: ({ taskId, isDone }: ToggleTaskPayload) => {
@@ -152,7 +156,7 @@ export default function TasksReminderCard({
           </button>
         </div>
       ) : (
-        <ul className={styles.tasksList}>{tasks.map(renderTask)}</ul>
+        <ul className={styles.tasksList}>{sortedTasks.map(renderTask)}</ul>
       )}
     </div>
   );
