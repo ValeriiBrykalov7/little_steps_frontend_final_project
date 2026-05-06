@@ -121,6 +121,11 @@ export default function LoginForm() {
             )}
           </Formik>
         </div>
+        <p className={styles.loginPrompt}>
+          <Link href='/auth/forgot-password' className={styles.loginLink}>
+            Забули пароль?
+          </Link>
+        </p>
       </div>
 
       <div className={styles.background} />

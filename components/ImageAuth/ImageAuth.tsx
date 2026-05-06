@@ -17,6 +17,9 @@ export default function ImageAuth() {
   } else if (authType === 'register') {
     imageSrc = '/images/storks.jpg';
     alt = 'Storks';
+  } else if (authType === 'forgot-password') {
+    imageSrc = '/images/plant.jpg';
+    alt = 'Forgot Password';
   } else if (pathname === '/profile/edit') {
     imageSrc = '/images/plant.jpg';
     alt = 'Plant';

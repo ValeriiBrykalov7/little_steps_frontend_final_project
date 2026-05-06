@@ -77,6 +77,14 @@ export const googleAuth = async (credential: string) => {
   return data;
 };
 
+export const requestResetEmail = async (payload: { email: string }) => {
+  const { data } = await nextServer.post<{ message: string }>(
+    '/auth/request-reset-email',
+    payload,
+  );
+  return data;
+};
+
 //
 //Weeks
 //
