@@ -85,6 +85,14 @@ export const requestResetEmail = async (payload: { email: string }) => {
   return data;
 };
 
+export const resetPassword = async (password: string, token: string) => {
+  const { data } = await nextServer.post(
+    `/auth/reset-password?token=${token}`,
+    { password },
+  );
+  return data;
+};
+
 //
 //Weeks
 //

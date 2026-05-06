@@ -4,6 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-hot-toast';
 import { requestResetEmail } from '@/lib/api/clientApi';
+import Link from 'next/link';
 
 export default function ForgotPassword() {
   const handleSubmit = async (values: { email: string }) => {
@@ -31,6 +32,7 @@ export default function ForgotPassword() {
           <button type='submit'>Надіслати лист</button>
         </Form>
       </Formik>
+      <Link href='/auth/login'>Повернутися до входу</Link>
     </div>
   );
 }

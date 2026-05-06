@@ -19,8 +19,11 @@ export default function ImageAuth() {
     alt = 'Storks';
   } else if (authType === 'forgot-password') {
     imageSrc = '/images/plant.jpg';
-    alt = 'Forgot Password';
+    alt = 'Plant';
   } else if (pathname === '/profile/edit') {
+    imageSrc = '/images/plant.jpg';
+    alt = 'Plant';
+  } else if (authType === 'reset-password') {
     imageSrc = '/images/plant.jpg';
     alt = 'Plant';
   } else {
