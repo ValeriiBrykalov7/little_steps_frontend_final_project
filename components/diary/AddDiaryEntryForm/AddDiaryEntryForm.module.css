@@ -36,26 +36,38 @@
 }
 
 div.selectControl {
-  border: 1px solid var(--opacity-transparent);
-  background: var(--color-neutral-lightest);
+  min-height: 40px;
+  border: 2px solid var(--opacity-transparent);
+  background: var(--opacity-neutral-darkest-5);
   border-radius: 12px;
   line-height: 1.5;
   padding: 8px 12px;
   font-size: 14px;
   color: var(--color-neutral-darkest);
   cursor: pointer;
+  box-shadow: none;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.selectControl.selectControlFocused {
-  border: 1px solid var(--color-scheme-border);
+.selectControl:hover,
+.selectControl.selectControlFocused,
+.selectControl:focus-within {
+  border-color: var(--color-scheme-accent);
   border-radius: 12px;
   cursor: pointer;
 }
 
+.selectControl:active {
+  border-color: var(--color-scheme-accent);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
 .selectControl.selectControlOpen {
-  border-left: 1px solid var(--color-scheme-border);
-  border-right: 1px solid var(--color-scheme-border);
-  border-top: 1px solid var(--color-scheme-border);
+  border-color: var(--color-scheme-accent);
   border-radius: 12px 12px 0 0;
 }
 
@@ -152,6 +164,13 @@ textarea:focus {
 .selectControl.inputError {
   border: 2px solid var(--color-red);
   border-radius: 12px;
+}
+
+.selectControl.inputError:hover,
+.selectControl.inputError.selectControlFocused,
+.selectControl.inputError:focus-within,
+.selectControl.inputError:active {
+  border-color: var(--color-red);
 }
 
 .inputError::placeholder {
