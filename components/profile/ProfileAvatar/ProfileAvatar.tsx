@@ -32,11 +32,23 @@ const initialValues: ProfileAvatarFormValues = {
   avatar: null,
 };
 
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
 const validationSchema = Yup.object({
   avatar: Yup.mixed<File>()
     .nullable()
-    .required('Оберіть фото для завантаження'),
-});
+    .required('Оберіть фото для завантаження')
+    .test(
+      'fileSize',
+      'Файл занадто великий. Максимум 2MB',
+      (value) => {
+        if (!value) return true;
+
+        return value.size <= MAX_FILE_SIZE;
+      },
+    ),
+}
+);
 
 const ProfileAvatarFields = ({
   avatarUrl,
@@ -52,6 +64,7 @@ const ProfileAvatarFields = ({
       ? preview
       : avatarUrl || '/images/default-avatar.png';
 
+
   const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     multiple: false,
     accept: { 'image/*': [] },
@@ -61,6 +74,11 @@ const ProfileAvatarFields = ({
       const file = files[0];
 
       if (!file) return;
+
+      if (file.size > MAX_FILE_SIZE) {
+    toast.error('Файл занадто великий. Максимальний розмір 2MB');
+    return;
+  }
 
       await setFieldValue('avatar', file, true);
       await setFieldTouched('avatar', true, false);

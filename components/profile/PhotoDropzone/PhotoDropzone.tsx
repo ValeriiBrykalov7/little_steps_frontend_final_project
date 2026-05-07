@@ -8,6 +8,9 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import '../../../css/base.css';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
+
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 export default function PhotoDropzone() {
   const { setFieldValue, setFieldTouched } = useFormikContext<FormValues>();
@@ -17,6 +20,11 @@ export default function PhotoDropzone() {
     onDrop: (files) => {
       const file = files[0];
       if (!file) return;
+
+      if (file.size > MAX_FILE_SIZE) {
+    toast.error('Файл занадто великий. Максимум 2MB');
+    return;
+  }
 
       const previewUrl = URL.createObjectURL(file);
 

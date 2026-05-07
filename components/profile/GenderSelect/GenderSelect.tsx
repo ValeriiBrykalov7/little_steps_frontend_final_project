@@ -59,15 +59,26 @@ export default function GenderSelect() {
       width: '100%',
       minHeight: 40,
       height: 40,
+
       borderRadius: state.menuIsOpen ? '12px 12px 0 0' : 12,
-      backgroundColor: '#f5f5f5',
+
+      backgroundColor: 'var(--opacity-neutral-darkest-5)',
+
       padding: '0px 12px',
+
       cursor: 'pointer',
+
       boxShadow: 'none',
       outline: 'none',
-      border: '1px solid rgba(0, 0, 0, 0.15)',
+
+      border: state.isFocused
+        ? '2px solid var(--color-scheme-accent)'
+        : '2px solid var(--opacity-transparent)',
+
+      transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+
       '&:hover': {
-        border: '1px solid rgba(0, 0, 0, 0.15)',
+        border: '2px solid var(--color-scheme-accent)',
       },
     }),
 
