@@ -77,6 +77,22 @@ export const googleAuth = async (credential: string) => {
   return data;
 };
 
+export const requestResetEmail = async (payload: { email: string }) => {
+  const { data } = await nextServer.post<{ message: string }>(
+    '/auth/request-reset-email',
+    payload,
+  );
+  return data;
+};
+
+export const resetPassword = async (password: string, token: string) => {
+  const { data } = await nextServer.post(
+    `/auth/reset-password?token=${token}`,
+    { password },
+  );
+  return data;
+};
+
 //
 //Weeks
 //
@@ -207,7 +223,7 @@ export const updateAvatar = async (file: File) => {
   });
 };
 
-export const updateUser = async (data: Partial<User> | FormData) => {
+export const updateUser = async (data: FormData) => {
   return requestWithAuthRefresh(async () => {
     const { data: responseData } = await nextServer.patch('users/me', data);
     return responseData;

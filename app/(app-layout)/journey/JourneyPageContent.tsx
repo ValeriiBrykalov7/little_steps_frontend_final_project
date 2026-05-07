@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import { Loader } from '@/components/Loader/Loader';
-import { WeekSelector } from '@/components/WeekSelector/WeekSelector';
-import JourneyDetails from '@/components/JourneyDetails/JourneyDetails';
+import GreetingBlock from '@/components/dashboard/GreetingBlock/GreetingBlock';
+import { Loader } from '@/components/common/Loader/Loader';
+import { WeekSelector } from '@/components/journey/WeekSelector/WeekSelector';
+import JourneyDetails from '@/components/journey/JourneyDetails/JourneyDetails';
 import { getDashboardInfo } from '@/lib/api/clientApi';
 import { FIRST_WEEK, getActiveWeek } from '@/lib/helper/week';
 import { useAuthStore } from '@/lib/store/authStore';

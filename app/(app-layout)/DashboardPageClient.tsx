@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '@/lib/store/authStore';
 import { getDashboardInfo } from '@/lib/api/clientApi';
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import StatusBlock from '@/components/StatusBlock/StatusBlock';
-import TasksReminderCard from '@/components/TaskReminderCard/TaskReminderCard';
-import FeelingCheckcard from '@/components/FeelingCheckcard/FeelingCheckcard';
-import { Loader } from '@/components/Loader/Loader';
-import { BabyTodayCard } from '@/components/BabyTodayCard/BabyTodayCard';
-import { MomTipCard } from '@/components/MomTipCard/MomTipCard';
-import { AddTaskModal } from '@/components/AddTaskModal/AddTaskModal';
-import AddTaskForm from '@/components/AddTaskForm/AddTaskForm';
-import { AddDiaryEntryModal } from '@/components/AddDiaryEntryModal/AddDiaryEntryModal';
-import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
+import GreetingBlock from '@/components/dashboard/GreetingBlock/GreetingBlock';
+import StatusBlock from '@/components/dashboard/StatusBlock/StatusBlock';
+import TasksReminderCard from '@/components/tasks/TaskReminderCard/TaskReminderCard';
+import FeelingCheckcard from '@/components/dashboard/FeelingCheckcard/FeelingCheckcard';
+import { Loader } from '@/components/common/Loader/Loader';
+import { BabyTodayCard } from '@/components/dashboard/BabyTodayCard/BabyTodayCard';
+import { MomTipCard } from '@/components/dashboard/MomTipCard/MomTipCard';
+import { AddTaskModal } from '@/components/tasks/AddTaskModal/AddTaskModal';
+import AddTaskForm from '@/components/tasks/AddTaskForm/AddTaskForm';
+import { AddDiaryEntryModal } from '@/components/diary/AddDiaryEntryModal/AddDiaryEntryModal';
+import AddDiaryEntryForm from '@/components/diary/AddDiaryEntryForm/AddDiaryEntryForm';
 import css from './page.module.css';
 
 export default function DashboardPageClient() {

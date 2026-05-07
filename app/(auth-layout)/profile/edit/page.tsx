@@ -1,5 +1,14 @@
-import OnboardingForm from '@/components/OnboardingForm/OnboardingForm';
+import OnboardingForm from '@/components/profile/OnboardingForm/OnboardingForm';
+import { createPageMetadata } from '@/lib/helper/metadata';
 import styles from './page.module.css';
+
+export const metadata = createPageMetadata({
+  title: 'Знайомство',
+  description:
+    'Заповніть базову інформацію профілю, щоб Лелека могла персоналізувати ваш досвід у додатку.',
+  path: '/profile/edit',
+  imageAlt: 'Лелека - знайомство з користувачем',
+});
 
 const OnBoardingPage = async () => {
   return (
