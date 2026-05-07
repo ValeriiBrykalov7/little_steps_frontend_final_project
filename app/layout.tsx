@@ -6,6 +6,7 @@ import { Lato, Comfortaa } from 'next/font/google';
 import AuthProvider from '@/components/AuthProvider/AuthProvider';
 import { Toaster } from 'react-hot-toast';
 import GoogleProvider from '@/components/GoogleProvider/GoogleProvider';
+import { createPageMetadata, SITE_NAME } from '@/lib/helper/metadata';
 
 const lato = Lato({
   subsets: ['latin', 'latin-ext'],
@@ -22,45 +23,27 @@ const comfortaa = Comfortaa({
 });
 
 const siteUrl = 'https://little-steps-kappa.vercel.app';
-const title = 'Лелека';
-const description =
+const rootDescription =
   'Лелека - додаток для майбутніх мам. Відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник та керуйте важливими завданнями.';
-const ogImage = '/images/og-home.jpg';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  applicationName: title,
+  applicationName: SITE_NAME,
+  ...createPageMetadata({
+    title: SITE_NAME,
+    description: rootDescription,
+    path: '/',
+    imageAlt: 'Лелека - додаток для майбутніх мам',
+    absoluteTitle: true,
+  }),
   title: {
-    default: title,
-    template: `%s | ${title}`,
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description,
   icons: {
     icon: [{ url: '/stork.png', type: 'image/png' }],
     shortcut: '/stork.png',
     apple: '/stork.png',
-  },
-  openGraph: {
-    title,
-    description,
-    url: '/',
-    siteName: title,
-    images: [
-      {
-        url: ogImage,
-        width: 1200,
-        height: 630,
-        alt: 'Лелека - додаток для майбутніх мам',
-      },
-    ],
-    locale: 'uk_UA',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description,
-    images: [ogImage],
   },
 };
 

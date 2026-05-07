@@ -1,11 +1,23 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { resetPassword } from '@/lib/api/clientApi';
+import { Loader } from '../Loader/Loader';
+import styles from './ResetPasswordForm.module.css';
+
+type ResetPasswordValues = {
+  password: string;
+};
+
+const validationSchema = Yup.object({
+  password: Yup.string()
+    .min(8, 'Мінімум 8 символів')
+    .required("Обов'язкове поле"),
+});
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -24,28 +36,67 @@ export default function ResetPasswordForm() {
   });
 
   return (
-    <div>
-      <h2>Встановіть новий пароль</h2>
-      <Formik
-        initialValues={{ password: '' }}
-        validationSchema={Yup.object({
-          password: Yup.string()
-            .min(8, 'Мін. 8 символів')
-            .required('Обов’язково'),
-        })}
-        onSubmit={(values) => mutate(values.password)}
-      >
-        <Form>
-          <div>
-            <Field type='password' name='password' placeholder='Новий пароль' />
-            <ErrorMessage name='password' component='div' />
-          </div>
+    <section className={styles.wrapper}>
+      <div className={styles.formCont}>
+        <h1 className={styles.title}>Встановіть новий пароль</h1>
 
-          <button type='submit' disabled={isPending}>
-            {isPending ? 'Оновлення...' : 'Змінити пароль'}
-          </button>
-        </Form>
-      </Formik>
-    </div>
+        <Formik<ResetPasswordValues>
+          initialValues={{ password: '' }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            mutate(values.password, {
+              onSettled: () => setSubmitting(false),
+            });
+          }}
+        >
+          {({ isSubmitting, errors, touched, validateForm, values }) => {
+            const isLoading = isPending || isSubmitting;
+
+            return (
+              <Form
+                className={styles.form}
+                onSubmitCapture={() => {
+                  void validateForm(values).then((formErrors) => {
+                    if (Object.keys(formErrors).length > 0) {
+                      toast.error('Пароль має містити мінімум 8 символів');
+                    }
+                  });
+                }}
+              >
+                <div className={styles.fieldWrapper}>
+                  <label className={styles.label}>
+                    <Field
+                      type='password'
+                      name='password'
+                      autoComplete='new-password'
+                      disabled={isLoading}
+                      placeholder='Новий пароль'
+                      className={`${styles.input} ${
+                        errors.password && touched.password
+                          ? styles.inputError
+                          : ''
+                      }`}
+                    />
+                    <ErrorMessage
+                      name='password'
+                      component='span'
+                      className={styles.error}
+                    />
+                  </label>
+                </div>
+
+                <button
+                  type='submit'
+                  className={`${styles.button} pink`}
+                  disabled={isLoading}
+                >
+                  {isLoading ? <Loader variant='button' /> : 'Змінити пароль'}
+                </button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>
+    </section>
   );
 }

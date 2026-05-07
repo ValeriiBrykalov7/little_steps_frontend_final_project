@@ -1,6 +1,8 @@
 .loaderWrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--loader-page-offset, 0px));
+  min-height: calc(100svh - var(--loader-page-offset, 0px));
+  min-height: calc(100dvh - var(--loader-page-offset, 0px));
 
   display: flex;
   align-items: center;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 import { components } from 'react-select';
 import ReactSelect from 'react-select';
@@ -88,6 +88,7 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [visibleCount, setVisibleCount] = useState(2);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -124,7 +125,7 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
     setMenuIsOpen(true);
   };
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     if (!menuIsOpen || isMenuClosing) return;
 
     setIsMenuClosing(true);
@@ -132,7 +133,23 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
       setMenuIsOpen(false);
       setIsMenuClosing(false);
     }, SELECT_MENU_ANIMATION_DURATION);
-  };
+  }, [isMenuClosing, menuIsOpen]);
+
+  useEffect(() => {
+    if (!menuIsOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (selectRef.current?.contains(event.target as Node)) return;
+
+      closeMenu();
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [closeMenu, menuIsOpen]);
 
   const handleSubmit = async (
     values: AddDiaryEntryFormValues,
@@ -141,6 +158,11 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
     try {
       if (values.categories.length === 0) {
         toast.error('Оберіть хоча б одну емоцію');
+        return;
+      }
+
+      if (values.categories.length > 12) {
+        toast.error(`Оберіть не більше 12 емоцій`);
         return;
       }
 
@@ -208,80 +230,82 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
 
             <div className={css.fieldWrapper}>
               <label className={css.formLabel}>Категорії:</label>
-              <ReactSelect<EmotionOption, true>
-                isMulti
-                isDisabled={isSubmitting || isEmotionsLoading}
-                options={emotionOptions}
-                value={values.categories}
-                onChange={(val) => {
-                  setFieldValue('categories', val ?? [], true);
-                  setFieldTouched('categories', true, false);
-                }}
-                placeholder={
-                  isEmotionsLoading
-                    ? 'Завантажуємо емоції'
-                    : 'Оберіть категорію'
-                }
-                closeMenuOnSelect={false}
-                hideSelectedOptions={false}
-                menuIsOpen={menuIsOpen}
-                onMenuOpen={openMenu}
-                onMenuClose={closeMenu}
-                components={{
-                  DropdownIndicator: CustomDropdownIndicator<Emotion, true>,
-                  Option: CheckboxOption,
-                  MultiValue: () => null,
-                  ClearIndicator: () => null,
-                  ValueContainer: ({ children, ...props }) => (
-                    <components.ValueContainer {...props}>
-                      {values.categories.length > 0 ? (
-                        <div className={css.dropdownTags} ref={containerRef}>
-                          {values.categories
-                            .slice(0, visibleCount)
-                            .map((cat) => (
-                              <span key={cat.value._id} className={css.tag}>
-                                {cat.label}
+              <div ref={selectRef}>
+                <ReactSelect<EmotionOption, true>
+                  isMulti
+                  isDisabled={isSubmitting || isEmotionsLoading}
+                  options={emotionOptions}
+                  value={values.categories}
+                  onChange={(val) => {
+                    setFieldValue('categories', val ?? [], true);
+                    setFieldTouched('categories', true, false);
+                  }}
+                  placeholder={
+                    isEmotionsLoading
+                      ? 'Завантажуємо емоції'
+                      : 'Оберіть категорію'
+                  }
+                  closeMenuOnSelect={false}
+                  hideSelectedOptions={false}
+                  menuIsOpen={menuIsOpen}
+                  onMenuOpen={openMenu}
+                  onMenuClose={closeMenu}
+                  components={{
+                    DropdownIndicator: CustomDropdownIndicator<Emotion, true>,
+                    Option: CheckboxOption,
+                    MultiValue: () => null,
+                    ClearIndicator: () => null,
+                    ValueContainer: ({ children, ...props }) => (
+                      <components.ValueContainer {...props}>
+                        {values.categories.length > 0 ? (
+                          <div className={css.dropdownTags} ref={containerRef}>
+                            {values.categories
+                              .slice(0, visibleCount)
+                              .map((cat) => (
+                                <span key={cat.value._id} className={css.tag}>
+                                  {cat.label}
+                                </span>
+                              ))}
+                            {values.categories.length > visibleCount && (
+                              <span className={css.tag}>
+                                +{values.categories.length - visibleCount}
                               </span>
-                            ))}
-                          {values.categories.length > visibleCount && (
-                            <span className={css.tag}>
-                              +{values.categories.length - visibleCount}
-                            </span>
-                          )}
-                        </div>
-                      ) : (
-                        children
-                      )}
-                    </components.ValueContainer>
-                  ),
-                }}
-                classNames={{
-                  container: () => css.selectContainer,
-                  control: ({ isFocused, menuIsOpen }) =>
-                    [
-                      css.selectControl,
-                      isFocused && css.selectControlFocused,
-                      menuIsOpen && css.selectControlOpen,
-                      errors.categories && touched.categories
-                        ? css.inputError
-                        : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' '),
-                  menu: () =>
-                    [
-                      css.selectMenu,
-                      isMenuClosing
-                        ? css.selectMenuClosing
-                        : css.selectMenuOpening,
-                    ].join(' '),
-                  menuList: () => css.selectMenuList,
-                  option: () => css.selectOption,
-                  placeholder: () => css.dropdownPlaceholder,
-                  valueContainer: () => css.selectValueContainer,
-                }}
-                unstyled
-              />
+                            )}
+                          </div>
+                        ) : (
+                          children
+                        )}
+                      </components.ValueContainer>
+                    ),
+                  }}
+                  classNames={{
+                    container: () => css.selectContainer,
+                    control: ({ isFocused, menuIsOpen }) =>
+                      [
+                        css.selectControl,
+                        isFocused && css.selectControlFocused,
+                        menuIsOpen && css.selectControlOpen,
+                        errors.categories && touched.categories
+                          ? css.inputError
+                          : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' '),
+                    menu: () =>
+                      [
+                        css.selectMenu,
+                        isMenuClosing
+                          ? css.selectMenuClosing
+                          : css.selectMenuOpening,
+                      ].join(' '),
+                    menuList: () => css.selectMenuList,
+                    option: () => css.selectOption,
+                    placeholder: () => css.dropdownPlaceholder,
+                    valueContainer: () => css.selectValueContainer,
+                  }}
+                  unstyled
+                />
+              </div>
               <ErrorMessage
                 name='categories'
                 component='span'
@@ -322,6 +346,7 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
                 const isTitleEmpty = values.title.trim().length === 0;
                 const isContentEmpty = values.content.trim().length === 0;
                 const isCategoriesEmpty = values.categories.length === 0;
+                const hasTooManyCategories = values.categories.length > 12;
 
                 if (isTitleEmpty) {
                   setFieldTouched('title', true);
@@ -331,7 +356,7 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
                   setFieldTouched('content', true);
                 }
 
-                if (isCategoriesEmpty) {
+                if (isCategoriesEmpty || hasTooManyCategories) {
                   setFieldTouched('categories', true);
                 }
 
@@ -352,6 +377,11 @@ const AddDiaryEntryForm = ({ entry, onClose }: AddDiaryEntryFormProps) => {
 
                 if (isCategoriesEmpty) {
                   toast.error('Оберіть хоча б одну емоцію');
+                  return;
+                }
+
+                if (hasTooManyCategories) {
+                  toast.error(`Оберіть не більше 12 емоцій`);
                 }
               }}
             >

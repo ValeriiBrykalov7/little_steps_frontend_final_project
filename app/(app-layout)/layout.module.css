@@ -9,6 +9,8 @@
 }
 
 .content {
+  --loader-page-offset: 160px;
+
   flex: 1;
   width: 100%;
   min-width: 0;
@@ -30,6 +32,8 @@
   }
 
   .content {
+    --loader-page-offset: 80px;
+
     position: relative;
     z-index: 1;
     overflow-x: visible;

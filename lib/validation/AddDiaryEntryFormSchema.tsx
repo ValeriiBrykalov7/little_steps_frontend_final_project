@@ -20,5 +20,6 @@ export const AddDiaryEntryFormSchema = Yup.object().shape({
       }),
     )
     .min(1, 'Оберіть хоча б одну емоцію')
+    .max(12, `Оберіть не більше 12 емоцій`)
     .required('Оберіть хоча б одну емоцію'),
 });

@@ -5,5 +5,10 @@
 @media only screen and (min-width: 1440px) {
   .image {
     display: block;
+    width: 720px;
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    object-fit: cover;
   }
 }

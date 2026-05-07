@@ -1,27 +1,14 @@
 import { ProfileForm } from '@/components/ProfileForm/ProfileForm';
-import { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/helper/metadata';
 import css from './page.module.css';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Налаштування профілю',
-  description: 'Керуйте своїм профілем та оновлюйте особисту інформацію.',
-  openGraph: {
-    title: 'Налаштування профілю',
-    description: 'Керуйте своїм профілем та оновлюйте особисту інформацію.',
-    url: 'https://little-steps-kappa.vercel.app/',
-    siteName: 'Лелека',
-    images: [
-      {
-        url: '/images/og-home.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Прев’ю сторінки профілю',
-      },
-    ],
-    locale: 'uk_UA',
-    type: 'website',
-  },
-};
+  description:
+    'Керуйте своїм профілем, оновлюйте особисту інформацію, дату пологів і тему додатку Лелека.',
+  path: '/profile',
+  imageAlt: 'Лелека - налаштування профілю',
+});
 
 const Home = async () => {
   return (

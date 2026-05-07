@@ -85,8 +85,17 @@ export default function AddTaskForm({ onClose }: AddTaskFormProps) {
       validationSchema={taskSchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, errors, touched }) => (
-        <Form className={css.AddTaskForm}>
+      {({ isSubmitting, errors, touched, validateForm, values }) => (
+        <Form
+          className={css.AddTaskForm}
+          onSubmitCapture={() => {
+            void validateForm(values).then((formErrors) => {
+              if (Object.keys(formErrors).length > 0) {
+                toast.error('Заповніть коректно назву і дату завдання');
+              }
+            });
+          }}
+        >
           <div className={css.fieldWrapper}>
             <label className={css.AddTaskFormLabel}>
               Нове завдання

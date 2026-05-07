@@ -71,8 +71,17 @@ export default function RegistrationForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched }) => (
-          <Form className={styles.form}>
+        {({ errors, touched, validateForm, values }) => (
+          <Form
+            className={styles.form}
+            onSubmitCapture={() => {
+              void validateForm(values).then((formErrors) => {
+                if (Object.keys(formErrors).length > 0) {
+                  toast.error("Заповніть коректно всі обов'язкові поля");
+                }
+              });
+            }}
+          >
             <div className={styles.fieldWrapper}>
               <label htmlFor='username' className={styles.label}>
                 Ім’я*

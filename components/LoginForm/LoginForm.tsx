@@ -59,8 +59,17 @@ export default function LoginForm() {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ isSubmitting, errors, touched }) => (
-              <Form className={styles.form}>
+            {({ isSubmitting, errors, touched, validateForm, values }) => (
+              <Form
+                className={styles.form}
+                onSubmitCapture={() => {
+                  void validateForm(values).then((formErrors) => {
+                    if (Object.keys(formErrors).length > 0) {
+                      toast.error('Заповніть коректно email і пароль');
+                    }
+                  });
+                }}
+              >
                 <div className={styles.fieldWrapper}>
                   <label className={styles.label}>
                     <Field
@@ -117,15 +126,18 @@ export default function LoginForm() {
                     Зареєструватися
                   </Link>
                 </p>
+                <p className={styles.loginPrompt}>
+                  <Link
+                    href='/auth/forgot-password'
+                    className={styles.loginLink}
+                  >
+                    Забули пароль?
+                  </Link>
+                </p>
               </Form>
             )}
           </Formik>
         </div>
-        <p className={styles.loginPrompt}>
-          <Link href='/auth/forgot-password' className={styles.loginLink}>
-            Забули пароль?
-          </Link>
-        </p>
       </div>
 
       <div className={styles.background} />

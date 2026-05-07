@@ -61,15 +61,45 @@
   background: transparent;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.18s ease;
 }
 
 .iconButton svg {
   fill: var(--color-scheme-text);
+  transform-origin: center;
+  transition:
+    fill 0.22s ease,
+    transform 0.22s ease;
 }
 
 .iconButton:hover,
 .iconButton:focus-visible {
   background: var(--color-scheme-foreground-alt);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--color-scheme-accent);
+  outline-offset: 3px;
+}
+
+.iconButton:hover svg,
+.iconButton:focus-visible svg {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.iconButton:active {
+  background: var(--color-scheme-accent);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  transform: translateY(0) scale(0.94);
+}
+
+.iconButton:active svg {
+  transform: rotate(0deg) scale(0.96);
 }
 
 .description {

@@ -20,10 +20,11 @@ export default function ImageAuth() {
   } else if (authType === 'forgot-password') {
     imageSrc = '/images/plant.jpg';
     alt = 'Plant';
-  } else if (pathname === '/profile/edit') {
-    imageSrc = '/images/plant.jpg';
-    alt = 'Plant';
-  } else if (authType === 'reset-password') {
+  } else if (
+    pathname === '/profile/edit' ||
+    authType === 'reset-password' ||
+    authType === 'forgot-password'
+  ) {
     imageSrc = '/images/plant.jpg';
     alt = 'Plant';
   } else {
