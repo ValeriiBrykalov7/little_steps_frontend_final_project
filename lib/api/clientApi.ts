@@ -223,7 +223,7 @@ export const updateAvatar = async (file: File) => {
   });
 };
 
-export const updateUser = async (data: Partial<User> | FormData) => {
+export const updateUser = async (data: FormData) => {
   return requestWithAuthRefresh(async () => {
     const { data: responseData } = await nextServer.patch('users/me', data);
     return responseData;

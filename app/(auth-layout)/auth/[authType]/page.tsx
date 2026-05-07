@@ -1,8 +1,8 @@
-import LoginForm from '@/components/LoginForm/LoginForm';
+import LoginForm from '@/components/auth/LoginForm/LoginForm';
 import { notFound } from 'next/navigation';
-import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
-import ResetPasswordForm from '@/components/ResetPasswordForm/ResetPasswordForm';
-import ForgotPasswordForm from '@/components/ForgotPassword/ForgotPassword';
+import RegistrationForm from '@/components/auth/RegistrationForm/RegistrationForm';
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm/ResetPasswordForm';
+import ForgotPasswordForm from '@/components/auth/ForgotPassword/ForgotPassword';
 import { createPageMetadata } from '@/lib/helper/metadata';
 
 type AuthPageProps = {

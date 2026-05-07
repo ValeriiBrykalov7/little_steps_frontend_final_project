@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Sidebar from '@/components/Sidebar/Sidebar';
-import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+import Sidebar from '@/components/layout/Sidebar/Sidebar';
+import Breadcrumbs from '@/components/layout/Breadcrumbs/Breadcrumbs';
 import { createPageMetadata, SITE_NAME } from '@/lib/helper/metadata';
 import styles from './layout.module.css';
 

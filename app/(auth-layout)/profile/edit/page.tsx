@@ -1,4 +1,4 @@
-import OnboardingForm from '@/components/OnboardingForm/OnboardingForm';
+import OnboardingForm from '@/components/profile/OnboardingForm/OnboardingForm';
 import { createPageMetadata } from '@/lib/helper/metadata';
 import styles from './page.module.css';
 

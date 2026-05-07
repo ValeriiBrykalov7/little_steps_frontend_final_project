@@ -1,11 +1,11 @@
-import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import TanStackProvider from '@/components/providers/TanStackProvider/TanStackProvider';
 import './globals.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import type { Metadata } from 'next';
 import { Lato, Comfortaa } from 'next/font/google';
-import AuthProvider from '@/components/AuthProvider/AuthProvider';
+import AuthProvider from '@/components/providers/AuthProvider/AuthProvider';
 import { Toaster } from 'react-hot-toast';
-import GoogleProvider from '@/components/GoogleProvider/GoogleProvider';
+import GoogleProvider from '@/components/providers/GoogleProvider/GoogleProvider';
 import { createPageMetadata, SITE_NAME } from '@/lib/helper/metadata';
 
 const lato = Lato({

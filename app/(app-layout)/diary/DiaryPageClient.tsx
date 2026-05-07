@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AddDiaryEntryModal } from '@/components/AddDiaryEntryModal/AddDiaryEntryModal';
-import AddDiaryEntryForm from '@/components/AddDiaryEntryForm/AddDiaryEntryForm';
-import { ConfirmationModal } from '@/components/ConfirmationModal/ConfirmationModal';
-import DiaryEntryDetails from '@/components/DiaryEntryDetails/DiaryEntryDetails';
-import DiaryList from '@/components/DiaryList/DiaryList';
-import GreetingBlock from '@/components/GreetingBlock/GreetingBlock';
-import { Loader } from '@/components/Loader/Loader';
+import { AddDiaryEntryModal } from '@/components/diary/AddDiaryEntryModal/AddDiaryEntryModal';
+import AddDiaryEntryForm from '@/components/diary/AddDiaryEntryForm/AddDiaryEntryForm';
+import { ConfirmationModal } from '@/components/common/ConfirmationModal/ConfirmationModal';
+import DiaryEntryDetails from '@/components/diary/DiaryEntryDetails/DiaryEntryDetails';
+import DiaryList from '@/components/diary/DiaryList/DiaryList';
+import GreetingBlock from '@/components/dashboard/GreetingBlock/GreetingBlock';
+import { Loader } from '@/components/common/Loader/Loader';
 import { getAllDiaries } from '@/lib/api/clientApi';
 import { useDiaryDeleteModal } from '@/lib/hooks/useDiaryDeleteModal';
 import { useAuthStore } from '@/lib/store/authStore';

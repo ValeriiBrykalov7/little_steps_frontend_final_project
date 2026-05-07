@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import Logo from '@/components/Logo/Logo';
+import Logo from '@/components/common/Logo/Logo';
 import { createPageMetadata, SITE_NAME } from '@/lib/helper/metadata';
 import '../../css/container.css';
 import styles from './layout.module.css';
-import ImageAuth from '@/components/ImageAuth/ImageAuth';
+import ImageAuth from '@/components/layout/ImageAuth/ImageAuth';
 
 export const metadata: Metadata = {
   ...createPageMetadata({

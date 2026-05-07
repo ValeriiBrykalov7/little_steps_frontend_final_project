@@ -1,4 +1,4 @@
-import { ProfileForm } from '@/components/ProfileForm/ProfileForm';
+import { ProfileForm } from '@/components/profile/ProfileForm/ProfileForm';
 import { createPageMetadata } from '@/lib/helper/metadata';
 import css from './page.module.css';
 
