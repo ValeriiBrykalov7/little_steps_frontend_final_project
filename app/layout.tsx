@@ -22,7 +22,7 @@ const comfortaa = Comfortaa({
   display: 'swap',
 });
 
-const siteUrl = 'https://little-steps-kappa.vercel.app';
+const siteUrl = 'https://little-steps-leleka.com';
 const rootDescription =
   'Лелека - додаток для майбутніх мам. Відстежуйте вагітність, отримуйте персоналізовані поради, ведіть щоденник та керуйте важливими завданнями.';
 
